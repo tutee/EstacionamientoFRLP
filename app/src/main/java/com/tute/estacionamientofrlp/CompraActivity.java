@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -44,7 +45,7 @@ import java.util.Map;
  */
 public class CompraActivity extends AppCompatActivity implements Serializable, SimpleDialog.OnSimpleDialogListener, NavigationView.OnNavigationItemSelectedListener {
 
-    private TextView tv1,tv2;
+    private TextView tv1,tv2,tv3;
     private Session session;
     private CheckBox c0,c1,c2,c3,c4,c5,c6;
     private Button  b0;
@@ -53,6 +54,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
     String pateSelect, nuevapate, uidg, saldog;
     private ProgressDialog pDialog;
     ActionBarDrawerToggle toggle;
+    int montoacomp;
 
 
 
@@ -63,6 +65,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
         setContentView(R.layout.activity_compra);
         tv1 = (TextView) findViewById(R.id.tv1);
         tv2 = (TextView)findViewById(R.id.tv2);
+        tv3 = (TextView)findViewById(R.id.tv3);
         c0 = (CheckBox)findViewById(R.id.checkBox0);
         c1 = (CheckBox)findViewById(R.id.checkBox1);
         c2 = (CheckBox)findViewById(R.id.checkBox2);
@@ -72,7 +75,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
         c6 = (CheckBox)findViewById(R.id.checkBox6);
         b0 = (Button)findViewById(R.id.comprardia_button);
         spi = (Spinner)findViewById(R.id.spinner);
-        //deberia ser un int ????   montoacomp="0";
+        montoacomp=0;
 
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
@@ -264,7 +267,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                 if(!pateComp.isEmpty()) {
                     Collections.sort(pateComp);
                     Log.e("ORDENADO", String.valueOf(pateComp));
-                    String costoCompra = String.valueOf(pateComp.size() * 3); //Multipico por 3 debido a que es el costo de un ticket del estacionamiento
+                    String costoCompra = String.valueOf(pateComp.size() * Constantes.precioticket); //Multipico por 3 debido a que es el costo de un ticket del estacionamiento
                     Log.e("ORDENADO", costoCompra);
                     int cc = Integer.parseInt(costoCompra);
                     int s = Integer.parseInt(saldo);
@@ -274,9 +277,11 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                         Log.e("enviarCompra", String.valueOf(pateComp));
                         enviarCompra(pateSelect, uid, pateComp) ;
                     } else {
-                        Log.e("ORDENADO", "SALDO INSUFICIENTE");
+                        Snackbar.make(v, "Su saldo actual es insuficiente", Snackbar.LENGTH_LONG)
+                                .show();
                     }
-                } else {Log.e("Array", "TU ARRAY ESTA VACIO CAPO");}
+                } else Snackbar.make(v, "No selecciono ningún día", Snackbar.LENGTH_LONG)
+                        .show();
             }
         });
 
@@ -291,7 +296,13 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                         Log.e("SEMANA A COMPRAR!", String.valueOf(Arrays.asList(pateComp)));
                         Log.e("BOX MARTES", "ENTRE");
                     }
-                    //montoacomp = montoacomp +
+
+                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    tv3.setText("Costo: $"+ montoacomp);
+                    if (montoacomp > Integer.parseInt(saldog)) {
+                        tv3.setTextColor(getResources().getColor(R.color.Red));
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+
                 } else {
                     if (!pateSelComp.isEmpty()) {
                         for (int i = 0; i < pateComp.size(); i++) {
@@ -302,6 +313,11 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                         }
                     }
                     Log.e("ERROR3.2", String.valueOf(pateComp));
+                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    tv3.setText("Costo: $"+ montoacomp);
+                    if (montoacomp > Integer.parseInt(saldog)) {
+                        tv3.setTextColor(getResources().getColor(R.color.Red));
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
                     c6.setChecked(false);
                 }
             }
@@ -319,6 +335,12 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                         Log.e("BOX MARTES", "ENTRE");
                     }
 
+                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    tv3.setText("Costo: $"+ montoacomp);
+                    if (montoacomp > Integer.parseInt(saldog)) {
+                        tv3.setTextColor(getResources().getColor(R.color.Red));
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+
                 } else {
                     if (!pateSelComp.isEmpty()) {
                         for (int i = 0; i < pateComp.size(); i++) {
@@ -330,6 +352,11 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     }
 
                     Log.e("ERROR3.2", String.valueOf(pateComp));
+                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    tv3.setText("Costo: $"+ montoacomp);
+                    if (montoacomp > Integer.parseInt(saldog)) {
+                        tv3.setTextColor(getResources().getColor(R.color.Red));
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
                     c6.setChecked(false);
                 }
             }
@@ -347,6 +374,12 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                         Log.e("BOX MARTES", "ENTRE");
                     }
 
+                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    tv3.setText("Costo: $"+ montoacomp);
+                    if (montoacomp > Integer.parseInt(saldog)) {
+                        tv3.setTextColor(getResources().getColor(R.color.Red));
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+
                 } else {
                     if (!pateSelComp.isEmpty()) {
                         for (int i = 0; i < pateComp.size(); i++) {
@@ -357,6 +390,11 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                         }
                     }
                     Log.e("ERROR3.2", String.valueOf(pateComp));
+                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    tv3.setText("Costo: $"+ montoacomp);
+                    if (montoacomp > Integer.parseInt(saldog)) {
+                        tv3.setTextColor(getResources().getColor(R.color.Red));
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
                     c6.setChecked(false);
                 }
             }
@@ -374,6 +412,12 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                         Log.e("BOX MARTES", "ENTRE");
                     }
 
+                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    tv3.setText("Costo: $"+ montoacomp);
+                    if (montoacomp > Integer.parseInt(saldog)) {
+                        tv3.setTextColor(getResources().getColor(R.color.Red));
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+
                 } else {
                     if (!pateSelComp.isEmpty()) {
                         for (int i = 0; i < pateComp.size(); i++) {
@@ -385,7 +429,13 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     }
 
                     Log.e("ERROR3.2", String.valueOf(pateComp));
+                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    tv3.setText("Costo: $"+ montoacomp);
+                    if (montoacomp > Integer.parseInt(saldog)) {
+                        tv3.setTextColor(getResources().getColor(R.color.Red));
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
                     c6.setChecked(false);
+
                 }
             }
         });
@@ -402,6 +452,12 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                         Log.e("BOX MARTES", "ENTRE");
                     }
 
+                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    tv3.setText("Costo: $"+ montoacomp);
+                    if (montoacomp > Integer.parseInt(saldog)) {
+                        tv3.setTextColor(getResources().getColor(R.color.Red));
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+
                 } else {
                     if (!pateSelComp.isEmpty()) {
                         for (int i = 0; i < pateComp.size(); i++) {
@@ -412,6 +468,11 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                         }
                     }
                     Log.e("ERROR3.2", String.valueOf(pateComp));
+                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    tv3.setText("Costo: $"+ montoacomp);
+                    if (montoacomp > Integer.parseInt(saldog)) {
+                        tv3.setTextColor(getResources().getColor(R.color.Red));
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
                     c6.setChecked(false);
                 }
             }
@@ -429,6 +490,13 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                         Log.e("BOX MARTES", "ENTRE");
                     }
 
+                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    tv3.setText("Costo: $"+ montoacomp);
+                    if (montoacomp > Integer.parseInt(saldog)) {
+                        tv3.setTextColor(getResources().getColor(R.color.Red));
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+
+
                 } else {
                     if (!pateSelComp.isEmpty()) {
                         for (int i = 0; i < pateComp.size(); i++) {
@@ -439,7 +507,13 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                         }
                     }
                     Log.e("ERROR3.2", String.valueOf(pateComp));
+                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    tv3.setText("Costo: $"+ montoacomp);
+                    if (montoacomp > Integer.parseInt(saldog)) {
+                        tv3.setTextColor(getResources().getColor(R.color.Red));
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
                     c6.setChecked(false);
+
                 }
             }
         });
@@ -567,6 +641,8 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                 }
             }
         });
+
+
 
     }
 
