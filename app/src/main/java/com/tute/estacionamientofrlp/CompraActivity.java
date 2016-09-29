@@ -40,7 +40,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Tute on 5/9/2016.
+ * Created by Tute y Nashor on 5/9/2016.
  */
 public class CompraActivity extends AppCompatActivity implements Serializable, SimpleDialog.OnSimpleDialogListener, NavigationView.OnNavigationItemSelectedListener {
 
