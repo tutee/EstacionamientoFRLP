@@ -1,0 +1,66 @@
+<resources>
+    <string name="app_name">Estacionamiento FRLP</string>
+    <string name="titulo">Estacionamiento</string>
+    <string name="titulo2">FRLP</string>
+
+    <!--Strings del menu-->
+    <string name="cerrarsesion">Cerrar Sesion</string>
+
+    <!--Login activity-->
+    <string name="action_sign_in_short">Ingresar</string>
+    <string name="aviso1">¿Aun no estas registrado?</string>
+    <string name="aviso2">Contacta a un administrador</string>
+
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_registration">RegistrationActivity</string>
+
+    <!-- Compra activity -->
+    <string name="compradia">Comprar Dias</string>
+    <string name="comprasem">Comprar Semana</string>
+    <string name="titulodias">Dias disponibles:</string>
+    <string name="noPat">No posee patente</string>
+    <string name="agPat">Agregar nueva patente</string>
+    <string name="saldo">Saldo: $</string>
+    <string name="semana">Semana</string>
+    <string name="Lunes">Lunes</string>
+    <string name="Martes">Martes</string>
+    <string name="Miercoles">Miercoles</string>
+    <string name="Jueves">Jueves</string>
+    <string name="Viernes">Viernes</string>
+    <string name="Sabado">Sabado</string>
+    <string name="Semana">Todos los dias</string>
+    <string name="costo">Costo: $</string>
+
+    <!-- Deshacer Activity -->
+    <string name="deshacer">Deshacer compras</string>
+
+    <!-- Navigation Drawer -->
+    <string name="open">open</string>
+    <string name="close">close</string>
+
+
+    <!-- Opciones de Roles -->
+    <string-array name="roles">
+        <item>Usuario</item>
+        <item>Encargado</item>
+        <item>Guardia</item>
+    </string-array>
+
+    <string-array name="patentes">
+        <item>ABC123</item>
+        <item>QWE123</item>
+        <item>ZXC123</item>
+    </string-array>
+
+    <string-array name="tipo">
+        <item>Historial de compras</item>
+        <item>Historial de cargas</item>
+        <item>Historial de transacciones</item>
+    </string-array>
+
+    <string-array name="hist">
+        <item> 1     2016-09-26     2016-09-25    3.00</item>
+        <item> 1     2016-09-25     2016-09-25    3.00</item>
+        <item> 1     2016-09-27     2016-09-26    3.00</item>
+    </string-array>
+</resources>

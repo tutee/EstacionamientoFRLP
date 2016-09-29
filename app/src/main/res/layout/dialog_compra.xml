@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/customdialog"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/dialogtextview"
+        android:text="@string/Viernes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/dialogedittext"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/dialogupdate"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Update"/>
+    <Button
+        android:id="@+id/dialogdismiss"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Dismiss"/>
+</LinearLayout>
