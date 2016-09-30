@@ -105,6 +105,8 @@ public class LoginActivity extends AppCompatActivity {
                     String userId = jObjU.getString("id");
                     String userRole = jObjU.getString("rol");
                     String userSaldo = jObjU.getString("saldo");
+                    Constantes.apellido = jObjU.getString("apellido");
+                    Constantes.nombre = jObjU.getString("nombre");
                     Log.e("ERROR", userRole);
                     Log.e("ERROR", userId);
                     Log.e("ERROR", userSaldo);
@@ -153,7 +155,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
+                        "Error de conexion", Toast.LENGTH_LONG).show();
                 hideDialog();
             }
         }) {
