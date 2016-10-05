@@ -301,7 +301,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     tv3.setText("Costo: $"+ montoacomp);
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
 
                 } else {
                     if (!pateSelComp.isEmpty()) {
@@ -317,7 +317,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     tv3.setText("Costo: $"+ montoacomp);
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
                     c6.setChecked(false);
                 }
             }
@@ -339,7 +339,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     tv3.setText("Costo: $"+ montoacomp);
                     if (montoacomp > Integer.parseInt(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
 
                 } else {
                     if (!pateSelComp.isEmpty()) {
@@ -356,7 +356,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     tv3.setText("Costo: $"+ montoacomp);
                     if (montoacomp > Integer.parseInt(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
                     c6.setChecked(false);
                 }
             }
@@ -378,7 +378,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     tv3.setText("Costo: $"+ montoacomp);
                     if (montoacomp > Integer.parseInt(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
 
                 } else {
                     if (!pateSelComp.isEmpty()) {
@@ -394,7 +394,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     tv3.setText("Costo: $"+ montoacomp);
                     if (montoacomp > Integer.parseInt(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
                     c6.setChecked(false);
                 }
             }
@@ -416,7 +416,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     tv3.setText("Costo: $"+ montoacomp);
                     if (montoacomp > Integer.parseInt(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
 
                 } else {
                     if (!pateSelComp.isEmpty()) {
@@ -433,7 +433,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     tv3.setText("Costo: $"+ montoacomp);
                     if (montoacomp > Integer.parseInt(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
                     c6.setChecked(false);
 
                 }
@@ -456,7 +456,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     tv3.setText("Costo: $"+ montoacomp);
                     if (montoacomp > Integer.parseInt(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
 
                 } else {
                     if (!pateSelComp.isEmpty()) {
@@ -472,7 +472,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     tv3.setText("Costo: $"+ montoacomp);
                     if (montoacomp > Integer.parseInt(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
                     c6.setChecked(false);
                 }
             }
@@ -494,7 +494,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     tv3.setText("Costo: $"+ montoacomp);
                     if (montoacomp > Integer.parseInt(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
 
 
                 } else {
@@ -511,7 +511,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     tv3.setText("Costo: $"+ montoacomp);
                     if (montoacomp > Integer.parseInt(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
                     c6.setChecked(false);
 
                 }
