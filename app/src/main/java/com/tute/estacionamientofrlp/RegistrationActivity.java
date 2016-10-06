@@ -3,10 +3,16 @@ package com.tute.estacionamientofrlp;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,8 +35,9 @@ import java.util.Map;
 /**
  * Created by Tute on 1/9/2016.
  */
-public class RegistrationActivity extends AppCompatActivity {
+public class RegistrationActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    ActionBarDrawerToggle toggle;
     private TextView tvLogin;
     private EditText email, apellido, nombre, dni, password, rol;
     private Button registerButton;
@@ -42,21 +49,15 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
         session = new Session(RegistrationActivity.this);
-        /*
-        if (session.getLoggedIn()) {
-            Intent intent = new Intent(RegistrationActivity.this,
-                    MainActivity.class);
 
+        if (!session.getLoggedIn()) {
+            logoutUser();
+        }
 
-            startActivity(intent);
-            finish();
-        }*/
         registerButton = (Button) findViewById(R.id.register_button);
         email = (EditText) findViewById(R.id.email_register);
         dni = (EditText) findViewById(R.id.dni_register);
@@ -64,6 +65,16 @@ public class RegistrationActivity extends AppCompatActivity {
         nombre = (EditText) findViewById(R.id.nombre_register);
         password = (EditText) findViewById(R.id.password_register);
         spi = (Spinner) findViewById(R.id.spinner);
+
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav);
+        navigationView.setNavigationItemSelectedListener(this);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,20 +102,6 @@ public class RegistrationActivity extends AppCompatActivity {
         spi.setAdapter(adapter);
     }
 
-    /*
-    public class SpinnerActivity extends Activity implements AdapterView.OnItemSelectedListener {
-
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            parent.getItemAtPosition(position);
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
-    }
-    */
 
 
     private void registerUser(final String email, final String apellido,
@@ -192,4 +189,59 @@ public class RegistrationActivity extends AppCompatActivity {
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.menu_navi_1:
+                Intent intent = new Intent(RegistrationActivity.this,
+                        RegistrationActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+
+
+
+        }
+
+        DrawerLayout dl = (DrawerLayout) findViewById(R.id.drawerLayout);
+        if (dl.isDrawerOpen(GravityCompat.START))
+            dl.closeDrawer(GravityCompat.START);
+
+        return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (toggle.onOptionsItemSelected(item)){
+            return true;
+        }
+
+        switch (id) {
+            case R.id.action_settings:
+                logoutUser();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void logoutUser() {
+        session.setLogin(false);
+        Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 }

@@ -10,6 +10,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+        android:background="@color/LightGrey"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
     tools:context=".CompraActivity">
@@ -33,6 +34,7 @@
                 android:layout_marginTop="20dp"
                 android:textSize="25sp"
                 android:textAlignment="center"
+                    android:textColor="@color/Black"
                 android:text="-"/>
 
                 <TextView
@@ -44,6 +46,7 @@
                 android:layout_marginTop="20dp"
                 android:textSize="25sp"
                 android:textAlignment="center"
+                    android:textColor="@color/Black"
                 android:text="@string/saldo"/>
 
                 <Spinner
@@ -157,6 +160,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
+                    android:textColor="@color/Black"
                     android:textSize="20sp"
                     android:textAlignment="center"
                     android:text="@string/costo"/>
