@@ -80,18 +80,17 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
 
             case R.id.menu_nav_5:
                 intent = new Intent(DeshacerActivity.this,
-                        GestCuentaActivity.class);
+                        GestPatesActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
             case R.id.menu_nav_6:
                 intent = new Intent(DeshacerActivity.this,
-                        GestPatesActivity.class);
+                        GestCuentaActivity.class);
                 startActivity(intent);
                 finish();
                 break;
-
         }
 
         DrawerLayout dl = (DrawerLayout) findViewById(R.id.drawerLayout);

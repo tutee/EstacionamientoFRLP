@@ -80,17 +80,19 @@ public class GestCuentaActivity extends AppCompatActivity implements NavigationV
 
             case R.id.menu_nav_5:
                 intent = new Intent(GestCuentaActivity.this,
-                        GestCuentaActivity.class);
+                        GestPatesActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
             case R.id.menu_nav_6:
                 intent = new Intent(GestCuentaActivity.this,
-                        GestPatesActivity.class);
+                        GestCuentaActivity.class);
                 startActivity(intent);
                 finish();
                 break;
+
+
 
         }
 

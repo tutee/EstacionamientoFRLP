@@ -1130,17 +1130,19 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
 
             case R.id.menu_nav_5:
                 intent = new Intent(CompraActivity.this,
-                        GestCuentaActivity.class);
+                        GestPatesActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
             case R.id.menu_nav_6:
                 intent = new Intent(CompraActivity.this,
-                        GestPatesActivity.class);
+                        GestCuentaActivity.class);
                 startActivity(intent);
                 finish();
                 break;
+
+
 
         }
 

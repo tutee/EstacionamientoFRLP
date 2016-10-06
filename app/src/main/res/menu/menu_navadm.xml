@@ -3,18 +3,18 @@
 
     <item android:id="@+id/menu_navi_1"
         android:title="Agregar saldo"
-        android:icon="@drawable/addsaldo"/>
+        android:icon="@drawable/comprarticket"/>
 
     <item android:id="@+id/menu_navi_2"
         android:title="Registrar usuario"
-        android:icon="@drawable/adduser"/>
+        android:icon="@drawable/comprarticket"/>
 
     <item android:id="@+id/menu_navi_3"
         android:title="Asignar patente"
-        android:icon="@drawable/addpate"/>
+        android:icon="@drawable/comprarticket"/>
 
     <item android:id="@+id/menu_navi_4"
         android:title="Eliminar patente"
-        android:icon="@drawable/eliminarpate"/>
+        android:icon="@drawable/comprarticket"/>
 
 </menu>

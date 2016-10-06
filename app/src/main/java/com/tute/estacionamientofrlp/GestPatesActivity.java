@@ -80,18 +80,17 @@ public class GestPatesActivity extends AppCompatActivity implements NavigationVi
 
             case R.id.menu_nav_5:
                 intent = new Intent(GestPatesActivity.this,
-                        GestCuentaActivity.class);
+                        GestPatesActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
             case R.id.menu_nav_6:
                 intent = new Intent(GestPatesActivity.this,
-                        GestPatesActivity.class);
+                        GestCuentaActivity.class);
                 startActivity(intent);
                 finish();
                 break;
-
         }
 
         DrawerLayout dl = (DrawerLayout) findViewById(R.id.drawerLayout);
