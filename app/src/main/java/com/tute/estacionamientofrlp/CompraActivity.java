@@ -54,7 +54,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
     String pateSelect, nuevapate, uidg, saldog;
     private ProgressDialog pDialog;
     ActionBarDrawerToggle toggle;
-    int montoacomp;
+    double montoacomp;
 
 
 
@@ -119,13 +119,8 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
             ite.add(getResources().getString(R.string.noPat));
         }
 
-        if (ite.size() < 3) {
-            ite.add(getResources().getString(R.string.agPat));
-        }
 
-
-
-        tv2.setText("Saldo: $"+ saldo);
+        tv2.setText("Saldo: $ "+ String.format("%.2f",Double.parseDouble(saldo)));
 
         //Log.e("ULT POS SPI", posSpi);
 
@@ -182,45 +177,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                                 String AR = codi.getString("semana");
                                 infloCB(AR);
 
-                            } else if  (String.valueOf(spi.getItemAtPosition(position)).equals(getResources().getString(R.string.agPat))){
-
-                                    Log.e("IF SPI", "estoy en el else del if ");
-
-                                    c0.setChecked(false);
-                                    c0.setEnabled(false);
-                                    c0.setTextColor(getResources().getColor(R.color.Gray));
-                                    c1.setChecked(false);
-                                    c1.setEnabled(false);
-                                    c1.setTextColor(getResources().getColor(R.color.Gray));
-                                    c2.setChecked(false);
-                                    c2.setEnabled(false);
-                                    c2.setTextColor(getResources().getColor(R.color.Gray));
-                                    c3.setChecked(false);
-                                    c3.setEnabled(false);
-                                    c3.setTextColor(getResources().getColor(R.color.Gray));
-                                    c4.setChecked(false);
-                                    c4.setEnabled(false);
-                                    c4.setTextColor(getResources().getColor(R.color.Gray));
-                                    c5.setChecked(false);
-                                    c5.setEnabled(false);
-                                    c5.setTextColor(getResources().getColor(R.color.Gray));
-                                    c6.setChecked(false);
-                                    c6.setEnabled(false);
-                                    c6.setTextColor(getResources().getColor(R.color.Gray));
-
-
-                                    //Llamo al dialog fragment.
-
-                                    SimpleDialog dialogFragment = new SimpleDialog();
-                                    dialogFragment.show(getSupportFragmentManager(), "SimpleDialog");
-                                    dialogFragment.setCancelable(false);
-                                    break; // Sale del for
-
-                                    /*
-                                    DialogFragment newFragment = DialogNP.newInstance();
-                                    newFragment.show(getFragmentManager(), "dialog");
-                                       */
-                            }  else if  (String.valueOf(spi.getItemAtPosition(position)).equals(getResources().getString(R.string.noPat))) {
+                            }  else if (String.valueOf(spi.getItemAtPosition(position)).equals(getResources().getString(R.string.noPat))) {
 
                                 Log.e("IF SPI", "estoy en el else del if ");
 
@@ -245,6 +202,8 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                                 c6.setChecked(false);
                                 c6.setEnabled(false);
                                 c6.setTextColor(getResources().getColor(R.color.Gray));
+                                tv1.setText("Semana: "+Constantes.semana);
+                                tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
 
                             }
 
@@ -261,29 +220,37 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
         });
 
         b0.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Log.e("BOTON", String.valueOf(pateComp));
-                if(!pateComp.isEmpty()) {
-                    Collections.sort(pateComp);
-                    Log.e("ORDENADO", String.valueOf(pateComp));
-                    String costoCompra = String.valueOf(pateComp.size() * Constantes.precioticket); //Multipico por 3 debido a que es el costo de un ticket del estacionamiento
-                    Log.e("ORDENADO", costoCompra);
-                    int cc = Integer.parseInt(costoCompra);
-                    int s = Integer.parseInt(saldo);
-                    if (cc <= s) {
-                        Log.e("enviarCompra", pateSelect);
-                        Log.e("enviarCompra", uid);
-                        Log.e("enviarCompra", String.valueOf(pateComp));
-                        enviarCompra(pateSelect, uid, pateComp) ;
-                    } else {
-                        Snackbar.make(v, "Su saldo actual es insuficiente", Snackbar.LENGTH_LONG)
-                                .show();
-                    }
-                } else Snackbar.make(v, "No selecciono ningún día", Snackbar.LENGTH_LONG)
-                        .show();
-            }
-        });
+                                  @Override
+                                  public void onClick(View v) {
+                                      //Log.e("BOTON", String.valueOf(pateComp));
+
+                                      if (pateComp != null) {
+                                          if (!pateComp.isEmpty()) {
+                                              Collections.sort(pateComp);
+                                              Log.e("ORDENADO", String.valueOf(pateComp));
+                                              String costoCompra = String.valueOf(pateComp.size() * Constantes.precioticket); //Multipico por 3 debido a que es el costo de un ticket del estacionamiento
+                                              Log.e("ORDENADO", costoCompra);
+                                              double cc = Double.parseDouble(costoCompra);
+                                              double s = Double.parseDouble(saldo);
+                                              if (cc <= s) {
+                                                  Log.e("enviarCompra", pateSelect);
+                                                  Log.e("enviarCompra", uid);
+                                                  Log.e("enviarCompra", String.valueOf(pateComp));
+                                                  enviarCompra(pateSelect, uid, pateComp);
+                                              } else {
+                                                  Snackbar.make(v, "Su saldo actual es insuficiente", Snackbar.LENGTH_LONG)
+                                                          .show();
+                                              }
+                                          } else if (pateComp.isEmpty()) {
+                                              Snackbar.make(v, "No selecciono ningún día", Snackbar.LENGTH_LONG)
+                                                      .show();
+                                          }
+                                      } else {
+                                              Snackbar.make(v, "No posee patentes", Snackbar.LENGTH_LONG).show();
+                                      }
+                                  }
+                              }
+        );
 
         c0.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -298,7 +265,8 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     }
 
                     montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
+
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
                     } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
@@ -314,7 +282,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     }
                     Log.e("ERROR3.2", String.valueOf(pateComp));
                     montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
                     } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
@@ -336,7 +304,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     }
 
                     montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
                     } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
@@ -352,8 +320,8 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     }
 
                     Log.e("ERROR3.2", String.valueOf(pateComp));
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
+                    montoacomp = (pateComp.size()* Constantes.precioticket);
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
                     } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
@@ -375,7 +343,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     }
 
                     montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
                     } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
@@ -391,7 +359,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     }
                     Log.e("ERROR3.2", String.valueOf(pateComp));
                     montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
                     } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
@@ -413,7 +381,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     }
 
                     montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
                     } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
@@ -430,7 +398,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
 
                     Log.e("ERROR3.2", String.valueOf(pateComp));
                     montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
                     } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
@@ -453,7 +421,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     }
 
                     montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
                     } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
@@ -469,7 +437,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     }
                     Log.e("ERROR3.2", String.valueOf(pateComp));
                     montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
                     } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
@@ -491,7 +459,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     }
 
                     montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
                     } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
@@ -508,7 +476,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     }
                     Log.e("ERROR3.2", String.valueOf(pateComp));
                     montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
                     } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
@@ -575,68 +543,6 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                             c5.setChecked(true);
                         }
                     }
-
-                } else {
-                    /*
-                    for (int i = 0; i < pateComp.size(); i++) {
-                        pateComp.remove(pateSelComp.get(i));
-                        Log.e("SEMANA COMPRADA", String.valueOf(pateComp));
-                    }*/
-                    /*
-                    for (int i = 0; i < 6; i++ ) {
-                        switch (i){
-                            case 0:
-                                if(c0.isEnabled()){
-                                    if (c0.isChecked()) {
-                                        c0.setChecked(false);
-                                    } else {
-                                        if (c1.isEnabled()&& c1.isChecked()){c1.setChecked(true);}
-                                        if (c2.isEnabled()&& c2.isChecked()){c2.setChecked(true);}
-                                        if (c3.isEnabled()&& c3.isChecked()){c3.setChecked(true);}
-                                        if (c4.isEnabled()&& c4.isChecked()){c4.setChecked(true);}
-                                        if (c5.isEnabled()&& c5.isChecked()){c5.setChecked(true);}
-                                }
-                            }
-                            break;
-                            case 1:
-                                if(c1.isEnabled()){
-                                    if (c1.isChecked()) {
-                                        c1.setChecked(false);
-                                    } else {
-                                        if (c0.isEnabled()&& c0.isChecked()){c0.setChecked(true);}
-                                        if (c2.isEnabled()&& c2.isChecked()){c2.setChecked(true);}
-                                        if (c3.isEnabled()&& c3.isChecked()){c3.setChecked(true);}
-                                        if (c4.isEnabled()&& c4.isChecked()){c4.setChecked(true);}
-                                        if (c5.isEnabled()&& c5.isChecked()){c5.setChecked(true);}
-                                    }
-                                    break;
-                                }
-                                break;
-
-                        }
-                    } */
-                    /*
-                    if(c0.isChecked()&& c0.isEnabled()){
-                        c0.setChecked(false);
-                    }
-
-                    if(c1.isChecked()&& c1.isEnabled()){
-                        c1.setChecked(false);
-                    }
-
-                    if(c2.isChecked()&& c2.isEnabled()){
-                        c2.setChecked(false);
-                    }
-
-                    if(c3.isChecked()&& c3.isEnabled()){
-                        c3.setChecked(false);
-                    }
-                    if(c4.isChecked()&& c4.isEnabled()){
-                        c4.setChecked(false);
-                    }
-                    if(c5.isChecked()&& c5.isEnabled()){
-                        c5.setChecked(false);
-                    }*/
 
                 }
             }

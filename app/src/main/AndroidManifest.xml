@@ -24,6 +24,10 @@
             android:theme="@style/AppTheme"></activity>
 
         <activity
+            android:name=".AddPateActivity"
+            android:theme="@style/AppTheme"></activity>
+
+        <activity
             android:name=".DeshacerActivity"
             android:label="Deshacer compras"
             android:theme="@style/AppTheme"></activity>

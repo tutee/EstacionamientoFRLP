@@ -201,7 +201,12 @@ public class RegistrationActivity extends AppCompatActivity implements Navigatio
                 finish();
                 break;
 
-
+            case R.id.menu_navi_2:
+                intent = new Intent(RegistrationActivity.this,
+                        AddPateActivity.class);
+                startActivity(intent);
+                finish();
+                break;
 
         }
 

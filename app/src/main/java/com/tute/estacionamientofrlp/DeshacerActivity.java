@@ -11,6 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -22,11 +26,29 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
     ActionBarDrawerToggle toggle;
     private ArrayList<String> ite;
     private Session session;
+    private TextView tv1,tv2,tv3;
+    private CheckBox c0,c1,c2,c3,c4,c5,c6;
+    private Button  b0;
+    private Spinner spi;
+    double montoacomp;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deshacer);
+        tv1 = (TextView) findViewById(R.id.tv1);
+        tv2 = (TextView)findViewById(R.id.tv2);
+        tv3 = (TextView)findViewById(R.id.tv3);
+        c0 = (CheckBox)findViewById(R.id.checkBox0);
+        c1 = (CheckBox)findViewById(R.id.checkBox1);
+        c2 = (CheckBox)findViewById(R.id.checkBox2);
+        c3 = (CheckBox)findViewById(R.id.checkBox3);
+        c4 = (CheckBox)findViewById(R.id.checkBox4);
+        c5 = (CheckBox)findViewById(R.id.checkBox5);
+        c6 = (CheckBox)findViewById(R.id.checkBox6);
+        b0 = (Button)findViewById(R.id.comprardia_button);
+        spi = (Spinner)findViewById(R.id.spinner);
+        montoacomp=0;
 
         ite = new ArrayList<String>();
 
@@ -45,6 +67,9 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav);
         navigationView.setNavigationItemSelectedListener(this);
+
+        tv1.setText("Semana: "+Constantes.semana);
+        tv2.setText("Saldo: $ "+ String.format("%.2f",Double.parseDouble(Constantes.cSaldo)));
 
     }
 
