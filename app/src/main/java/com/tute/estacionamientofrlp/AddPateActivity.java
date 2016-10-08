@@ -23,7 +23,7 @@ public class AddPateActivity extends AppCompatActivity implements NavigationView
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.addpate);
+        setContentView(R.layout.activity_addpate);
 
         session = new Session(AddPateActivity.this);
 
@@ -51,11 +51,17 @@ public class AddPateActivity extends AppCompatActivity implements NavigationView
 
             case R.id.menu_navi_1:
                 Intent intent = new Intent(AddPateActivity.this,
-                        RegistrationActivity.class);
+                        AddSaldoActivity.class);
                 startActivity(intent);
                 finish();
                 break;
             case R.id.menu_navi_2:
+                intent = new Intent(AddPateActivity.this,
+                        RegistrationActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.menu_navi_3:
                 intent = new Intent(AddPateActivity.this,
                         AddPateActivity.class);
                 startActivity(intent);

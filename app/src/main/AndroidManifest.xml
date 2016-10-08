@@ -24,6 +24,11 @@
             android:theme="@style/AppTheme"></activity>
 
         <activity
+            android:name=".AddSaldoActivity"
+            android:theme="@style/AppTheme"></activity>
+
+
+        <activity
             android:name=".AddPateActivity"
             android:theme="@style/AppTheme"></activity>
 
