@@ -520,6 +520,9 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                                                     c0.setEnabled(false);
                                                     c0.setTextColor(getResources().getColor(R.color.Gray));
                                                 }
+
+                                                //ACA IRIA LA SOLUCION SUPUESTAMENTE
+
                                             } else {
                                                 c0.setEnabled(false);
                                                 c0.setChecked(true);
