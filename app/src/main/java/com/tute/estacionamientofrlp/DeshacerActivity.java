@@ -133,25 +133,25 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                             pateComp = new ArrayList<String>();
                             pateSelect = String.valueOf(spi.getItemAtPosition(position));
                             c0.setChecked(false);
-                            c0.setEnabled(true);
+                            c0.setEnabled(false);
                             c0.setTextColor(getResources().getColor(R.color.Black));
                             c1.setChecked(false);
-                            c1.setEnabled(true);
+                            c1.setEnabled(false);
                             c1.setTextColor(getResources().getColor(R.color.Black));
                             c2.setChecked(false);
-                            c2.setEnabled(true);
+                            c2.setEnabled(false);
                             c2.setTextColor(getResources().getColor(R.color.Black));
                             c3.setChecked(false);
-                            c3.setEnabled(true);
+                            c3.setEnabled(false);
                             c3.setTextColor(getResources().getColor(R.color.Black));
                             c4.setChecked(false);
-                            c4.setEnabled(true);
+                            c4.setEnabled(false);
                             c4.setTextColor(getResources().getColor(R.color.Black));
                             c5.setChecked(false);
-                            c5.setEnabled(true);
+                            c5.setEnabled(false);
                             c5.setTextColor(getResources().getColor(R.color.Black));
                             c6.setChecked(false);
-                            c6.setEnabled(true);
+                            c6.setEnabled(false);
                             c6.setTextColor(getResources().getColor(R.color.Black));
 
                             String AR = codi.getString("semana");
@@ -521,7 +521,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                                                     c0.setTextColor(getResources().getColor(R.color.Gray));
                                                 }
 
-                                                //ACA IRIA LA SOLUCION SUPUESTAMENTE
+
 
                                             } else {
                                                 c0.setEnabled(false);
@@ -531,7 +531,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                                             break;
                                         case 1:
                                             if (comp == 1 && comprador == 1) {
-                                                c0.setEnabled(false);
+                                                c0.setEnabled(true);
                                                 c0.setTextColor(getResources().getColor(R.color.OliveDrab));
                                             } else if (comp == 1 && comprador == 0) {
                                                 c0.setEnabled(false);
@@ -565,7 +565,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                                             break;
                                         case 1:
                                             if (comp == 1 && comprador == 1) {
-                                                c1.setEnabled(false);
+                                                c1.setEnabled(true);
                                                 c1.setTextColor(getResources().getColor(R.color.OliveDrab));
                                             } else if (comp == 1 && comprador == 0) {
                                                 c1.setEnabled(false);
@@ -598,7 +598,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                                             break;
                                         case 1:
                                             if (comp == 1 && comprador == 1) {
-                                                c2.setEnabled(false);
+                                                c2.setEnabled(true);
                                                 c2.setTextColor(getResources().getColor(R.color.OliveDrab));
                                             } else if (comp == 1 && comprador == 0) {
                                                 c2.setEnabled(false);
@@ -631,7 +631,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                                             break;
                                         case 1:
                                             if (comp == 1 && comprador == 1) {
-                                                c3.setEnabled(false);
+                                                c3.setEnabled(true);
                                                 c3.setTextColor(getResources().getColor(R.color.OliveDrab));
                                             } else if (comp == 1 && comprador == 0) {
                                                 c3.setEnabled(false);
@@ -664,7 +664,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                                             break;
                                         case 1:
                                             if (comp == 1 && comprador == 1) {
-                                                c4.setEnabled(false);
+                                                c4.setEnabled(true);
                                                 c4.setTextColor(getResources().getColor(R.color.OliveDrab));
                                             } else if (comp == 1 && comprador == 0) {
                                                 c4.setEnabled(false);
@@ -697,7 +697,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                                             break;
                                         case 1:
                                             if (comp == 1 && comprador == 1) {
-
+                                                c5.setEnabled(true);
                                                 c5.setTextColor(getResources().getColor(R.color.OliveDrab));
                                             } else if (comp == 1 && comprador == 0) {
                                                 c5.setEnabled(false);
