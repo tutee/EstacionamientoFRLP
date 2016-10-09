@@ -29,7 +29,7 @@
     <string name="Viernes">Viernes</string>
     <string name="Sabado">Sabado</string>
     <string name="Semana">Todos los dias</string>
-    <string name="costo">Costo: $</string>
+    <string name="costo">Costo: $ 0,00</string>
 
     <!-- Deshacer Activity -->
     <string name="deshacer">Deshacer compras</string>
