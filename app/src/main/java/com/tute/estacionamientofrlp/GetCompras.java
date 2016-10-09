@@ -51,18 +51,18 @@ public class GetCompras extends Activity {
             @Override
             public void onResponse(String response) {
 
-                ArrayList pate = new ArrayList<String>();;
+                ArrayList pate = new ArrayList<String>();
 
                 try {
 
                     Log.e("ERROR", "1");
                     JSONObject obj = new JSONObject(response);
                     JSONArray arrayP = obj.getJSONArray("patente");
-                    Log.e("ERROR", String.valueOf(arrayP));
 
                     for (int h = 0; h < arrayP.length(); h++ ){
 
                         JSONObject jObjP = arrayP.getJSONObject(h);
+
                         if(jObjP.getString("codigo").equals("null")) {
                             Log.e("IF", jObjP.getString("codigo"));
                         }
@@ -70,27 +70,71 @@ public class GetCompras extends Activity {
                             pate.add(jObjP.getString("codigo"));
                             Log.e("ELSE", jObjP.getString("codigo"));
                         }
+
+                        if (h == 0) {
+                            JSONArray arrayS = jObjP.getJSONArray("semana");
+                            for (int k = 0; k < arrayS.length(); k++ ){
+                                JSONObject jObjS = arrayS.getJSONObject(k);
+                                if(k == 0){
+                                    Constantes.sem1 = jObjS.getString("cale_fecha");
+                                } else if (k == 5) {
+                                    Constantes.sem2 = jObjS.getString("cale_fecha");
+                                }
+                            }
+
+                        }
                     }
+
+                    Constantes.pridiasem = Character.toString(Constantes.sem1.charAt(8))+Character.toString(Constantes.sem1.charAt(9))+"/"+Character.toString(Constantes.sem1.charAt(5))+Character.toString(Constantes.sem1.charAt(6));
+                    Constantes.ultdiasem = Character.toString(Constantes.sem2.charAt(8))+Character.toString(Constantes.sem2.charAt(9))+"/"+Character.toString(Constantes.sem2.charAt(5))+Character.toString(Constantes.sem2.charAt(6));
+                    Constantes.semana = Constantes.pridiasem +" - "+Constantes.ultdiasem;
+
+                    Log.e("PRIMER DIA", String.valueOf(Constantes.pridiasem));
+                    Log.e("ULTI DIA", String.valueOf(Constantes.ultdiasem));
+                    Log.e("ULTI DIA", String.valueOf(Constantes.semana));
                     Log.e("ERROR", String.valueOf(pate));
                     Log.e("ERROR", String.valueOf(arrayP));
                     Log.e("OBJETOcheck", String.valueOf(pate));
-                    Intent intent = new Intent(GetCompras.this,
-                            CompraActivity.class);
 
-                    Constantes.cSaldo = saldo;
-                    Constantes.cUid = uid;
-                    Constantes.cPosSpi = pateSelect;
-                    Constantes.cCompSem = arrayP.toString();
-                    Constantes.cCod = pate;
+                    switch (Constantes.actacargar){
+                        case 1: Intent intent = new Intent(GetCompras.this,
+                                CompraActivity.class);
 
-                    intent.putExtra("saldo", saldo);
-                    intent.putExtra("uid", uid);
-                    intent.putExtra("selectSpi", pateSelect);
-                    intent.putExtra("semcomp", arrayP.toString());
-                    intent.putExtra("codigo", pate);
-                    startActivity(intent);
-                    finish();
+                            Constantes.cSaldo = saldo;
+                            Constantes.cUid = uid;
+                            Constantes.cPosSpi = pateSelect;
+                            Constantes.cCompSem = arrayP.toString();
+                            Constantes.cCod = pate;
 
+                            intent.putExtra("saldo", saldo);
+                            intent.putExtra("uid", uid);
+                            intent.putExtra("selectSpi", pateSelect);
+                            intent.putExtra("semcomp", arrayP.toString());
+                            intent.putExtra("codigo", pate);
+                            startActivity(intent);
+                            finish();
+                            break;
+
+                        case 2:
+                            intent = new Intent(GetCompras.this,
+                                    DeshacerActivity.class);
+
+                            Constantes.cSaldo = saldo;
+                            Constantes.cUid = uid;
+                            Constantes.cPosSpi = pateSelect;
+                            Constantes.cCompSem = arrayP.toString();
+                            Constantes.cCod = pate;
+
+                            intent.putExtra("saldo", saldo);
+                            intent.putExtra("uid", uid);
+                            intent.putExtra("selectSpi", pateSelect);
+                            intent.putExtra("semcomp", arrayP.toString());
+                            intent.putExtra("codigo", pate);
+                            startActivity(intent);
+                            finish();
+                            break;
+
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();

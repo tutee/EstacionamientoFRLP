@@ -76,6 +76,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
         b0 = (Button)findViewById(R.id.comprardia_button);
         spi = (Spinner)findViewById(R.id.spinner);
         montoacomp=0;
+        tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
 
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
@@ -119,6 +120,18 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
             ite.add(getResources().getString(R.string.noPat));
         }
 
+
+
+
+
+
+
+
+
+        tv1.setText("Semana: "+Constantes.semana);
+
+
+        Log.e("CCSEMANA", Constantes.cCompSem);
 
         tv2.setText("Saldo: $ "+ String.format("%.2f",Double.parseDouble(saldo)));
 
@@ -326,6 +339,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                         tv3.setTextColor(getResources().getColor(R.color.Red));
                     } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
                     c6.setChecked(false);
+
                 }
             }
         });
@@ -457,8 +471,11 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                         Log.e("SEMANA A COMPRAR!", String.valueOf(Arrays.asList(pateComp)));
                         Log.e("BOX MARTES", "ENTRE");
                     }
-
+                    Log.e("ERROR3.2", "c5 if!!!!!");
                     montoacomp = (pateComp.size()*Constantes.precioticket);
+
+                    Log.e("ERROR3.2", String.valueOf(montoacomp));
+
                     tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
@@ -475,6 +492,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                         }
                     }
                     Log.e("ERROR3.2", String.valueOf(pateComp));
+                    Log.e("ERROR3.2", "c5 else!!!!");
                     montoacomp = (pateComp.size()*Constantes.precioticket);
                     tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
@@ -491,10 +509,6 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (c6.isChecked()&& c6.isEnabled()) {
 
-                    for (int i = 0; i < pateComp.size(); i++) {
-                        pateComp.remove(pateSelComp.get(i));
-                    }
-
                     if (!c0.isChecked()&& c0.isEnabled()){
                         if(!pateComp.contains(pateSelComp.get(0))) {
                             Log.e("BOX 6", String.valueOf(Arrays.asList(pateComp)));
@@ -503,8 +517,8 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                             c0.setChecked(true);
                         }
                     }
-                    if (!c1.isChecked()&& c1.isEnabled()){
-                        if(!pateComp.contains(pateSelComp.get(1))) {
+                    if (!c1.isChecked()&& c1.isEnabled()){ //si no esta chequeado y esta habilidado
+                        if(!pateComp.contains(pateSelComp.get(1))) { //si patecomp no contiene el dia
                             Log.e("BOX 6", String.valueOf(Arrays.asList(pateComp)));
                             Log.e("BOX 6", "ENTRE AL 6");
                             pateComp.add(pateSelComp.get(1));
@@ -568,11 +582,6 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                 String nmdia = dia.getString("cale_dia");
                 String fechadia = dia.getString("cale_fecha");
                 pateSelComp.add(fechadia);  // Guardo las fechas de los checkbox dentro de un array (pateSelComp).
-                if (i == 0){
-                    Constantes.sem1 = fechadia;
-                } else if (i == 5) {
-                    Constantes.sem2 = fechadia;
-                }
                 int habil = dia.getInt("cale_dia_habil");
                 int descomp = dia.getInt("deshabilitable");
                 int psblcomp = dia.getInt("comprable");
@@ -769,11 +778,6 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                     }
                 }
             }
-
-            Constantes.pridiasem = Character.toString(Constantes.sem1.charAt(8))+Character.toString(Constantes.sem1.charAt(9))+"/"+Character.toString(Constantes.sem1.charAt(5))+Character.toString(Constantes.sem1.charAt(6));
-            Constantes.ultdiasem = Character.toString(Constantes.sem2.charAt(8))+Character.toString(Constantes.sem2.charAt(9))+"/"+Character.toString(Constantes.sem2.charAt(5))+Character.toString(Constantes.sem2.charAt(6));
-            Constantes.semana = Constantes.pridiasem +" - "+Constantes.ultdiasem;
-            tv1.setText("Semana: "+Constantes.semana);
 
         } catch (JSONException e) {
             e.printStackTrace();

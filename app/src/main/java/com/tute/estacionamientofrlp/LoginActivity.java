@@ -118,6 +118,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             switch (userRole) {
                                 case "Usuario":
+                                    Constantes.actacargar = 1;
                                     Intent intent = new Intent(LoginActivity.this,
                                             GetCompras.class);
                                     intent.putExtra("saldo", userSaldo);

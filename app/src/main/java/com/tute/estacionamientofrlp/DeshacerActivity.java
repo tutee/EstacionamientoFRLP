@@ -151,7 +151,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                             c5.setEnabled(false);
                             c5.setTextColor(getResources().getColor(R.color.Black));
                             c6.setChecked(false);
-                            c6.setEnabled(false);
+                            c6.setEnabled(true);
                             c6.setTextColor(getResources().getColor(R.color.Black));
 
                             String AR = codi.getString("semana");
@@ -215,6 +215,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                                                   Log.e("enviarCompra", pateSelect);
                                                   Log.e("enviarCompra", Constantes.cUid);
                                                   Log.e("enviarCompra", String.valueOf(pateComp));
+                                                  Constantes.actacargar = 2;
                                                   enviarDeshacer(pateSelect, Constantes.cUid, pateComp);
                                               } else {
                                                   Snackbar.make(v, "Su saldo actual es insuficiente", Snackbar.LENGTH_LONG)
@@ -420,10 +421,6 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (c6.isChecked()&& c6.isEnabled()) {
-
-                    for (int i = 0; i < pateComp.size(); i++) {
-                        pateComp.remove(pateSelComp.get(i));
-                    }
 
                     if (!c0.isChecked()&& c0.isEnabled()){
                         if(!pateComp.contains(pateSelComp.get(0))) {

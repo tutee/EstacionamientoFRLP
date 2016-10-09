@@ -11,4 +11,6 @@ public class Constantes {
     public static Integer montoSum;
     public static double precioticket = 3;
 
+    //Cuando actacargar vale 1, GetCompras carga CompraActivtiy, cuando vale 2 carga DeshacerActivity
+    public static Integer actacargar;
 }
