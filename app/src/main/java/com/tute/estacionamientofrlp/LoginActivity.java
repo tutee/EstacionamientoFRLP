@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
     private void checkLogin(final String correo, final String password) {
         String tag_string_req = "req_login";
 
-        progressDialog.setMessage("Logging in ...");
+        progressDialog.setMessage("Iniciando sesión");
         showDialog();
 
 
