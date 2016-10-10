@@ -133,7 +133,7 @@ public class RegistrationActivity extends AppCompatActivity implements Navigatio
                         Log.e("ERROR","ERROR11");
                         Intent intent = new Intent(
                                 RegistrationActivity.this,
-                                LoginActivity.class);
+                                RegistrationActivity.class);
                         startActivity(intent);
                         finish();
                         Log.e("ERROR","ERROR3");

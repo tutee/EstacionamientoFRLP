@@ -13,27 +13,19 @@
 
         <Spinner
             android:id="@+id/spinner"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
-            android:entries="@array/tipo"
             android:layout_gravity="center">
 
         </Spinner>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:text=" Codigo de compra   Día comprado   Fecha de compra    $"
-            android:gravity="center_horizontal"/>
-
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:entries="@array/hist">
+            android:id="@+id/list">
 
         </ListView>
 

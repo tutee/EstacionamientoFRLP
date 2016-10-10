@@ -102,13 +102,13 @@ public class LoginActivity extends AppCompatActivity {
                     if (!error){
                     String userEmail = jObj.getString("email");
                     JSONObject jObjU = jObj.getJSONObject("user");
-                    String userId = jObjU.getString("id");
+                    Constantes.cUid = jObjU.getString("id");
                     String userRole = jObjU.getString("rol");
                     String userSaldo = jObjU.getString("saldo");
                     Constantes.apellido = jObjU.getString("apellido");
                     Constantes.nombre = jObjU.getString("nombre");
                     Log.e("ERROR", userRole);
-                    Log.e("ERROR", userId);
+                    Log.e("ERROR", Constantes.cUid);
                     Log.e("ERROR", userSaldo);
 
                         if (userEmail != null) {
@@ -122,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Intent intent = new Intent(LoginActivity.this,
                                             GetCompras.class);
                                     intent.putExtra("saldo", userSaldo);
-                                    intent.putExtra("uid", userId);
+                                    intent.putExtra("uid", Constantes.cUid);
                                     startActivity(intent);
                                     finish();
                                     break;

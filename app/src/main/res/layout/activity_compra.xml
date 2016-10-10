@@ -14,185 +14,189 @@
             android:descendantFocusability="beforeDescendants"
             android:focusableInTouchMode="true"
             tools:context=".CompraActivity">
+
                 <android.support.v4.widget.SwipeRefreshLayout
                     xmlns:android="http://schemas.android.com/apk/res/android"
                     android:id="@+id/swipeContainer"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                        android:id="@+id/tv1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="20dp"
-                        android:textSize="25sp"
-                        android:textAlignment="center"
-                            android:textColor="@color/Black"
-                        android:text="-"/>
-
-                        <TextView
-                        android:id="@+id/tv2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="20dp"
-                        android:textSize="25sp"
-                        android:textAlignment="center"
-                            android:textColor="@color/Black"
-                        android:text="@string/saldo"/>
-
-                        <Spinner
-                        android:id="@+id/spinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="20dp">
-
-                        </Spinner>
+                    <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_gravity="center_horizontal">
+                            android:orientation="vertical"
+                            android:gravity="center_vertical">
 
-                        <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="center_vertical"
-                            android:layout_weight="1">
-
-                            <CheckBox
-                            android:layout_width="wrap_content"
+                            <TextView
+                            android:id="@+id/tv1"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/Lunes"
-                            android:id="@+id/checkBox0"
-                                android:layout_marginLeft="20dp"
-                                android:layout_marginRight="30dp"
-                            android:layout_marginTop="20dp"/>
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="20dp"
+                            android:textSize="25sp"
+                            android:textAlignment="center"
+                                android:textColor="@color/Black"
+                            android:text="-"/>
 
-                            <CheckBox
-                                android:layout_width="wrap_content"
+                            <TextView
+                            android:id="@+id/tv2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="20dp"
+                            android:textSize="25sp"
+                            android:textAlignment="center"
+                                android:textColor="@color/Black"
+                            android:text="@string/saldo"/>
+
+                            <Spinner
+                            android:id="@+id/spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="20dp">
+
+                            </Spinner>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/Miercoles"
-                                android:id="@+id/checkBox2"
-                                android:layout_marginLeft="20dp"
-                                android:layout_marginRight="30dp"
-                                android:layout_marginTop="20dp"/>
+                                android:orientation="horizontal"
+                                android:layout_gravity="center_horizontal">
 
-
-                            <CheckBox
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/Viernes"
-                                android:id="@+id/checkBox4"
-                                android:layout_marginLeft="20dp"
-                                android:layout_marginRight="30dp"
-                                android:layout_marginTop="20dp"/>
-
-                        </LinearLayout>
-
-
-
-                        <LinearLayout
+                            <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:gravity="center_vertical"
-                            android:layout_weight="1">
+                                android:layout_weight="1">
+
+                                <CheckBox
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/Lunes"
+                                android:id="@+id/checkBox0"
+                                    android:layout_marginLeft="20dp"
+                                    android:layout_marginRight="30dp"
+                                android:layout_marginTop="20dp"/>
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/Miercoles"
+                                    android:id="@+id/checkBox2"
+                                    android:layout_marginLeft="20dp"
+                                    android:layout_marginRight="30dp"
+                                    android:layout_marginTop="20dp"/>
+
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/Viernes"
+                                    android:id="@+id/checkBox4"
+                                    android:layout_marginLeft="20dp"
+                                    android:layout_marginRight="30dp"
+                                    android:layout_marginTop="20dp"/>
+
+                            </LinearLayout>
+
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:gravity="center_vertical"
+                                android:layout_weight="1">
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/Martes"
+                                    android:id="@+id/checkBox1"
+
+                                    android:layout_marginLeft="30dp"
+                                    android:layout_marginRight="20dp"
+                                    android:layout_marginTop="20dp"/>
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/Jueves"
+                                    android:id="@+id/checkBox3"
+                                    android:layout_marginLeft="30dp"
+                                    android:layout_marginRight="20dp"
+                                    android:layout_marginTop="20dp"/>
+
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/Sabado"
+                                    android:id="@+id/checkBox5"
+                                    android:layout_marginLeft="30dp"
+                                    android:layout_marginRight="20dp"
+                                    android:layout_marginTop="20dp"/>
+
+                            </LinearLayout>
+
+                            </LinearLayout>
 
                             <CheckBox
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/Martes"
-                                android:id="@+id/checkBox1"
+                                android:text="@string/Semana"
+                                android:id="@+id/checkBox6"
+                                android:layout_marginTop="20dp"
+                                android:layout_gravity="center"/>
 
-                                android:layout_marginLeft="30dp"
-                                android:layout_marginRight="20dp"
-                                android:layout_marginTop="20dp"/>
-
-                            <CheckBox
-                                android:layout_width="wrap_content"
+                            <TextView
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/Jueves"
-                                android:id="@+id/checkBox3"
-                                android:layout_marginLeft="30dp"
+                                android:id="@+id/tv3"
+                                android:layout_marginLeft="20dp"
                                 android:layout_marginRight="20dp"
-                                android:layout_marginTop="20dp"/>
+                                android:layout_marginTop="20dp"
+                                android:layout_marginBottom="20dp"
+                                android:textColor="@color/Black"
+                                android:textSize="20sp"
+                                android:textAlignment="center"
+                                android:text="@string/costo"/>
 
-
-                            <CheckBox
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/Sabado"
-                                android:id="@+id/checkBox5"
-                                android:layout_marginLeft="30dp"
-                                android:layout_marginRight="20dp"
-                                android:layout_marginTop="20dp"/>
+                                android:orientation="horizontal"
+                                android:gravity="center_horizontal">
+
+                                <Button
+                                    android:id="@+id/comprardia_button"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/colorPrimary"
+                                    android:text="@string/compradia"
+                                    android:textColor="#ffffff"
+                                    android:textSize="18sp"
+                                    android:paddingLeft="5dp"
+                                    android:paddingRight="5dp"/>
+
+
+                            </LinearLayout>
 
                         </LinearLayout>
 
-                        </LinearLayout>
+                    </ScrollView>
 
-                        <CheckBox
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/Semana"
-                            android:id="@+id/checkBox6"
-                            android:layout_marginTop="20dp"
-                            android:layout_gravity="center"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/tv3"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginBottom="20dp"
-                            android:textColor="@color/Black"
-                            android:textSize="20sp"
-                            android:textAlignment="center"
-                            android:text="@string/costo"/>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_horizontal">
-
-                            <Button
-                                android:id="@+id/comprardia_button"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@color/colorPrimary"
-                                android:text="@string/compradia"
-                                android:textColor="#ffffff"
-                                android:textSize="18sp"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"/>
-
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </ScrollView>
                 </android.support.v4.widget.SwipeRefreshLayout>
+
             </LinearLayout>
 
         <android.support.design.widget.NavigationView

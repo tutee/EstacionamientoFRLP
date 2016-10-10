@@ -575,15 +575,15 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
                 Log.e("SwipeRefresh", "Entra bien");
+
+                refreshsaldo(Constantes.cUid);
+
                 //Acá va el Json
                 swipeContainer.setRefreshing(false);
             }
         });
         // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+        swipeContainer.setColorSchemeResources(R.color.OliveDrab);
 
 
     }
@@ -872,6 +872,72 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
 
                 Log.e("ERROR", String.valueOf(params));
 
+                return params;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+
+    }
+
+    private void refreshsaldo(final String uid){
+
+        Log.e("ERROR", uid);
+
+        String tag_string_req = "req_login";
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                AppURLs.URL, new Response.Listener<String>() {
+
+
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+                    if (!error) {
+                        String saldoact = jObj.getString("saldo");
+                        Log.e("SALDO ACTUALIZADO", saldoact);
+                        Constantes.cSaldo = saldoact;
+                        Log.e("SALDO ACTUALIZADO", Constantes.cSaldo);
+
+                        Constantes.actacargar = 1;
+
+                        Intent intent = new Intent(CompraActivity.this,
+                                GetCompras.class);
+                        intent.putExtra("saldo", Constantes.cSaldo);
+                        intent.putExtra("uid", Constantes.cUid);
+                        startActivity(intent);
+                        finish();
+
+                    } else if (error){
+                        Log.e("ERROR","Su compra no fue realizada");
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Post params to login url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("tag", "refreshsaldo");
+                params.put("pers_id", uid);
                 return params;
             }
 

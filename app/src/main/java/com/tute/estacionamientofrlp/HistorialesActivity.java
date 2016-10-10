@@ -10,6 +10,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 
@@ -20,15 +23,18 @@ import java.util.ArrayList;
 public class HistorialesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     ActionBarDrawerToggle toggle;
-    private ArrayList<String> ite;
     private Session session;
+    private Spinner spi;
+    private ListView li;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_historiales);
+        spi = (Spinner)findViewById(R.id.spinner);
+        li = (ListView) findViewById(R.id.list);
 
-        ite = new ArrayList<String>();
 
         session = new Session(HistorialesActivity.this);
 
@@ -45,6 +51,10 @@ public class HistorialesActivity extends AppCompatActivity implements Navigation
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav);
         navigationView.setNavigationItemSelectedListener(this);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.tipo, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spi.setAdapter(adapter);
 
     }
 

@@ -7,83 +7,90 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawerLayout">
 
-    <LinearLayout
-        android:orientation="vertical" android:layout_width="match_parent"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=" Ingrese el mail de usuario:"
-            android:textSize="18sp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"/>
+        <LinearLayout
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/mailacargar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
-            <EditText
-                android:id="@+id/mailacargaredit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Ej. usuario@gmail.com"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
-                android:inputType="textEmailAddress"
-                android:singleLine="true"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=" Ingrese el mail de usuario:"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"/>
 
 
-        </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/mailacargar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=" Ingrese el saldo a cargar :"
-            android:textSize="18sp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"/>
-
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/saldoacargar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
-            <EditText
-                android:id="@+id/saldoacargaredit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Ej. 100"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
-                android:inputType="number"
-                android:singleLine="true"/>
+                    <EditText
+                        android:id="@+id/mailacargaredit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Ej. usuario@gmail.com"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="20dp"
+                        android:inputType="textEmailAddress"
+                        android:singleLine="true"/>
 
 
-        </android.support.design.widget.TextInputLayout>
+                </android.support.design.widget.TextInputLayout>
 
-        <Button
-            android:id="@+id/agregarsaldo_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:text="Agregar"
-            android:textColor="#ffffff"
-            android:textSize="18sp"
-            android:layout_marginTop="30dp"
-            android:layout_gravity="center"
-            android:padding="10dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=" Ingrese el saldo a cargar :"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"/>
 
-    </LinearLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/saldoacargar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
+
+                    <EditText
+                        android:id="@+id/saldoacargaredit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Ej. 100"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="20dp"
+                        android:inputType="number"
+                        android:singleLine="true"/>
+
+
+                </android.support.design.widget.TextInputLayout>
+
+                <Button
+                    android:id="@+id/agregarsaldo_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:text="Agregar"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp"
+                    android:layout_marginTop="30dp"
+                    android:layout_gravity="center"
+                    android:padding="10dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <android.support.design.widget.NavigationView
     android:layout_width="wrap_content"

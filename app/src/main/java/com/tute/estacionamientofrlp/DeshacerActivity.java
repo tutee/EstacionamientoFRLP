@@ -8,6 +8,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -53,6 +54,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
     private Spinner spi;
     double montoacomp;
     private ProgressDialog pDialog;
+    private SwipeRefreshLayout swipeContainer;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -475,6 +477,26 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
+        // Lookup the swipe container view
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                Log.e("SwipeRefresh", "Entra bien");
+
+                refreshsaldo(Constantes.cUid);
+
+                //Acá va el Json
+                swipeContainer.setRefreshing(false);
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(R.color.OliveDrab);
+
     }
 
     public void infloCB (String data){
@@ -782,6 +804,72 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
 
                 Log.e("ERROR123", String.valueOf(params));
 
+                return params;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+
+    }
+
+    private void refreshsaldo(final String uid){
+
+        Log.e("ERROR", uid);
+
+        String tag_string_req = "req_login";
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                AppURLs.URL, new Response.Listener<String>() {
+
+
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+                    if (!error) {
+                        String saldoact = jObj.getString("saldo");
+                        Log.e("SALDO ACTUALIZADO", saldoact);
+                        Constantes.cSaldo = saldoact;
+                        Log.e("SALDO ACTUALIZADO", Constantes.cSaldo);
+
+                        Constantes.actacargar = 2;
+
+                        Intent intent = new Intent(DeshacerActivity.this,
+                                GetCompras.class);
+                        intent.putExtra("saldo", Constantes.cSaldo);
+                        intent.putExtra("uid", Constantes.cUid);
+                        startActivity(intent);
+                        finish();
+
+                    } else if (error){
+                        Log.e("ERROR","Su compra no fue realizada");
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Post params to login url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("tag", "refreshsaldo");
+                params.put("pers_id", uid);
                 return params;
             }
 

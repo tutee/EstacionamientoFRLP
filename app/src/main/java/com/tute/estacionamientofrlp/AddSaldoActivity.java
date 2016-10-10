@@ -48,12 +48,18 @@ public class AddSaldoActivity extends AppCompatActivity implements NavigationVie
         e2 = (EditText) findViewById(R.id.saldoacargaredit);
         b1 = (Button) findViewById(R.id.agregarsaldo_button);
 
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
+
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = e1.getText().toString();
-                Double saldo = Double.valueOf(e1.getText().toString());
-                //cargarsaldo(email, saldo);
+                String saldo = e2.getText().toString();
+                Log.e("ERROR", email);
+                Log.e("ERROR", saldo);
+                Log.e("ERROR", Constantes.cUid);
+                cargarsaldo(email, saldo);
             }
         });
 
@@ -76,49 +82,38 @@ public class AddSaldoActivity extends AppCompatActivity implements NavigationVie
 
     }
 
-    /*
-    private void cargarsaldo (final String email, final double saldo) {
+
+    private void cargarsaldo (final String email, final String saldo) {
         // Tag used to cancel the request
         String tag_string_req = "req_register";
 
         pDialog.setMessage("Cargando saldo ...");
         showDialog();
+
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 AppURLs.URL, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
                 hideDialog();
-                Log.e("ERROR","ERROR7");
+
                 try {
-                    Log.e("ERROR","ERROR2");
                     JSONObject jObj = new JSONObject(response);
-                    JSONObject jObjU = jObj.getJSONObject("user");
-                    String pass = jObjU.getString("pass");
-                    Log.e("PASS:", pass);
-                    Log.e("ERROR","ERROR2.1");
                     boolean error = jObj.getBoolean("error");
-                    Log.e("ERROR","ERROR2.2");
+                    Log.e("ERROR", String.valueOf(error));
+
                     if (!error) {
-                        Log.e("ERROR","ERROR11");
-                        Intent intent = new Intent(
-                                RegistrationActivity.this,
-                                LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                        Log.e("ERROR","ERROR3");
+                        Toast.makeText(getApplicationContext(),
+                                "Saldo cargado con exito", Toast.LENGTH_LONG).show();
                     } else {
-                        Log.e("ERROR","ERROR10");
+
                         String errorMsg = jObj.getString("error_msg");
                         Toast.makeText(getApplicationContext(),
                                 errorMsg, Toast.LENGTH_LONG).show();
-                        Log.e("ERROR","ERROR8");
                     }
                 } catch (JSONException e) {
-                    Log.e("ERROR","ERROR11");
                     e.printStackTrace();
                 }
-                Log.e("ERROR","ERROR9");
             }
         }, new Response.ErrorListener() {
 
@@ -127,7 +122,6 @@ public class AddSaldoActivity extends AppCompatActivity implements NavigationVie
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_LONG).show();
                 hideDialog();
-                Log.e("ERROR","ERROR4");
             }
         }) {
 
@@ -136,8 +130,9 @@ public class AddSaldoActivity extends AppCompatActivity implements NavigationVie
                 // Posting params to register url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("tag", "cargarsaldo");
+                params.put("pers_id", Constantes.cUid);
                 params.put("pers_email", email);
-                params.put("pers_apellido", saldo);
+                params.put("pers_monto", saldo);
                 return params;
             }
 
@@ -146,7 +141,7 @@ public class AddSaldoActivity extends AppCompatActivity implements NavigationVie
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
-    */
+
     private void showDialog() {
         if (!pDialog.isShowing())
             pDialog.show();
