@@ -34,6 +34,9 @@
     <!-- Deshacer Activity -->
     <string name="deshacer">Deshacer compras</string>
 
+    <!-- GestEmail Activity -->
+    <string name="Email_Actual">Email Actual: </string>
+
     <!-- Navigation Drawer -->
     <string name="open">open</string>
     <string name="close">close</string>

@@ -58,12 +58,12 @@
 
         <activity
             android:name=".GestContraseniaActivity"
-            android:label="Cambio de contraseña"
+            android:label="Cambiar contraseña"
             android:theme="@style/AppTheme"></activity>
 
         <activity
             android:name=".GestEmailActivity"
-            android:label="Cambio de contraseña"
+            android:label="Cambiar email"
             android:theme="@style/AppTheme"></activity>
 
         <activity

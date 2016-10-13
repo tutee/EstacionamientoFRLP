@@ -27,7 +27,7 @@ import java.util.Map;
  */
 public class LoginActivity extends AppCompatActivity {
 
-    private Button registrationButton, loginButton;
+    private Button loginButton;
     private EditText email, password;
 
     private ProgressDialog progressDialog;
@@ -107,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                     String userSaldo = jObjU.getString("saldo");
                     Constantes.apellido = jObjU.getString("apellido");
                     Constantes.nombre = jObjU.getString("nombre");
+                    Constantes.email = userEmail;
                     Log.e("ERROR", userRole);
                     Log.e("ERROR", Constantes.cUid);
                     Log.e("ERROR", userSaldo);
