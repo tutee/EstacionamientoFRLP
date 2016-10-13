@@ -910,16 +910,23 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                 finish();
                 break;
 
-            case R.id.menu_nav_5:
+            /*case R.id.menu_nav_5:
                 intent = new Intent(DeshacerActivity.this,
                         GestPatesActivity.class);
                 startActivity(intent);
                 finish();
                 break;
-
+            */
             case R.id.menu_nav_6:
                 intent = new Intent(DeshacerActivity.this,
-                        GestCuentaActivity.class);
+                        GestContraseniaActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+
+            case R.id.menu_nav_7:
+                intent = new Intent(DeshacerActivity.this,
+                        GestEmailActivity.class);
                 startActivity(intent);
                 finish();
                 break;

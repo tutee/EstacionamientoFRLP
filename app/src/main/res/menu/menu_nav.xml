@@ -19,14 +19,17 @@
 
         <menu>
 
+            <!--
             <item android:id="@+id/menu_nav_5"
                 android:title="Gestionar patentes"
                 android:icon="@drawable/gestionarpatentes"/>
-
+            -->
             <item android:id="@+id/menu_nav_6"
-                android:title="Gestionar cuenta"
+                android:title="Cambiar contraseña"
                 android:icon="@drawable/gestionarcuenta"/>
-
+            <item android:id="@+id/menu_nav_7"
+                android:title="Cambiar email"
+                android:icon="@drawable/gestionarcuenta"/>
         </menu>
     </item>
 

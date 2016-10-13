@@ -1,7 +1,5 @@
 package com.tute.estacionamientofrlp;
 
-import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -44,15 +41,16 @@ import java.util.Map;
 /**
  * Created by Tute & Nashor on 5/9/2016.
  */
-public class CompraActivity extends AppCompatActivity implements Serializable, SimpleDialog.OnSimpleDialogListener, NavigationView.OnNavigationItemSelectedListener {
-
+    /* LE VOLÉ EL SimpleDialog.OnSimpleDialogListener */
+    /*public class CompraActivity extends AppCompatActivity implements Serializable, SimpleDialog.OnSimpleDialogListener, NavigationView.OnNavigationItemSelectedListener {*/
+    public class CompraActivity extends AppCompatActivity implements Serializable, NavigationView.OnNavigationItemSelectedListener {
     private TextView tv1,tv2,tv3;
     private Session session;
     private CheckBox c0,c1,c2,c3,c4,c5,c6;
     private Button  b0;
     private Spinner spi;
     private ArrayList<String> ite, pateSelComp, pateComp;
-    String pateSelect, nuevapate, uidg, saldog;
+    String pateSelect, uidg, saldog;
     private ProgressDialog pDialog;
     ActionBarDrawerToggle toggle;
     double montoacomp;
@@ -947,6 +945,8 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
 
     }
 
+    /* ESTO CORRESPONDE AL ADMINISTRADOR
+
     private void enviarNP(final String uid, final String pate, final String saldo ){
 
         Log.e("ERROR", pate);
@@ -1024,7 +1024,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
 
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
 
-    }
+    }*/
 
 
 
@@ -1069,7 +1069,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
         }
     }
 
-
+    /* CORRESPONDE AL ADMINISTRADOR
     @Override
     public void onPossitiveButtonClick(String np) {
         nuevapate = np;
@@ -1086,13 +1086,14 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
 
         spi.setSelection(0); //independientemente de que agregue patente o no, retorna a la primer posicion del spinner
 
-    }
+    }*/
 
+    /* CORRESPONDE AL ADMINISTRADOR
     @Override
     public void onNegativeButtonClick() {
 
         spi.setSelection(0); //independientemente de que agregue patente o no, retorna a la primer posicion del spinner
-    }
+    }*/
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -1126,16 +1127,23 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                 finish();
                 break;
 
-            case R.id.menu_nav_5:
+/*            case R.id.menu_nav_5:
                 intent = new Intent(CompraActivity.this,
                         GestPatesActivity.class);
                 startActivity(intent);
                 finish();
-                break;
+                break;*/
 
             case R.id.menu_nav_6:
                 intent = new Intent(CompraActivity.this,
-                        GestCuentaActivity.class);
+                        GestContraseniaActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+
+            case R.id.menu_nav_7:
+                intent = new Intent(CompraActivity.this,
+                        GestEmailActivity.class);
                 startActivity(intent);
                 finish();
                 break;

@@ -10,31 +10,27 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Spinner;
+
+import java.util.ArrayList;
 
 /**
  * Created by Tute on 26/9/2016.
  */
 
-public class HistorialesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class GestEmailActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     ActionBarDrawerToggle toggle;
+    private ArrayList<String> ite;
     private Session session;
-    private Spinner spi;
-    private ListView li;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_historiales);
-        spi = (Spinner)findViewById(R.id.spinner);
-        li = (ListView) findViewById(R.id.list);
+        setContentView(R.layout.activity_gestemail);
 
+        ite = new ArrayList<String>();
 
-        session = new Session(HistorialesActivity.this);
+        session = new Session(GestEmailActivity.this);
 
         if (!session.getLoggedIn()) {
             logoutUser();
@@ -50,10 +46,6 @@ public class HistorialesActivity extends AppCompatActivity implements Navigation
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.tipo, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spi.setAdapter(adapter);
-
     }
 
     @Override
@@ -61,7 +53,7 @@ public class HistorialesActivity extends AppCompatActivity implements Navigation
         switch (item.getItemId()) {
 
             case R.id.menu_nav_1:
-                Intent intent = new Intent(HistorialesActivity.this,
+                Intent intent = new Intent(GestEmailActivity.this,
                         CompraActivity.class);
                 intent.putExtra("saldo", Constantes.cSaldo);
                 intent.putExtra("uid", Constantes.cUid);
@@ -73,39 +65,35 @@ public class HistorialesActivity extends AppCompatActivity implements Navigation
                 break;
 
             case R.id.menu_nav_2:
-                intent = new Intent(HistorialesActivity.this,
+                intent = new Intent(GestEmailActivity.this,
                         DeshacerActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
             case R.id.menu_nav_3:
-                intent = new Intent(HistorialesActivity.this,
+                intent = new Intent(GestEmailActivity.this,
                         HistorialesActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
             /*case R.id.menu_nav_5:
-                intent = new Intent(HistorialesActivity.this,
+                intent = new Intent(GestCuentaActivity.this,
                         GestPatesActivity.class);
                 startActivity(intent);
                 finish();
                 break;
             */
             case R.id.menu_nav_6:
-                intent = new Intent(HistorialesActivity.this,
-                        GestContraseniaActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-
-            case R.id.menu_nav_7:
-                intent = new Intent(HistorialesActivity.this,
+                intent = new Intent(GestEmailActivity.this,
                         GestEmailActivity.class);
                 startActivity(intent);
                 finish();
                 break;
+
+
+
         }
 
         DrawerLayout dl = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -141,7 +129,7 @@ public class HistorialesActivity extends AppCompatActivity implements Navigation
 
     private void logoutUser() {
         session.setLogin(false);
-        Intent intent = new Intent(HistorialesActivity.this, LoginActivity.class);
+        Intent intent = new Intent(GestEmailActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }

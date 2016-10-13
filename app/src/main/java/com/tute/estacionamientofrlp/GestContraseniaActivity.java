@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * Created by Tute on 26/9/2016.
  */
 
-public class GestCuentaActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class GestContraseniaActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     ActionBarDrawerToggle toggle;
     private ArrayList<String> ite;
@@ -26,11 +26,11 @@ public class GestCuentaActivity extends AppCompatActivity implements NavigationV
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gestcuenta);
+        setContentView(R.layout.activity_gestcontrasenia);
 
         ite = new ArrayList<String>();
 
-        session = new Session(GestCuentaActivity.this);
+        session = new Session(GestContraseniaActivity.this);
 
         if (!session.getLoggedIn()) {
             logoutUser();
@@ -53,7 +53,7 @@ public class GestCuentaActivity extends AppCompatActivity implements NavigationV
         switch (item.getItemId()) {
 
             case R.id.menu_nav_1:
-                Intent intent = new Intent(GestCuentaActivity.this,
+                Intent intent = new Intent(GestContraseniaActivity.this,
                         CompraActivity.class);
                 intent.putExtra("saldo", Constantes.cSaldo);
                 intent.putExtra("uid", Constantes.cUid);
@@ -65,29 +65,36 @@ public class GestCuentaActivity extends AppCompatActivity implements NavigationV
                 break;
 
             case R.id.menu_nav_2:
-                intent = new Intent(GestCuentaActivity.this,
+                intent = new Intent(GestContraseniaActivity.this,
                         DeshacerActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
             case R.id.menu_nav_3:
-                intent = new Intent(GestCuentaActivity.this,
+                intent = new Intent(GestContraseniaActivity.this,
                         HistorialesActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
-            case R.id.menu_nav_5:
+            /*case R.id.menu_nav_5:
                 intent = new Intent(GestCuentaActivity.this,
                         GestPatesActivity.class);
                 startActivity(intent);
                 finish();
                 break;
-
+            */
             case R.id.menu_nav_6:
-                intent = new Intent(GestCuentaActivity.this,
-                        GestCuentaActivity.class);
+                intent = new Intent(GestContraseniaActivity.this,
+                        GestContraseniaActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+
+            case R.id.menu_nav_7:
+                intent = new Intent(GestContraseniaActivity.this,
+                        GestEmailActivity.class);
                 startActivity(intent);
                 finish();
                 break;
@@ -129,7 +136,7 @@ public class GestCuentaActivity extends AppCompatActivity implements NavigationV
 
     private void logoutUser() {
         session.setLogin(false);
-        Intent intent = new Intent(GestCuentaActivity.this, LoginActivity.class);
+        Intent intent = new Intent(GestContraseniaActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }

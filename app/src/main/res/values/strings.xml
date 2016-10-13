@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Estacionamiento FRLP</string>
-    <string name="titulo">Estacionamiento</string>
-    <string name="titulo2">FRLP</string>
+    <string name="titulo">S.E.U.</string>
+    <string name="titulo2">UTN FRLP</string>
 
     <!--Strings del menu-->
     <string name="cerrarsesion">Cerrar Sesion</string>

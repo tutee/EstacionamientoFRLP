@@ -78,16 +78,23 @@ public class GestPatesActivity extends AppCompatActivity implements NavigationVi
                 finish();
                 break;
 
-            case R.id.menu_nav_5:
+            /*case R.id.menu_nav_5:
                 intent = new Intent(GestPatesActivity.this,
                         GestPatesActivity.class);
                 startActivity(intent);
                 finish();
                 break;
-
+            */
             case R.id.menu_nav_6:
                 intent = new Intent(GestPatesActivity.this,
-                        GestCuentaActivity.class);
+                        GestContraseniaActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+
+            case R.id.menu_nav_7:
+                intent = new Intent(GestPatesActivity.this,
+                        GestEmailActivity.class);
                 startActivity(intent);
                 finish();
                 break;

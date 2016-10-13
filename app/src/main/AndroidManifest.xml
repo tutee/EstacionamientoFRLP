@@ -57,7 +57,12 @@
             android:theme="@style/AppTheme"></activity>
 
         <activity
-            android:name=".GestCuentaActivity"
+            android:name=".GestContraseniaActivity"
+            android:label="Cambio de contraseña"
+            android:theme="@style/AppTheme"></activity>
+
+        <activity
+            android:name=".GestEmailActivity"
             android:label="Cambio de contraseña"
             android:theme="@style/AppTheme"></activity>
 
