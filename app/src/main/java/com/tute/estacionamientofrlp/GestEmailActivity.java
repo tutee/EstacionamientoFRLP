@@ -88,7 +88,7 @@ public class GestEmailActivity extends AppCompatActivity implements NavigationVi
                                 .show();
                     }
                 } else {
-                    Snackbar.make(v, "Complete los campos", Snackbar.LENGTH_LONG)
+                    Snackbar.make(v, "Complete todos los campos", Snackbar.LENGTH_LONG)
                             .show();
                 }
             }
@@ -209,6 +209,13 @@ public class GestEmailActivity extends AppCompatActivity implements NavigationVi
                 break;
             */
             case R.id.menu_nav_6:
+                intent = new Intent(GestEmailActivity.this,
+                        GestContraseniaActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+
+            case R.id.menu_nav_7:
                 intent = new Intent(GestEmailActivity.this,
                         GestEmailActivity.class);
                 startActivity(intent);
