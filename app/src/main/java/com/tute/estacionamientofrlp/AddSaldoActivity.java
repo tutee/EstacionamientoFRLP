@@ -175,6 +175,20 @@ public class AddSaldoActivity extends AppCompatActivity implements NavigationVie
                 finish();
                 break;
 
+            case R.id.menu_navi_6:
+                intent = new Intent(AddSaldoActivity.this,
+                        GestContraseniaActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+
+            case R.id.menu_navi_7:
+                intent = new Intent(AddSaldoActivity.this,
+                        GestEmailActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+
 
 
         }

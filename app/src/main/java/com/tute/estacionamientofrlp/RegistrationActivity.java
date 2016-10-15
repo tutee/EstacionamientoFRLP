@@ -215,6 +215,20 @@ public class RegistrationActivity extends AppCompatActivity implements Navigatio
                 finish();
                 break;
 
+            case R.id.menu_navi_6:
+                intent = new Intent(RegistrationActivity.this,
+                        GestContraseniaActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+
+            case R.id.menu_navi_7:
+                intent = new Intent(RegistrationActivity.this,
+                        GestEmailActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+
         }
 
         DrawerLayout dl = (DrawerLayout) findViewById(R.id.drawerLayout);

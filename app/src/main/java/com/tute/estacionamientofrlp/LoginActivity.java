@@ -105,6 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                     Constantes.cUid = jObjU.getString("id");
                     String userRole = jObjU.getString("rol");
                     String userSaldo = jObjU.getString("saldo");
+                    Constantes.cRole = userRole;
                     Constantes.apellido = jObjU.getString("apellido");
                     Constantes.nombre = jObjU.getString("nombre");
                     Constantes.email = userEmail;

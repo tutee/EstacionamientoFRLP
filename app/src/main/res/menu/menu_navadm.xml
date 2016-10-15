@@ -17,4 +17,18 @@
         android:title="Eliminar patente"
         android:icon="@drawable/eliminarpate"/>
 
+    <item android:id="@+id/menu_navi_5"
+        android:title="Opciones:">
+
+        <menu>
+
+            <item android:id="@+id/menu_navi_6"
+                android:title="Cambiar contraseña"
+                android:icon="@drawable/gestionarcuenta"/>
+            <item android:id="@+id/menu_navi_7"
+                android:title="Cambiar email"
+                android:icon="@drawable/gestionarcuenta"/>
+        </menu>
+    </item>
+
 </menu>

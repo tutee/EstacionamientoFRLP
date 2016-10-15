@@ -51,7 +51,7 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
         session = new Session(GestContraseniaActivity.this);
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
-
+        Log.e("Rol", Constantes.cRole);
         if (!session.getLoggedIn()) {
             logoutUser();
         }
@@ -244,7 +244,6 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
             case R.id.menu_nav_1:
                 Intent intent = new Intent(GestContraseniaActivity.this,
                         CompraActivity.class);
@@ -271,13 +270,6 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
                 finish();
                 break;
 
-            /*case R.id.menu_nav_5:
-                intent = new Intent(GestCuentaActivity.this,
-                        GestPatesActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-            */
             case R.id.menu_nav_6:
                 intent = new Intent(GestContraseniaActivity.this,
                         GestContraseniaActivity.class);
@@ -291,8 +283,6 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
                 startActivity(intent);
                 finish();
                 break;
-
-
 
         }
 
