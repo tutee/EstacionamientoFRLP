@@ -24,11 +24,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,7 +46,17 @@ public class GestEmailActivity extends AppCompatActivity implements NavigationVi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gestemail);
+        switch (Constantes.cRole){
+            case "Usuario":
+                setContentView(R.layout.activity_gestemail_usu);
+                break;
+            case "Encargado":
+                setContentView(R.layout.activity_gestemail_enc);
+                break;
+            case "Guardia":
+                setContentView(R.layout.activity_gestemail_gua);
+                break;
+        }
 
         session = new Session(GestEmailActivity.this);
 
@@ -173,56 +181,123 @@ public class GestEmailActivity extends AppCompatActivity implements NavigationVi
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        switch (Constantes.cRole){
+            case "Usuario":
+                switch (item.getItemId()) {
+                    case R.id.menu_navu_1:
+                        Intent intent = new Intent(GestEmailActivity.this,
+                                CompraActivity.class);
+                        intent.putExtra("saldo", Constantes.cSaldo);
+                        intent.putExtra("uid", Constantes.cUid);
+                        intent.putExtra("selectSpi", Constantes.cPosSpi);
+                        intent.putExtra("semcomp", Constantes.cCompSem);
+                        intent.putExtra("codigo", Constantes.cCod);
+                        startActivity(intent);
+                        finish();
+                        break;
 
-            case R.id.menu_nav_1:
-                Intent intent = new Intent(GestEmailActivity.this,
-                        CompraActivity.class);
-                intent.putExtra("saldo", Constantes.cSaldo);
-                intent.putExtra("uid", Constantes.cUid);
-                intent.putExtra("selectSpi", Constantes.cPosSpi);
-                intent.putExtra("semcomp", Constantes.cCompSem);
-                intent.putExtra("codigo", Constantes.cCod);
-                startActivity(intent);
-                finish();
+                    case R.id.menu_navu_2:
+                        intent = new Intent(GestEmailActivity.this,
+                                DeshacerActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                    case R.id.menu_navu_3:
+                        intent = new Intent(GestEmailActivity.this,
+                                HistorialesActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                    case R.id.menu_navu_5:
+                        intent = new Intent(GestEmailActivity.this,
+                                GestContraseniaActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                    case R.id.menu_navu_6:
+                        intent = new Intent(GestEmailActivity.this,
+                                GestEmailActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                }
                 break;
 
-            case R.id.menu_nav_2:
-                intent = new Intent(GestEmailActivity.this,
-                        DeshacerActivity.class);
-                startActivity(intent);
-                finish();
+            case "Encargado":
+                switch (item.getItemId()) {
+                    case R.id.menu_nave_1:
+                        Intent intent = new Intent(GestEmailActivity.this,
+                                AddSaldoActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                    case R.id.menu_nave_2:
+                        intent = new Intent(GestEmailActivity.this,
+                                RegistrationActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                    case R.id.menu_nave_3:
+                        intent = new Intent(GestEmailActivity.this,
+                                AddPateActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                    case R.id.menu_nave_4:
+                        intent = new Intent(GestEmailActivity.this,
+                                GestPatesActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                    case R.id.menu_nave_6:
+                        intent = new Intent(GestEmailActivity.this,
+                                GestContraseniaActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                    case R.id.menu_nave_7:
+                        intent = new Intent(GestEmailActivity.this,
+                                GestEmailActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+                }
                 break;
 
-            case R.id.menu_nav_3:
-                intent = new Intent(GestEmailActivity.this,
-                        HistorialesActivity.class);
-                startActivity(intent);
-                finish();
-                break;
+            case "Guardia":
+                switch (item.getItemId()) {
+                    case R.id.menu_navg_1:
+                        Intent intent = new Intent(GestEmailActivity.this,
+                                VerComprasActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
 
-            /*case R.id.menu_nav_5:
-                intent = new Intent(GestCuentaActivity.this,
-                        GestPatesActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-            */
-            case R.id.menu_nav_6:
-                intent = new Intent(GestEmailActivity.this,
-                        GestContraseniaActivity.class);
-                startActivity(intent);
-                finish();
-                break;
+                    case R.id.menu_navg_3:
+                        intent = new Intent(GestEmailActivity.this,
+                                GestContraseniaActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
 
-            case R.id.menu_nav_7:
-                intent = new Intent(GestEmailActivity.this,
-                        GestEmailActivity.class);
-                startActivity(intent);
-                finish();
+                    case R.id.menu_navg_4:
+                        intent = new Intent(GestEmailActivity.this,
+                                GestEmailActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                }
                 break;
-
-
 
         }
 

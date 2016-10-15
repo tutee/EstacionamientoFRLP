@@ -71,6 +71,11 @@
             android:label="Gestionar patentes"
             android:theme="@style/AppTheme"></activity>
 
+        <activity
+            android:name=".VerComprasActivity"
+            android:label="Ver compras"
+            android:theme="@style/AppTheme"></activity>
+
 
     </application>
 

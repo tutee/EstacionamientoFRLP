@@ -60,7 +60,7 @@ public class HistorialesActivity extends AppCompatActivity implements Navigation
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
-            case R.id.menu_nav_1:
+            case R.id.menu_navu_1:
                 Intent intent = new Intent(HistorialesActivity.this,
                         CompraActivity.class);
                 intent.putExtra("saldo", Constantes.cSaldo);
@@ -72,35 +72,28 @@ public class HistorialesActivity extends AppCompatActivity implements Navigation
                 finish();
                 break;
 
-            case R.id.menu_nav_2:
+            case R.id.menu_navu_2:
                 intent = new Intent(HistorialesActivity.this,
                         DeshacerActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
-            case R.id.menu_nav_3:
+            case R.id.menu_navu_3:
                 intent = new Intent(HistorialesActivity.this,
                         HistorialesActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
-            /*case R.id.menu_nav_5:
-                intent = new Intent(HistorialesActivity.this,
-                        GestPatesActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-            */
-            case R.id.menu_nav_6:
+            case R.id.menu_navu_5:
                 intent = new Intent(HistorialesActivity.this,
                         GestContraseniaActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
-            case R.id.menu_nav_7:
+            case R.id.menu_navu_6:
                 intent = new Intent(HistorialesActivity.this,
                         GestEmailActivity.class);
                 startActivity(intent);

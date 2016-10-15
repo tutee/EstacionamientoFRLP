@@ -49,33 +49,33 @@ public class AddPateActivity extends AppCompatActivity implements NavigationView
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
-            case R.id.menu_navi_1:
+            case R.id.menu_nave_1:
                 Intent intent = new Intent(AddPateActivity.this,
                         AddSaldoActivity.class);
                 startActivity(intent);
                 finish();
                 break;
-            case R.id.menu_navi_2:
+            case R.id.menu_nave_2:
                 intent = new Intent(AddPateActivity.this,
                         RegistrationActivity.class);
                 startActivity(intent);
                 finish();
                 break;
-            case R.id.menu_navi_3:
+            case R.id.menu_nave_3:
                 intent = new Intent(AddPateActivity.this,
                         AddPateActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
-            case R.id.menu_navi_6:
+            case R.id.menu_nave_6:
                 intent = new Intent(AddPateActivity.this,
                         GestContraseniaActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
-            case R.id.menu_navi_7:
+            case R.id.menu_nave_7:
                 intent = new Intent(AddPateActivity.this,
                         GestEmailActivity.class);
                 startActivity(intent);

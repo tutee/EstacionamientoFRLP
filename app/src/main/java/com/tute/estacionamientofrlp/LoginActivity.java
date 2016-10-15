@@ -136,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
                                     break;
                                 case "Guardia":
                                     intent = new Intent(LoginActivity.this,
-                                            RegistrationActivity.class);
+                                            VerComprasActivity.class);
                                     startActivity(intent);
                                     finish();
                                     break;

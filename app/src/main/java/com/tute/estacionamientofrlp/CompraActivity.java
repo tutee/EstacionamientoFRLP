@@ -1100,7 +1100,7 @@ import java.util.Map;
 
         switch (item.getItemId()) {
 
-            case R.id.menu_nav_1:
+            case R.id.menu_navu_1:
                 Intent intent = new Intent(CompraActivity.this,
                         CompraActivity.class);
 
@@ -1113,35 +1113,28 @@ import java.util.Map;
                 finish();
                 break;
 
-            case R.id.menu_nav_2:
+            case R.id.menu_navu_2:
                 intent = new Intent(CompraActivity.this,
                         DeshacerActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
-            case R.id.menu_nav_3:
+            case R.id.menu_navu_3:
                 intent = new Intent(CompraActivity.this,
                         HistorialesActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
-/*            case R.id.menu_nav_5:
-                intent = new Intent(CompraActivity.this,
-                        GestPatesActivity.class);
-                startActivity(intent);
-                finish();
-                break;*/
-
-            case R.id.menu_nav_6:
+            case R.id.menu_navu_5:
                 intent = new Intent(CompraActivity.this,
                         GestContraseniaActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
-            case R.id.menu_nav_7:
+            case R.id.menu_navu_6:
                 intent = new Intent(CompraActivity.this,
                         GestEmailActivity.class);
                 startActivity(intent);

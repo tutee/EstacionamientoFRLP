@@ -884,7 +884,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
-            case R.id.menu_nav_1:
+            case R.id.menu_navu_1:
                 Intent intent = new Intent(DeshacerActivity.this,
                         CompraActivity.class);
                 intent.putExtra("saldo", Constantes.cSaldo);
@@ -896,35 +896,28 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                 finish();
                 break;
 
-            case R.id.menu_nav_2:
+            case R.id.menu_navu_2:
                 intent = new Intent(DeshacerActivity.this,
                         DeshacerActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
-            case R.id.menu_nav_3:
+            case R.id.menu_navu_3:
                 intent = new Intent(DeshacerActivity.this,
                         HistorialesActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
-            /*case R.id.menu_nav_5:
-                intent = new Intent(DeshacerActivity.this,
-                        GestPatesActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-            */
-            case R.id.menu_nav_6:
+            case R.id.menu_navu_5:
                 intent = new Intent(DeshacerActivity.this,
                         GestContraseniaActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
-            case R.id.menu_nav_7:
+            case R.id.menu_navu_6:
                 intent = new Intent(DeshacerActivity.this,
                         GestEmailActivity.class);
                 startActivity(intent);

@@ -10,27 +10,31 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import java.util.ArrayList;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Spinner;
 
 /**
- * Created by Tute on 26/9/2016.
+ * Esta actividad permite al Guardia visualizar todas las compras del día.
  */
 
-public class GestPatesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class VerComprasActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     ActionBarDrawerToggle toggle;
-    private ArrayList<String> ite;
     private Session session;
+    private Spinner spi;
+    private ListView li;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gestpates);
+        setContentView(R.layout.activity_vercompras);
+        spi = (Spinner)findViewById(R.id.spinner);
+        li = (ListView) findViewById(R.id.list);
 
-        ite = new ArrayList<String>();
 
-        session = new Session(GestPatesActivity.this);
+        session = new Session(VerComprasActivity.this);
 
         if (!session.getLoggedIn()) {
             logoutUser();
@@ -46,52 +50,36 @@ public class GestPatesActivity extends AppCompatActivity implements NavigationVi
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav);
         navigationView.setNavigationItemSelectedListener(this);
 
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.tipo, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spi.setAdapter(adapter);
+
     }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_nave_1:
-                Intent intent = new Intent(GestPatesActivity.this,
-                        AddSaldoActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-
-            case R.id.menu_nave_2:
-                intent = new Intent(GestPatesActivity.this,
-                        RegistrationActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-
-            case R.id.menu_nave_3:
-                intent = new Intent(GestPatesActivity.this,
-                        AddPateActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-
-            case R.id.menu_nave_4:
-                intent = new Intent(GestPatesActivity.this,
-                        GestPatesActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-
-            case R.id.menu_nave_6:
-                intent = new Intent(GestPatesActivity.this,
+            case R.id.menu_navg_1:
+                Intent intent = new Intent(VerComprasActivity.this,
                         GestContraseniaActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
-            case R.id.menu_nave_7:
-                intent = new Intent(GestPatesActivity.this,
+            case R.id.menu_navg_3:
+                intent = new Intent(VerComprasActivity.this,
+                        GestContraseniaActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+
+            case R.id.menu_navg_4:
+                intent = new Intent(VerComprasActivity.this,
                         GestEmailActivity.class);
                 startActivity(intent);
                 finish();
                 break;
+
         }
 
         DrawerLayout dl = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -127,7 +115,7 @@ public class GestPatesActivity extends AppCompatActivity implements NavigationVi
 
     private void logoutUser() {
         session.setLogin(false);
-        Intent intent = new Intent(GestPatesActivity.this, LoginActivity.class);
+        Intent intent = new Intent(VerComprasActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }

@@ -27,7 +27,6 @@ import com.android.volley.toolbox.StringRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +45,18 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gestcontrasenia);
+        switch (Constantes.cRole){
+            case "Usuario":
+                setContentView(R.layout.activity_gestcontrasenia_usu);
+                break;
+            case "Encargado":
+                setContentView(R.layout.activity_gestcontrasenia_enc);
+                break;
+            case "Guardia":
+                setContentView(R.layout.activity_gestcontrasenia_gua);
+                break;
+        }
+
 
         session = new Session(GestContraseniaActivity.this);
         pDialog = new ProgressDialog(this);
@@ -243,49 +253,125 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_nav_1:
-                Intent intent = new Intent(GestContraseniaActivity.this,
-                        CompraActivity.class);
-                intent.putExtra("saldo", Constantes.cSaldo);
-                intent.putExtra("uid", Constantes.cUid);
-                intent.putExtra("selectSpi", Constantes.cPosSpi);
-                intent.putExtra("semcomp", Constantes.cCompSem);
-                intent.putExtra("codigo", Constantes.cCod);
-                startActivity(intent);
-                finish();
+        switch (Constantes.cRole){
+            case "Usuario":
+                switch (item.getItemId()) {
+                    case R.id.menu_navu_1:
+                        Intent intent = new Intent(GestContraseniaActivity.this,
+                                CompraActivity.class);
+                        intent.putExtra("saldo", Constantes.cSaldo);
+                        intent.putExtra("uid", Constantes.cUid);
+                        intent.putExtra("selectSpi", Constantes.cPosSpi);
+                        intent.putExtra("semcomp", Constantes.cCompSem);
+                        intent.putExtra("codigo", Constantes.cCod);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                    case R.id.menu_navu_2:
+                        intent = new Intent(GestContraseniaActivity.this,
+                                DeshacerActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                    case R.id.menu_navu_3:
+                        intent = new Intent(GestContraseniaActivity.this,
+                                HistorialesActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                    case R.id.menu_navu_5:
+                        intent = new Intent(GestContraseniaActivity.this,
+                                GestContraseniaActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                    case R.id.menu_navu_6:
+                        intent = new Intent(GestContraseniaActivity.this,
+                                GestEmailActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                }
                 break;
 
-            case R.id.menu_nav_2:
-                intent = new Intent(GestContraseniaActivity.this,
-                        DeshacerActivity.class);
-                startActivity(intent);
-                finish();
+            case "Encargado":
+                switch (item.getItemId()) {
+                    case R.id.menu_nave_1:
+                        Intent intent = new Intent(GestContraseniaActivity.this,
+                                AddSaldoActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                    case R.id.menu_nave_2:
+                        intent = new Intent(GestContraseniaActivity.this,
+                                RegistrationActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                    case R.id.menu_nave_3:
+                        intent = new Intent(GestContraseniaActivity.this,
+                                AddPateActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                    case R.id.menu_nave_4:
+                        intent = new Intent(GestContraseniaActivity.this,
+                                GestPatesActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                    case R.id.menu_nave_6:
+                        intent = new Intent(GestContraseniaActivity.this,
+                                GestContraseniaActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                    case R.id.menu_nave_7:
+                        intent = new Intent(GestContraseniaActivity.this,
+                                GestEmailActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+                }
                 break;
 
-            case R.id.menu_nav_3:
-                intent = new Intent(GestContraseniaActivity.this,
-                        HistorialesActivity.class);
-                startActivity(intent);
-                finish();
-                break;
+            case "Guardia":
+                switch (item.getItemId()) {
+                    case R.id.menu_navg_1:
+                        Intent intent = new Intent(GestContraseniaActivity.this,
+                                VerComprasActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
 
-            case R.id.menu_nav_6:
-                intent = new Intent(GestContraseniaActivity.this,
-                        GestContraseniaActivity.class);
-                startActivity(intent);
-                finish();
-                break;
+                    case R.id.menu_navg_3:
+                        intent = new Intent(GestContraseniaActivity.this,
+                                GestContraseniaActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
 
-            case R.id.menu_nav_7:
-                intent = new Intent(GestContraseniaActivity.this,
-                        GestEmailActivity.class);
-                startActivity(intent);
-                finish();
+                    case R.id.menu_navg_4:
+                        intent = new Intent(GestContraseniaActivity.this,
+                                GestEmailActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                }
                 break;
 
         }
-
         DrawerLayout dl = (DrawerLayout) findViewById(R.id.drawerLayout);
         if (dl.isDrawerOpen(GravityCompat.START))
             dl.closeDrawer(GravityCompat.START);

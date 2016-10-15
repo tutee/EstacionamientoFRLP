@@ -26,24 +26,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:layout_marginTop="15dp">
+                    android:layout_marginTop="10dp">
 
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/contravieja"
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/contraviejaedit"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Contraseña actual"
-                            android:inputType="textPassword"
-                            android:singleLine="true"
-                            android:drawableRight="@drawable/password"/>
-
-
-                    </android.support.design.widget.TextInputLayout>
+                        android:layout_height="match_parent"
+                        android:id="@+id/tv1"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="20dp"
+                        android:textSize="25sp"
+                        android:textAlignment="center"
+                        android:textColor="@color/Black"
+                        android:text="@string/Email_Actual" />
 
                 </LinearLayout>
 
@@ -51,21 +46,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:layout_marginTop="15dp">
+                    android:layout_marginTop="10dp">
 
                     <android.support.design.widget.TextInputLayout
-                        android:id="@+id/contranueva"
+                        android:id="@+id/textimputmail1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
                         <EditText
-                            android:id="@+id/contranuevaedit"
+                            android:id="@+id/mailnuevoedit1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Contraseña nueva "
-                            android:inputType="textPassword"
+                            android:hint="Ingrese un nuevo email"
+                            android:inputType="textEmailAddress"
                             android:singleLine="true"
-                            android:drawableRight="@drawable/password"/>
+                            android:drawableRight="@drawable/email"/>
 
 
                     </android.support.design.widget.TextInputLayout>
@@ -77,21 +72,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:layout_marginTop="15dp">
+                    android:layout_marginTop="10dp">
 
                     <android.support.design.widget.TextInputLayout
-                        android:id="@+id/confircontra"
+                        android:id="@+id/textimputmail2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
                         <EditText
-                            android:id="@+id/confircontraedit"
+                            android:id="@+id/mailnuevoedit2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Confirmar contraseña"
-                            android:inputType="textPassword"
+                            android:hint="Vuelva a escribir el nuevo email"
+                            android:inputType="textEmailAddress"
                             android:singleLine="true"
-                            android:drawableRight="@drawable/password"/>
+                            android:drawableRight="@drawable/email"/>
 
 
                     </android.support.design.widget.TextInputLayout>
@@ -120,7 +115,7 @@
     <android.support.design.widget.NavigationView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:menu="@menu/menu_nav"
+        app:menu="@menu/menu_nav_usu"
         app:itemBackground="@drawable/nav_pressed"
         android:layout_gravity="start"
         android:id="@+id/nav">
