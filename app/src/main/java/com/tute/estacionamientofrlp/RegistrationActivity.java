@@ -200,14 +200,12 @@ public class RegistrationActivity extends AppCompatActivity implements Navigatio
                 startActivity(intent);
                 finish();
                 break;
-
             case R.id.menu_nave_2:
                 intent = new Intent(RegistrationActivity.this,
                         RegistrationActivity.class);
                 startActivity(intent);
                 finish();
                 break;
-
             case R.id.menu_nave_3:
                 intent = new Intent(RegistrationActivity.this,
                         AddPateActivity.class);
@@ -215,14 +213,28 @@ public class RegistrationActivity extends AppCompatActivity implements Navigatio
                 finish();
                 break;
 
-            case R.id.menu_nave_6:
+            case R.id.menu_nave_4:
+                intent = new Intent(RegistrationActivity.this,
+                        GestPatesActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+
+            case R.id.menu_nave_5:
+                intent = new Intent(RegistrationActivity.this,
+                        RegenContraseniaActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+
+            case R.id.menu_nave_7:
                 intent = new Intent(RegistrationActivity.this,
                         GestContraseniaActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
-            case R.id.menu_nave_7:
+            case R.id.menu_nave_8:
                 intent = new Intent(RegistrationActivity.this,
                         GestEmailActivity.class);
                 startActivity(intent);

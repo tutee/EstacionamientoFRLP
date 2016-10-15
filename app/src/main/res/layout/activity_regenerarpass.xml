@@ -46,47 +46,26 @@
 
                 </android.support.design.widget.TextInputLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text=" Ingrese el saldo a cargar :"
-                    android:textSize="18sp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="20dp"/>
+            <Button
+                android:id="@+id/regenerarpass_button"
+                android:text="Regenerar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/colorPrimary"
+                android:textColor="#ffffff"
+                android:textSize="18sp"/>
 
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/saldoacargar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp">
-
-                    <EditText
-                        android:id="@+id/saldoacargaredit"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Ej. 100"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="20dp"
-                        android:inputType="numberSigned"
-                        android:singleLine="true"/>
-
-
-                </android.support.design.widget.TextInputLayout>
-
-                <Button
-                    android:id="@+id/agregarsaldo_button"
-                    android:text="Agregar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@color/colorPrimary"
-                    android:textColor="#ffffff"
-                    android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"/>
 
         </LinearLayout>
 

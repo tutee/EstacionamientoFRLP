@@ -102,15 +102,15 @@ public class LoginActivity extends AppCompatActivity {
                     if (!error){
                     String userEmail = jObj.getString("email");
                     JSONObject jObjU = jObj.getJSONObject("user");
-                    Constantes.cUid = jObjU.getString("id");
+                    VarGlobales.cUid = jObjU.getString("id");
                     String userRole = jObjU.getString("rol");
                     String userSaldo = jObjU.getString("saldo");
-                    Constantes.cRole = userRole;
-                    Constantes.apellido = jObjU.getString("apellido");
-                    Constantes.nombre = jObjU.getString("nombre");
-                    Constantes.email = userEmail;
+                    VarGlobales.cRole = userRole;
+                    VarGlobales.apellido = jObjU.getString("apellido");
+                    VarGlobales.nombre = jObjU.getString("nombre");
+                    VarGlobales.email = userEmail;
                     Log.e("ERROR", userRole);
-                    Log.e("ERROR", Constantes.cUid);
+                    Log.e("ERROR", VarGlobales.cUid);
                     Log.e("ERROR", userSaldo);
 
                         if (userEmail != null) {
@@ -120,11 +120,11 @@ public class LoginActivity extends AppCompatActivity {
 
                             switch (userRole) {
                                 case "Usuario":
-                                    Constantes.actacargar = 1;
+                                    VarGlobales.actacargar = 1;
                                     Intent intent = new Intent(LoginActivity.this,
                                             GetCompras.class);
                                     intent.putExtra("saldo", userSaldo);
-                                    intent.putExtra("uid", Constantes.cUid);
+                                    intent.putExtra("uid", VarGlobales.cUid);
                                     startActivity(intent);
                                     finish();
                                     break;

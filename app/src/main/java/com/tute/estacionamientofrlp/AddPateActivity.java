@@ -68,14 +68,28 @@ public class AddPateActivity extends AppCompatActivity implements NavigationView
                 finish();
                 break;
 
-            case R.id.menu_nave_6:
+            case R.id.menu_nave_4:
+                intent = new Intent(AddPateActivity.this,
+                        GestPatesActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+
+            case R.id.menu_nave_5:
+                intent = new Intent(AddPateActivity.this,
+                        RegenContraseniaActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+
+            case R.id.menu_nave_7:
                 intent = new Intent(AddPateActivity.this,
                         GestContraseniaActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
-            case R.id.menu_nave_7:
+            case R.id.menu_nave_8:
                 intent = new Intent(AddPateActivity.this,
                         GestEmailActivity.class);
                 startActivity(intent);

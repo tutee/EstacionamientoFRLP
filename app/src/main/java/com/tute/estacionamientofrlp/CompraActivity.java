@@ -128,10 +128,10 @@ import java.util.Map;
 
 
 
-        tv1.setText("Semana: "+Constantes.semana);
+        tv1.setText("Semana: "+ VarGlobales.semana);
 
 
-        Log.e("CCSEMANA", Constantes.cCompSem);
+        Log.e("CCSEMANA", VarGlobales.cCompSem);
 
         tv2.setText("Saldo: $ "+ String.format("%.2f",Double.parseDouble(saldo)));
 
@@ -215,7 +215,7 @@ import java.util.Map;
                                 c6.setChecked(false);
                                 c6.setEnabled(false);
                                 c6.setTextColor(getResources().getColor(R.color.Gray));
-                                tv1.setText("Semana: "+Constantes.semana);
+                                tv1.setText("Semana: "+ VarGlobales.semana);
                                 tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
 
                             }
@@ -241,7 +241,7 @@ import java.util.Map;
                                           if (!pateComp.isEmpty()) {
                                               Collections.sort(pateComp);
                                               Log.e("ORDENADO", String.valueOf(pateComp));
-                                              String costoCompra = String.valueOf(pateComp.size() * Constantes.precioticket); //Multipico por 3 debido a que es el costo de un ticket del estacionamiento
+                                              String costoCompra = String.valueOf(pateComp.size() * VarGlobales.precioticket); //Multipico por 3 debido a que es el costo de un ticket del estacionamiento
                                               Log.e("ORDENADO", costoCompra);
                                               double cc = Double.parseDouble(costoCompra);
                                               double s = Double.parseDouble(saldo);
@@ -249,7 +249,7 @@ import java.util.Map;
                                                   Log.e("enviarCompra", pateSelect);
                                                   Log.e("enviarCompra", uid);
                                                   Log.e("enviarCompra", String.valueOf(pateComp));
-                                                  Constantes.actacargar = 1;
+                                                  VarGlobales.actacargar = 1;
                                                   enviarCompra(pateSelect, uid, pateComp);
                                               } else {
                                                   Snackbar.make(v, "Su saldo actual es insuficiente", Snackbar.LENGTH_LONG)
@@ -278,7 +278,7 @@ import java.util.Map;
                         Log.e("BOX MARTES", "ENTRE");
                     }
 
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
 
                     tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
@@ -295,7 +295,7 @@ import java.util.Map;
                         }
                     }
                     Log.e("ERROR3.2", String.valueOf(pateComp));
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
                     tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
@@ -317,7 +317,7 @@ import java.util.Map;
                         Log.e("BOX MARTES", "ENTRE");
                     }
 
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
                     tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
@@ -334,7 +334,7 @@ import java.util.Map;
                     }
 
                     Log.e("ERROR3.2", String.valueOf(pateComp));
-                    montoacomp = (pateComp.size()* Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
                     tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
@@ -357,7 +357,7 @@ import java.util.Map;
                         Log.e("BOX MARTES", "ENTRE");
                     }
 
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
                     tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
@@ -373,7 +373,7 @@ import java.util.Map;
                         }
                     }
                     Log.e("ERROR3.2", String.valueOf(pateComp));
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
                     tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
@@ -395,7 +395,7 @@ import java.util.Map;
                         Log.e("BOX MARTES", "ENTRE");
                     }
 
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
                     tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
@@ -412,7 +412,7 @@ import java.util.Map;
                     }
 
                     Log.e("ERROR3.2", String.valueOf(pateComp));
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
                     tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
@@ -435,7 +435,7 @@ import java.util.Map;
                         Log.e("BOX MARTES", "ENTRE");
                     }
 
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
                     tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
@@ -451,7 +451,7 @@ import java.util.Map;
                         }
                     }
                     Log.e("ERROR3.2", String.valueOf(pateComp));
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
                     tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
@@ -473,7 +473,7 @@ import java.util.Map;
                         Log.e("BOX MARTES", "ENTRE");
                     }
                     Log.e("ERROR3.2", "c5 if!!!!!");
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
 
                     Log.e("ERROR3.2", String.valueOf(montoacomp));
 
@@ -494,7 +494,7 @@ import java.util.Map;
                     }
                     Log.e("ERROR3.2", String.valueOf(pateComp));
                     Log.e("ERROR3.2", "c5 else!!!!");
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
                     tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
                     if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
@@ -574,7 +574,7 @@ import java.util.Map;
                 // once the network request has completed successfully.
                 Log.e("SwipeRefresh", "Entra bien");
 
-                refreshsaldo(Constantes.cUid);
+                refreshsaldo(VarGlobales.cUid);
 
                 //Acá va el Json
                 swipeContainer.setRefreshing(false);
@@ -898,15 +898,15 @@ import java.util.Map;
                     if (!error) {
                         String saldoact = jObj.getString("saldo");
                         Log.e("SALDO ACTUALIZADO", saldoact);
-                        Constantes.cSaldo = saldoact;
-                        Log.e("SALDO ACTUALIZADO", Constantes.cSaldo);
+                        VarGlobales.cSaldo = saldoact;
+                        Log.e("SALDO ACTUALIZADO", VarGlobales.cSaldo);
 
-                        Constantes.actacargar = 1;
+                        VarGlobales.actacargar = 1;
 
                         Intent intent = new Intent(CompraActivity.this,
                                 GetCompras.class);
-                        intent.putExtra("saldo", Constantes.cSaldo);
-                        intent.putExtra("uid", Constantes.cUid);
+                        intent.putExtra("saldo", VarGlobales.cSaldo);
+                        intent.putExtra("uid", VarGlobales.cUid);
                         startActivity(intent);
                         finish();
 
@@ -1104,11 +1104,11 @@ import java.util.Map;
                 Intent intent = new Intent(CompraActivity.this,
                         CompraActivity.class);
 
-                intent.putExtra("saldo", Constantes.cSaldo);
-                intent.putExtra("uid", Constantes.cUid);
-                intent.putExtra("selectSpi", Constantes.cPosSpi);
-                intent.putExtra("semcomp", Constantes.cCompSem);
-                intent.putExtra("codigo", Constantes.cCod);
+                intent.putExtra("saldo", VarGlobales.cSaldo);
+                intent.putExtra("uid", VarGlobales.cUid);
+                intent.putExtra("selectSpi", VarGlobales.cPosSpi);
+                intent.putExtra("semcomp", VarGlobales.cCompSem);
+                intent.putExtra("codigo", VarGlobales.cCod);
                 startActivity(intent);
                 finish();
                 break;

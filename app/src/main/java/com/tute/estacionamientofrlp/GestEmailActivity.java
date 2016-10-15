@@ -46,7 +46,7 @@ public class GestEmailActivity extends AppCompatActivity implements NavigationVi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        switch (Constantes.cRole){
+        switch (VarGlobales.cRole){
             case "Usuario":
                 setContentView(R.layout.activity_gestemail_usu);
                 break;
@@ -67,7 +67,7 @@ public class GestEmailActivity extends AppCompatActivity implements NavigationVi
             logoutUser();
         }
         tv1 = (TextView) findViewById(R.id.tv1);
-        tv1.setText("Email actual: "+Constantes.email);
+        tv1.setText("Email actual: "+ VarGlobales.email);
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
@@ -106,7 +106,7 @@ public class GestEmailActivity extends AppCompatActivity implements NavigationVi
     private void enviarEmail(final String email1){
 
         Log.e("ERROR1", email1);
-        Log.e("ERROR2", Constantes.cUid);
+        Log.e("ERROR2", VarGlobales.cUid);
 
         String tag_string_req = "req_email";
 
@@ -126,7 +126,7 @@ public class GestEmailActivity extends AppCompatActivity implements NavigationVi
                     Log.e("ERROR", String.valueOf(response));
                     boolean error = jObj.getBoolean("error");
                     if (!error) {
-                        Constantes.email = email1;
+                        VarGlobales.email = email1;
                         Intent intent = new Intent(GestEmailActivity.this,
                                 GestEmailActivity.class);
                         startActivity(intent);
@@ -155,7 +155,7 @@ public class GestEmailActivity extends AppCompatActivity implements NavigationVi
                 // Post params to login url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("tag", "cambiaremailusu");
-                params.put("pers_id", Constantes.cUid);
+                params.put("pers_id", VarGlobales.cUid);
                 params.put("pers_email", email1);
                 Log.e("ERROR", String.valueOf(params));
 
@@ -181,17 +181,17 @@ public class GestEmailActivity extends AppCompatActivity implements NavigationVi
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        switch (Constantes.cRole){
+        switch (VarGlobales.cRole){
             case "Usuario":
                 switch (item.getItemId()) {
                     case R.id.menu_navu_1:
                         Intent intent = new Intent(GestEmailActivity.this,
                                 CompraActivity.class);
-                        intent.putExtra("saldo", Constantes.cSaldo);
-                        intent.putExtra("uid", Constantes.cUid);
-                        intent.putExtra("selectSpi", Constantes.cPosSpi);
-                        intent.putExtra("semcomp", Constantes.cCompSem);
-                        intent.putExtra("codigo", Constantes.cCod);
+                        intent.putExtra("saldo", VarGlobales.cSaldo);
+                        intent.putExtra("uid", VarGlobales.cUid);
+                        intent.putExtra("selectSpi", VarGlobales.cPosSpi);
+                        intent.putExtra("semcomp", VarGlobales.cCompSem);
+                        intent.putExtra("codigo", VarGlobales.cCod);
                         startActivity(intent);
                         finish();
                         break;
@@ -235,14 +235,12 @@ public class GestEmailActivity extends AppCompatActivity implements NavigationVi
                         startActivity(intent);
                         finish();
                         break;
-
                     case R.id.menu_nave_2:
                         intent = new Intent(GestEmailActivity.this,
                                 RegistrationActivity.class);
                         startActivity(intent);
                         finish();
                         break;
-
                     case R.id.menu_nave_3:
                         intent = new Intent(GestEmailActivity.this,
                                 AddPateActivity.class);
@@ -257,14 +255,21 @@ public class GestEmailActivity extends AppCompatActivity implements NavigationVi
                         finish();
                         break;
 
-                    case R.id.menu_nave_6:
+                    case R.id.menu_nave_5:
+                        intent = new Intent(GestEmailActivity.this,
+                                RegenContraseniaActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                    case R.id.menu_nave_7:
                         intent = new Intent(GestEmailActivity.this,
                                 GestContraseniaActivity.class);
                         startActivity(intent);
                         finish();
                         break;
 
-                    case R.id.menu_nave_7:
+                    case R.id.menu_nave_8:
                         intent = new Intent(GestEmailActivity.this,
                                 GestEmailActivity.class);
                         startActivity(intent);

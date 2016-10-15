@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -76,35 +75,35 @@ public class GetCompras extends Activity {
                             for (int k = 0; k < arrayS.length(); k++ ){
                                 JSONObject jObjS = arrayS.getJSONObject(k);
                                 if(k == 0){
-                                    Constantes.sem1 = jObjS.getString("cale_fecha");
+                                    VarGlobales.sem1 = jObjS.getString("cale_fecha");
                                 } else if (k == 5) {
-                                    Constantes.sem2 = jObjS.getString("cale_fecha");
+                                    VarGlobales.sem2 = jObjS.getString("cale_fecha");
                                 }
                             }
 
                         }
                     }
 
-                    Constantes.pridiasem = Character.toString(Constantes.sem1.charAt(8))+Character.toString(Constantes.sem1.charAt(9))+"/"+Character.toString(Constantes.sem1.charAt(5))+Character.toString(Constantes.sem1.charAt(6));
-                    Constantes.ultdiasem = Character.toString(Constantes.sem2.charAt(8))+Character.toString(Constantes.sem2.charAt(9))+"/"+Character.toString(Constantes.sem2.charAt(5))+Character.toString(Constantes.sem2.charAt(6));
-                    Constantes.semana = Constantes.pridiasem +" - "+Constantes.ultdiasem;
+                    VarGlobales.pridiasem = Character.toString(VarGlobales.sem1.charAt(8))+Character.toString(VarGlobales.sem1.charAt(9))+"/"+Character.toString(VarGlobales.sem1.charAt(5))+Character.toString(VarGlobales.sem1.charAt(6));
+                    VarGlobales.ultdiasem = Character.toString(VarGlobales.sem2.charAt(8))+Character.toString(VarGlobales.sem2.charAt(9))+"/"+Character.toString(VarGlobales.sem2.charAt(5))+Character.toString(VarGlobales.sem2.charAt(6));
+                    VarGlobales.semana = VarGlobales.pridiasem +" - "+ VarGlobales.ultdiasem;
 
-                    Log.e("PRIMER DIA", String.valueOf(Constantes.pridiasem));
-                    Log.e("ULTI DIA", String.valueOf(Constantes.ultdiasem));
-                    Log.e("ULTI DIA", String.valueOf(Constantes.semana));
+                    Log.e("PRIMER DIA", String.valueOf(VarGlobales.pridiasem));
+                    Log.e("ULTI DIA", String.valueOf(VarGlobales.ultdiasem));
+                    Log.e("ULTI DIA", String.valueOf(VarGlobales.semana));
                     Log.e("ERROR", String.valueOf(pate));
                     Log.e("ERROR", String.valueOf(arrayP));
                     Log.e("OBJETOcheck", String.valueOf(pate));
 
-                    switch (Constantes.actacargar){
+                    switch (VarGlobales.actacargar){
                         case 1: Intent intent = new Intent(GetCompras.this,
                                 CompraActivity.class);
 
-                            Constantes.cSaldo = saldo;
-                            Constantes.cUid = uid;
-                            Constantes.cPosSpi = pateSelect;
-                            Constantes.cCompSem = arrayP.toString();
-                            Constantes.cCod = pate;
+                            VarGlobales.cSaldo = saldo;
+                            VarGlobales.cUid = uid;
+                            VarGlobales.cPosSpi = pateSelect;
+                            VarGlobales.cCompSem = arrayP.toString();
+                            VarGlobales.cCod = pate;
 
                             intent.putExtra("saldo", saldo);
                             intent.putExtra("uid", uid);
@@ -119,11 +118,11 @@ public class GetCompras extends Activity {
                             intent = new Intent(GetCompras.this,
                                     DeshacerActivity.class);
 
-                            Constantes.cSaldo = saldo;
-                            Constantes.cUid = uid;
-                            Constantes.cPosSpi = pateSelect;
-                            Constantes.cCompSem = arrayP.toString();
-                            Constantes.cCod = pate;
+                            VarGlobales.cSaldo = saldo;
+                            VarGlobales.cUid = uid;
+                            VarGlobales.cPosSpi = pateSelect;
+                            VarGlobales.cCompSem = arrayP.toString();
+                            VarGlobales.cCod = pate;
 
                             intent.putExtra("saldo", saldo);
                             intent.putExtra("uid", uid);

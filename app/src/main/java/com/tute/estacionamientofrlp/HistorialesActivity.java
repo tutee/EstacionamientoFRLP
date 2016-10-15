@@ -63,11 +63,11 @@ public class HistorialesActivity extends AppCompatActivity implements Navigation
             case R.id.menu_navu_1:
                 Intent intent = new Intent(HistorialesActivity.this,
                         CompraActivity.class);
-                intent.putExtra("saldo", Constantes.cSaldo);
-                intent.putExtra("uid", Constantes.cUid);
-                intent.putExtra("selectSpi", Constantes.cPosSpi);
-                intent.putExtra("semcomp", Constantes.cCompSem);
-                intent.putExtra("codigo", Constantes.cCod);
+                intent.putExtra("saldo", VarGlobales.cSaldo);
+                intent.putExtra("uid", VarGlobales.cUid);
+                intent.putExtra("selectSpi", VarGlobales.cPosSpi);
+                intent.putExtra("semcomp", VarGlobales.cCompSem);
+                intent.putExtra("codigo", VarGlobales.cCod);
                 startActivity(intent);
                 finish();
                 break;

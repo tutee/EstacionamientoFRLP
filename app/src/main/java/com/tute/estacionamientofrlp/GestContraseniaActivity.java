@@ -45,7 +45,7 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        switch (Constantes.cRole){
+        switch (VarGlobales.cRole){
             case "Usuario":
                 setContentView(R.layout.activity_gestcontrasenia_usu);
                 break;
@@ -61,7 +61,7 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
         session = new Session(GestContraseniaActivity.this);
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
-        Log.e("Rol", Constantes.cRole);
+        Log.e("Rol", VarGlobales.cRole);
         if (!session.getLoggedIn()) {
             logoutUser();
         }
@@ -89,9 +89,9 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
                 String contra2 = pn2.getText().toString();
 
                 if (contra0.trim().length() > 0 && contra1.trim().length() > 0 && contra2.trim().length() > 0) {
-                    checkearPass(contra0); //Pisa el resultado de Constantes.cerror
-                    Log.e("cerror", String.valueOf(Constantes.cerror));
-                    if (Constantes.cerror) {
+                    checkearPass(contra0); //Pisa el resultado de VarGlobales.cerror
+                    Log.e("cerror", String.valueOf(VarGlobales.cerror));
+                    if (VarGlobales.cerror) {
                         if (contra0.equals(contra1) || contra0.equals(contra2)) {
                             Toast.makeText(getApplicationContext(),
                                     "La contraseña nueva debe ser distinta", Toast.LENGTH_LONG).show();
@@ -116,7 +116,7 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
     private void checkearPass(final String pv){
 
         Log.e("ERROR0", pv);
-        Log.e("ERROR2", Constantes.cUid);
+        Log.e("ERROR2", VarGlobales.cUid);
         String tag_string_req = "chk_pass";
 
         pDialog.setMessage("Comprobando datos...");
@@ -135,9 +135,9 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
                     if (!error) {
-                        Constantes.cerror = true;
+                        VarGlobales.cerror = true;
                     } else if (error){
-                        Constantes.cerror = false;
+                        VarGlobales.cerror = false;
                         Toast.makeText(getApplicationContext(),
                                 "Contraseña actual erronea", Toast.LENGTH_LONG).show();
                         Log.e("ERROR","Contraseña actual erronea");
@@ -161,8 +161,8 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
                 // Post params to login url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("tag", "checkpass");
-                params.put("pers_id", Constantes.cUid);
-                params.put("pers_email", Constantes.email);
+                params.put("pers_id", VarGlobales.cUid);
+                params.put("pers_email", VarGlobales.email);
                 params.put("pass_vieja", pv);
                 Log.e("ERROR_Params", String.valueOf(params));
                 return params;
@@ -177,7 +177,7 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
 
         Log.e("ERROR0", pv);
         Log.e("ERROR1", pn1);
-        Log.e("ERROR2", Constantes.cUid);
+        Log.e("ERROR2", VarGlobales.cUid);
 
         String tag_string_req = "req_pass";
 
@@ -227,8 +227,8 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
                 // Post params to login url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("tag", "cambiarpassusu");
-                params.put("pers_id", Constantes.cUid);
-                params.put("pers_email", Constantes.email);
+                params.put("pers_id", VarGlobales.cUid);
+                params.put("pers_email", VarGlobales.email);
                 params.put("pass_vieja", pv);
                 params.put("pass_nueva", pn1);
                 Log.e("ERROR_Params", String.valueOf(params));
@@ -253,17 +253,17 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        switch (Constantes.cRole){
+        switch (VarGlobales.cRole){
             case "Usuario":
                 switch (item.getItemId()) {
                     case R.id.menu_navu_1:
                         Intent intent = new Intent(GestContraseniaActivity.this,
                                 CompraActivity.class);
-                        intent.putExtra("saldo", Constantes.cSaldo);
-                        intent.putExtra("uid", Constantes.cUid);
-                        intent.putExtra("selectSpi", Constantes.cPosSpi);
-                        intent.putExtra("semcomp", Constantes.cCompSem);
-                        intent.putExtra("codigo", Constantes.cCod);
+                        intent.putExtra("saldo", VarGlobales.cSaldo);
+                        intent.putExtra("uid", VarGlobales.cUid);
+                        intent.putExtra("selectSpi", VarGlobales.cPosSpi);
+                        intent.putExtra("semcomp", VarGlobales.cCompSem);
+                        intent.putExtra("codigo", VarGlobales.cCod);
                         startActivity(intent);
                         finish();
                         break;
@@ -307,14 +307,12 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
                         startActivity(intent);
                         finish();
                         break;
-
                     case R.id.menu_nave_2:
                         intent = new Intent(GestContraseniaActivity.this,
                                 RegistrationActivity.class);
                         startActivity(intent);
                         finish();
                         break;
-
                     case R.id.menu_nave_3:
                         intent = new Intent(GestContraseniaActivity.this,
                                 AddPateActivity.class);
@@ -329,14 +327,21 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
                         finish();
                         break;
 
-                    case R.id.menu_nave_6:
+                    case R.id.menu_nave_5:
+                        intent = new Intent(GestContraseniaActivity.this,
+                                RegenContraseniaActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                    case R.id.menu_nave_7:
                         intent = new Intent(GestContraseniaActivity.this,
                                 GestContraseniaActivity.class);
                         startActivity(intent);
                         finish();
                         break;
 
-                    case R.id.menu_nave_7:
+                    case R.id.menu_nave_8:
                         intent = new Intent(GestContraseniaActivity.this,
                                 GestEmailActivity.class);
                         startActivity(intent);

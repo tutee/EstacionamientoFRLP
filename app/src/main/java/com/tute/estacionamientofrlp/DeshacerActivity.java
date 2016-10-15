@@ -78,8 +78,8 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
 
         ite = new ArrayList<String>();
 
-        for (int h = 0; h < Constantes.cCod.size(); h++ ) {
-            String pateCodigo = Constantes.cCod.get(h).toString();
+        for (int h = 0; h < VarGlobales.cCod.size(); h++ ) {
+            String pateCodigo = VarGlobales.cCod.get(h).toString();
             ite.add(pateCodigo);
         }
 
@@ -103,16 +103,16 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav);
         navigationView.setNavigationItemSelectedListener(this);
 
-        tv1.setText("Semana: "+Constantes.semana);
-        tv2.setText("Saldo: $ "+ String.format("%.2f",Double.parseDouble(Constantes.cSaldo)));
+        tv1.setText("Semana: "+ VarGlobales.semana);
+        tv2.setText("Saldo: $ "+ String.format("%.2f",Double.parseDouble(VarGlobales.cSaldo)));
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ite);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spi.setAdapter(adapter);
 
-        if(Constantes.cPosSpi!=null) {
+        if(VarGlobales.cPosSpi!=null) {
             ArrayAdapter patesadapter = (ArrayAdapter) spi.getAdapter();
-            int spinnerPosition = patesadapter.getPosition(Constantes.cPosSpi);
+            int spinnerPosition = patesadapter.getPosition(VarGlobales.cPosSpi);
             spi.setSelection(spinnerPosition);
         }
 
@@ -124,7 +124,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                 //JSONArray jArrInfo;
 
                 try {
-                    jArrComp = new JSONArray(Constantes.cCompSem);
+                    jArrComp = new JSONArray(VarGlobales.cCompSem);
                     for (int h = 0; h < jArrComp.length(); h++ ){
                         JSONObject codi = jArrComp.getJSONObject(h);
                         String pate = codi.getString("codigo");
@@ -184,7 +184,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                             c6.setChecked(false);
                             c6.setEnabled(false);
                             c6.setTextColor(getResources().getColor(R.color.Gray));
-                            tv1.setText("Semana: "+Constantes.semana);
+                            tv1.setText("Semana: "+ VarGlobales.semana);
 
                         }
 
@@ -209,16 +209,16 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                                           if (!pateComp.isEmpty()) {
                                               Collections.sort(pateComp);
                                               Log.e("ORDENADO", String.valueOf(pateComp));
-                                              String costoCompra = String.valueOf(pateComp.size() * Constantes.precioticket); //Multipico por 3 debido a que es el costo de un ticket del estacionamiento
+                                              String costoCompra = String.valueOf(pateComp.size() * VarGlobales.precioticket); //Multipico por 3 debido a que es el costo de un ticket del estacionamiento
                                               Log.e("ORDENADO", costoCompra);
                                               double cc = Double.parseDouble(costoCompra);
-                                              double s = Double.parseDouble(Constantes.cSaldo);
+                                              double s = Double.parseDouble(VarGlobales.cSaldo);
                                               if (cc <= s) {
                                                   Log.e("enviarCompra", pateSelect);
-                                                  Log.e("enviarCompra", Constantes.cUid);
+                                                  Log.e("enviarCompra", VarGlobales.cUid);
                                                   Log.e("enviarCompra", String.valueOf(pateComp));
-                                                  Constantes.actacargar = 2;
-                                                  enviarDeshacer(pateSelect, Constantes.cUid, pateComp);
+                                                  VarGlobales.actacargar = 2;
+                                                  enviarDeshacer(pateSelect, VarGlobales.cUid, pateComp);
                                               } else {
                                                   Snackbar.make(v, "Su saldo actual es insuficiente", Snackbar.LENGTH_LONG)
                                                           .show();
@@ -246,7 +246,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                         Log.e("BOX MARTES", "ENTRE");
                     }
 
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
 
                 } else {
                     if (!pateSelComp.isEmpty()) {
@@ -258,7 +258,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                         }
                     }
                     Log.e("ERROR3.2", String.valueOf(pateComp));
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
                     c6.setChecked(false);
                 }
             }
@@ -276,7 +276,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                         Log.e("BOX MARTES", "ENTRE");
                     }
 
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
 
                 } else {
                     if (!pateSelComp.isEmpty()) {
@@ -289,7 +289,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                     }
 
                     Log.e("ERROR3.2", String.valueOf(pateComp));
-                    montoacomp = (pateComp.size()* Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
                     c6.setChecked(false);
                 }
             }
@@ -307,7 +307,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                         Log.e("BOX MARTES", "ENTRE");
                     }
 
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
 
                 } else {
                     if (!pateSelComp.isEmpty()) {
@@ -319,7 +319,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                         }
                     }
                     Log.e("ERROR3.2", String.valueOf(pateComp));
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
                     c6.setChecked(false);
                 }
             }
@@ -337,7 +337,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                         Log.e("BOX MARTES", "ENTRE");
                     }
 
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
 
                 } else {
                     if (!pateSelComp.isEmpty()) {
@@ -350,7 +350,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                     }
 
                     Log.e("ERROR3.2", String.valueOf(pateComp));
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
                     c6.setChecked(false);
 
                 }
@@ -369,7 +369,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                         Log.e("BOX MARTES", "ENTRE");
                     }
 
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
 
                 } else {
                     if (!pateSelComp.isEmpty()) {
@@ -381,7 +381,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                         }
                     }
                     Log.e("ERROR3.2", String.valueOf(pateComp));
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
                     c6.setChecked(false);
                 }
             }
@@ -399,7 +399,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                         Log.e("BOX MARTES", "ENTRE");
                     }
 
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
 
 
                 } else {
@@ -412,7 +412,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                         }
                     }
                     Log.e("ERROR3.2", String.valueOf(pateComp));
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
                     c6.setChecked(false);
 
                 }
@@ -488,7 +488,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                 // once the network request has completed successfully.
                 Log.e("SwipeRefresh", "Entra bien");
 
-                refreshsaldo(Constantes.cUid);
+                refreshsaldo(VarGlobales.cUid);
 
                 //Acá va el Json
                 swipeContainer.setRefreshing(false);
@@ -832,15 +832,15 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                     if (!error) {
                         String saldoact = jObj.getString("saldo");
                         Log.e("SALDO ACTUALIZADO", saldoact);
-                        Constantes.cSaldo = saldoact;
-                        Log.e("SALDO ACTUALIZADO", Constantes.cSaldo);
+                        VarGlobales.cSaldo = saldoact;
+                        Log.e("SALDO ACTUALIZADO", VarGlobales.cSaldo);
 
-                        Constantes.actacargar = 2;
+                        VarGlobales.actacargar = 2;
 
                         Intent intent = new Intent(DeshacerActivity.this,
                                 GetCompras.class);
-                        intent.putExtra("saldo", Constantes.cSaldo);
-                        intent.putExtra("uid", Constantes.cUid);
+                        intent.putExtra("saldo", VarGlobales.cSaldo);
+                        intent.putExtra("uid", VarGlobales.cUid);
                         startActivity(intent);
                         finish();
 
@@ -887,11 +887,11 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
             case R.id.menu_navu_1:
                 Intent intent = new Intent(DeshacerActivity.this,
                         CompraActivity.class);
-                intent.putExtra("saldo", Constantes.cSaldo);
-                intent.putExtra("uid", Constantes.cUid);
-                intent.putExtra("selectSpi", Constantes.cPosSpi);
-                intent.putExtra("semcomp", Constantes.cCompSem);
-                intent.putExtra("codigo", Constantes.cCod);
+                intent.putExtra("saldo", VarGlobales.cSaldo);
+                intent.putExtra("uid", VarGlobales.cUid);
+                intent.putExtra("selectSpi", VarGlobales.cPosSpi);
+                intent.putExtra("semcomp", VarGlobales.cCompSem);
+                intent.putExtra("codigo", VarGlobales.cCod);
                 startActivity(intent);
                 finish();
                 break;
