@@ -38,18 +38,20 @@ import java.util.Map;
 public class RegistrationActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     ActionBarDrawerToggle toggle;
-    private TextView tvLogin;
     private EditText email, apellido, nombre, dni, password, rol;
     private Button registerButton;
     private Session session;
     private ProgressDialog pDialog;
     private Spinner spi;
+    private TextView tv1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
+
+        tv1 = (TextView) findViewById(R.id.tv1);
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
         session = new Session(RegistrationActivity.this);
@@ -63,7 +65,6 @@ public class RegistrationActivity extends AppCompatActivity implements Navigatio
         dni = (EditText) findViewById(R.id.dni_register);
         apellido = (EditText) findViewById(R.id.apellido_register);
         nombre = (EditText) findViewById(R.id.nombre_register);
-        password = (EditText) findViewById(R.id.password_register);
         spi = (Spinner) findViewById(R.id.spinner);
 
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -90,7 +91,7 @@ public class RegistrationActivity extends AppCompatActivity implements Navigatio
                     registerUser(mail, ape, nom, doc, role);
                     Log.e("ERROR","ERROR0");
                 } else {
-                    Snackbar.make(v, "Please enter the credentials!", Snackbar.LENGTH_LONG)
+                    Snackbar.make(v, "Complete todos los campos", Snackbar.LENGTH_LONG)
                             .show();
                 }
             }
@@ -110,7 +111,7 @@ public class RegistrationActivity extends AppCompatActivity implements Navigatio
         String tag_string_req = "req_register";
 
         Log.e("ERROR","ERROR1");
-        pDialog.setMessage("Registering ...");
+        pDialog.setMessage("Registrando cuenta ...");
         showDialog();
         Log.e("ERROR","ERROR6");
         StringRequest strReq = new StringRequest(Request.Method.POST,
@@ -119,27 +120,31 @@ public class RegistrationActivity extends AppCompatActivity implements Navigatio
             @Override
             public void onResponse(String response) {
                 hideDialog();
-                Log.e("ERROR","ERROR7");
+                Log.e("ERROR",response);
                 try {
                     Log.e("ERROR","ERROR2");
                     JSONObject jObj = new JSONObject(response);
-                    JSONObject jObjU = jObj.getJSONObject("user");
-                    String pass = jObjU.getString("pass");
-                    Log.e("PASS:", pass);
                     Log.e("ERROR","ERROR2.1");
                     boolean error = jObj.getBoolean("error");
                     Log.e("ERROR","ERROR2.2");
                     if (!error) {
                         Log.e("ERROR","ERROR11");
-                        Intent intent = new Intent(
+                        JSONObject jObjU = jObj.getJSONObject("user");
+                        String pass = jObjU.getString("pass");
+                        Toast.makeText(getApplicationContext(),
+                                "Cuenta registrada con exito", Toast.LENGTH_LONG).show();
+                        tv1.setText(pass);
+                        /*Intent intent = new Intent(
                                 RegistrationActivity.this,
                                 RegistrationActivity.class);
                         startActivity(intent);
-                        finish();
+                        finish();*/
                         Log.e("ERROR","ERROR3");
                     } else {
                         Log.e("ERROR","ERROR10");
                         String errorMsg = jObj.getString("error_msg");
+                        /*Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_LONG).show();*/
                         Toast.makeText(getApplicationContext(),
                                 errorMsg, Toast.LENGTH_LONG).show();
                         Log.e("ERROR","ERROR8");

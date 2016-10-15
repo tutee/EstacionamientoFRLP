@@ -8,39 +8,70 @@
     android:id="@+id/drawerLayout">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:entries="@array/patentes"
-            android:layout_weight="8"></ListView>
+        android:padding="10dp">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="-2"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="30dp">
 
-        <Button
-            android:layout_width="56dp"
-            android:layout_height="50dp"
-            android:drawableBottom="@drawable/deshacercompra" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/usuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <Button
-        android:layout_width="56dp"
-        android:layout_height="50dp"
-        android:drawableBottom="@drawable/deshacercompra"
-            android:id="@+id/button" />
+                <EditText
+                    android:id="@+id/usuarioedit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Ingrese usuario propietario"
+                    android:inputType="textEmailAddress"
+                    android:singleLine="true"/>
 
-        <Button
-            android:layout_width="56dp"
-            android:layout_height="50dp"
-            android:drawableBottom="@drawable/deshacercompra" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Ingrese patente a borrar:"
+                android:textSize="18sp"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/pate_borrar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/pateborraredit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Ejemplo: AA123EF"
+                    android:digits="ABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789"
+                    android:inputType="textCapCharacters"
+                    android:maxLength="8"
+                    android:singleLine="true"/>
+
+
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/borrarpate_button"
+                android:text="Eliminar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/colorPrimary"
+                android:textColor="#ffffff"
+                android:textSize="18sp"/>
 
         </LinearLayout>
+
 
     </LinearLayout>
 

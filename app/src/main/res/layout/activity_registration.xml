@@ -61,7 +61,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Email"
-                            android:inputType="text"
+                            android:inputType="textEmailAddress"
+                            android:drawableRight="@drawable/email"
                             android:singleLine="true" />
 
 
@@ -78,7 +79,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Apellido"
-                            android:inputType="textEmailAddress"
+                            android:inputType="textPersonName"
+                            android:drawableRight="@drawable/email"
                             android:singleLine="true" />
 
 
@@ -94,7 +96,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Nombre"
-                            android:inputType="textPassword"
+                            android:inputType="textPersonName"
+                            android:drawableRight="@drawable/email"
                             android:singleLine="true" />
 
 
@@ -110,7 +113,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="DNI"
-                            android:inputType="text"
+                            android:inputType="number"
+                            android:drawableRight="@drawable/email"
                             android:singleLine="true" />
 
 
@@ -120,15 +124,6 @@
                         android:id="@+id/password_registerlayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/password_register"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Password"
-                            android:inputType="text"
-                            android:singleLine="true" />
-
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -147,7 +142,14 @@
                     android:textColor="#ffffff"
                     android:textSize="18sp"/>
 
-
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"/>
 
             </LinearLayout>
         </ScrollView>

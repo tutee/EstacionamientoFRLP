@@ -945,88 +945,6 @@ import java.util.Map;
 
     }
 
-    /* ESTO CORRESPONDE AL ADMINISTRADOR
-
-    private void enviarNP(final String uid, final String pate, final String saldo ){
-
-        Log.e("ERROR", pate);
-        Log.e("ERROR", uid);
-
-        String tag_string_req = "req_login";
-
-        pDialog.setMessage("Cargando su nueva patente");
-        showDialog();
-
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                AppURLs.URL, new Response.Listener<String>() {
-
-
-            @Override
-            public void onResponse(String response) {
-                hideDialog();
-
-                ArrayList pate = new ArrayList<String>();;
-
-                try {
-                    Log.e("ERROR", "1");
-                    JSONObject obj = new JSONObject(response);
-                    JSONArray arrayP = obj.getJSONArray("patente");
-                    Log.e("ERROR", String.valueOf(arrayP));
-
-                    for (int h = 0; h < arrayP.length(); h++ ){
-
-                        JSONObject jObjP = arrayP.getJSONObject(h);
-                        pate.add(jObjP.getString("codigo"));
-
-                    }
-                    Log.e("ERROR", String.valueOf(pate));
-                    Log.e("ERROR", String.valueOf(arrayP));
-                    Log.e("OBJETOcheck", String.valueOf(pate));
-                    Intent intent = new Intent(CompraActivity.this,
-                            CompraActivity.class);
-
-                    intent.putExtra("saldo", saldo);
-                    intent.putExtra("uid", uid);
-                    intent.putExtra("selectSpi", pateSelect);
-                    intent.putExtra("semcomp", arrayP.toString());
-                    intent.putExtra("codigo", pate);
-                    startActivity(intent);
-                    finish();
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                // Post params to login url
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("tag", "nuevapate");
-                params.put("pers_id", uid);
-                params.put("pate_codigo", pate);
-
-                return params;
-            }
-
-        };
-
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
-
-    }*/
-
-
 
     private void hideDialog() {
         if (pDialog.isShowing())
@@ -1068,32 +986,6 @@ import java.util.Map;
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    /* CORRESPONDE AL ADMINISTRADOR
-    @Override
-    public void onPossitiveButtonClick(String np) {
-        nuevapate = np;
-        Log.e("ERROR", uidg);
-        Log.e("ERROR", nuevapate);
-        Log.e("ERROR", saldog);
-
-        //Llama a la funcion que agrega la nueva patente.
-        if(!nuevapate.equals("")) {
-            enviarNP(uidg, nuevapate, saldog);
-            hideDialog();
-        } else {Toast.makeText(getApplicationContext(),
-                "No se ingreso una patente", Toast.LENGTH_LONG).show();}
-
-        spi.setSelection(0); //independientemente de que agregue patente o no, retorna a la primer posicion del spinner
-
-    }*/
-
-    /* CORRESPONDE AL ADMINISTRADOR
-    @Override
-    public void onNegativeButtonClick() {
-
-        spi.setSelection(0); //independientemente de que agregue patente o no, retorna a la primer posicion del spinner
-    }*/
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
