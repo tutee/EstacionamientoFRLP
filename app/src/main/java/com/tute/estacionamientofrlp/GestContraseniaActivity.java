@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Tute on 26/9/2016.
+ * Actividad para modificar la contraseña del usuario.
  */
 
 public class GestContraseniaActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -45,6 +45,8 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /*  Levanta el layout correspondiente según el rol.
+            Cada layout maneja un navigation menu distinto. */
         switch (VarGlobales.cRole){
             case "Usuario":
                 setContentView(R.layout.activity_gestcontrasenia_usu);
@@ -61,7 +63,6 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
         session = new Session(GestContraseniaActivity.this);
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
-        Log.e("Rol", VarGlobales.cRole);
         if (!session.getLoggedIn()) {
             logoutUser();
         }
@@ -87,15 +88,18 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
                 String contra0 = pv.getText().toString();
                 String contra1 = pn1.getText().toString();
                 String contra2 = pn2.getText().toString();
-
+                /* Checkea que los campos no son vacíos. */
                 if (contra0.trim().length() > 0 && contra1.trim().length() > 0 && contra2.trim().length() > 0) {
-                    checkearPass(contra0); //Pisa el resultado de VarGlobales.cerror
-                    Log.e("cerror", String.valueOf(VarGlobales.cerror));
+                    /*  Pisa el resultado de VarGlobales.cerror.
+                        Si la password ingresada machea con la de la base de datos, continua. */
+                    checkearPass(contra0);
                     if (VarGlobales.cerror) {
+                        /* Checkea que ninguna de las passwords nuevas coincida con la anterior. */
                         if (contra0.equals(contra1) || contra0.equals(contra2)) {
                             Toast.makeText(getApplicationContext(),
                                     "La contraseña nueva debe ser distinta", Toast.LENGTH_LONG).show();
                         } else {
+                            /* Si es correcto, actúa la función enviarPass. */
                             if (contra1.equals(contra2)) {
                                 enviarPass(contra0, contra1);
                             } else {
@@ -112,11 +116,9 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
         });
     }
 
-
+    /* Función que comprueba que la contraseña anterior coincida con la contraseña válida del usuario. */
     private void checkearPass(final String pv){
 
-        Log.e("ERROR0", pv);
-        Log.e("ERROR2", VarGlobales.cUid);
         String tag_string_req = "chk_pass";
 
         pDialog.setMessage("Comprobando datos...");
@@ -127,9 +129,8 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
 
             @Override
             public void onResponse(String response) {
-
+                Log.e("ERROR Check_Pass", response);
                 hideDialog();
-                Log.e("ERROR_checkPass", String.valueOf(response));
 
                 try {
                     JSONObject jObj = new JSONObject(response);
@@ -140,7 +141,6 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
                         VarGlobales.cerror = false;
                         Toast.makeText(getApplicationContext(),
                                 "Contraseña actual erronea", Toast.LENGTH_LONG).show();
-                        Log.e("ERROR","Contraseña actual erronea");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -150,6 +150,7 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                /* Si ocurre un error, me encuentro en esta situación. */
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_LONG).show();
                 hideDialog();
@@ -158,26 +159,21 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
 
             @Override
             protected Map<String, String> getParams() {
-                // Post params to login url
+                /* Mapeo los datos que voy a enviar en el request. */
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("tag", "checkpass");
                 params.put("pers_id", VarGlobales.cUid);
                 params.put("pers_email", VarGlobales.email);
                 params.put("pass_vieja", pv);
-                Log.e("ERROR_Params", String.valueOf(params));
                 return params;
             }
 
         };
-
+        /* Agrego la request a la cola de requests. */
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
     private void enviarPass(final String pv, final String pn1){
-
-        Log.e("ERROR0", pv);
-        Log.e("ERROR1", pn1);
-        Log.e("ERROR2", VarGlobales.cUid);
 
         String tag_string_req = "req_pass";
 
@@ -191,7 +187,7 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
             @Override
             public void onResponse(String response) {
                 hideDialog();
-                Log.e("ERROR_envPass", String.valueOf(response));
+                Log.e("ERROR envPass", response);
 
                 try {
                     JSONObject jObj = new JSONObject(response);
@@ -206,7 +202,6 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
                     } else if (error){
                         Toast.makeText(getApplicationContext(),
                                 "No se pudo modificar la contraseña", Toast.LENGTH_LONG).show();
-                        Log.e("ERROR","No se pudo modificar la contraseña");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -216,6 +211,7 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                /* Si ocurre un error, me encuentro en esta situación. */
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_LONG).show();
                 hideDialog();
@@ -224,7 +220,7 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
 
             @Override
             protected Map<String, String> getParams() {
-                // Post params to login url
+                /* Mapeo los datos que voy a enviar en el request. */
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("tag", "cambiarpassusu");
                 params.put("pers_id", VarGlobales.cUid);
@@ -236,7 +232,7 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
             }
 
         };
-
+        /* Agrego la request a la cola de requests. */
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
 
     }
@@ -251,6 +247,8 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
             pDialog.show();
     }
 
+    /*  Función que infla el navigation menú de la izquierda.
+        Dependiendo del rol, infla un menú distinto. */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (VarGlobales.cRole){

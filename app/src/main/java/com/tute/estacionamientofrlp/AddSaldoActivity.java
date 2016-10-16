@@ -95,12 +95,12 @@ public class AddSaldoActivity extends AppCompatActivity implements NavigationVie
 
             @Override
             public void onResponse(String response) {
+                Log.e("ERROR Saldo", response);
                 hideDialog();
 
                 try {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
-                    Log.e("ERROR", String.valueOf(error));
 
                     if (!error) {
                         Toast.makeText(getApplicationContext(),

@@ -40,7 +40,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Tute on 24/9/2016.
+ * Actividad para inflar las compras a deshacer del usuario por patente para una misma semana.
  */
 public class DeshacerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -77,12 +77,12 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
         pDialog.setCancelable(false);
 
         ite = new ArrayList<String>();
-
+        /* Inflo el spinner con las patentes del usuario. */
         for (int h = 0; h < VarGlobales.cCod.size(); h++ ) {
             String pateCodigo = VarGlobales.cCod.get(h).toString();
             ite.add(pateCodigo);
         }
-
+        /* Si el usuario no posee ninguna patente, el spinner muestra que no posee patentes.*/
         if (ite.size() == 0) {
             ite.add(getResources().getString(R.string.noPat));
         }
@@ -121,7 +121,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 final JSONArray jArrComp;
-                //JSONArray jArrInfo;
+                /* Por cada patente, inflo los checkboxs */
 
                 try {
                     jArrComp = new JSONArray(VarGlobales.cCompSem);
@@ -130,7 +130,6 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                         String pate = codi.getString("codigo");
 
                         if (String.valueOf(spi.getItemAtPosition(position)).equals(pate)) {
-                            Log.e("IF SPI", "estoy en el if");
                             pateSelComp = new ArrayList<String>();
                             pateComp = new ArrayList<String>();
                             pateSelect = String.valueOf(spi.getItemAtPosition(position));
@@ -161,7 +160,6 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
 
                         }  else if (String.valueOf(spi.getItemAtPosition(position)).equals(getResources().getString(R.string.noPat))) {
 
-                            Log.e("IF SPI", "estoy en el else del if ");
 
                             c0.setChecked(false);
                             c0.setEnabled(false);
@@ -203,20 +201,18 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
         b0.setOnClickListener(new View.OnClickListener() {
                                   @Override
                                   public void onClick(View v) {
-                                      //Log.e("BOTON", String.valueOf(pateComp));
+        /* Tomo compras a deshacer por el usuario y las ordeno. */
 
                                       if (pateComp != null) {
                                           if (!pateComp.isEmpty()) {
                                               Collections.sort(pateComp);
-                                              Log.e("ORDENADO", String.valueOf(pateComp));
-                                              String costoCompra = String.valueOf(pateComp.size() * VarGlobales.precioticket); //Multipico por 3 debido a que es el costo de un ticket del estacionamiento
-                                              Log.e("ORDENADO", costoCompra);
+                                              /* Multipico la cantidad de compras por la constante de saldo por compra. */
+                                              String costoCompra = String.valueOf(pateComp.size() * VarGlobales.precioticket);
                                               double cc = Double.parseDouble(costoCompra);
                                               double s = Double.parseDouble(VarGlobales.cSaldo);
+                                              /* Esta linea podría generar errores. */
                                               if (cc <= s) {
-                                                  Log.e("enviarCompra", pateSelect);
-                                                  Log.e("enviarCompra", VarGlobales.cUid);
-                                                  Log.e("enviarCompra", String.valueOf(pateComp));
+                                                  /* La actividad a cargar es 2 = DeshacerActivity luego del intent.*/
                                                   VarGlobales.actacargar = 2;
                                                   enviarDeshacer(pateSelect, VarGlobales.cUid, pateComp);
                                               } else {
@@ -233,17 +229,14 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                                   }
                               }
         );
-
+        /* Lógica de los checkboxs para generar los datos a enviar. */
         c0.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (c0.isChecked()&& c0.isEnabled()) {
 
                     if(!pateComp.contains(pateSelComp.get(0))) {
-                        Log.e("ERROR3.2", String.valueOf(pateSelComp.get(0)));
                         pateComp.add(pateSelComp.get(0));
-                        Log.e("SEMANA A COMPRAR!", String.valueOf(Arrays.asList(pateComp)));
-                        Log.e("BOX MARTES", "ENTRE");
                     }
 
                     montoacomp = (pateComp.size()* VarGlobales.precioticket);
@@ -257,7 +250,6 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                             }
                         }
                     }
-                    Log.e("ERROR3.2", String.valueOf(pateComp));
                     montoacomp = (pateComp.size()* VarGlobales.precioticket);
                     c6.setChecked(false);
                 }
@@ -270,10 +262,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                 if (c1.isChecked()&& c1.isEnabled()) {
 
                     if(!pateComp.contains(pateSelComp.get(1))) {
-                        Log.e("ERROR3.2", String.valueOf(pateSelComp.get(1)));
                         pateComp.add(pateSelComp.get(1));
-                        Log.e("SEMANA A COMPRAR!", String.valueOf(Arrays.asList(pateComp)));
-                        Log.e("BOX MARTES", "ENTRE");
                     }
 
                     montoacomp = (pateComp.size()* VarGlobales.precioticket);
@@ -288,7 +277,6 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                         }
                     }
 
-                    Log.e("ERROR3.2", String.valueOf(pateComp));
                     montoacomp = (pateComp.size()* VarGlobales.precioticket);
                     c6.setChecked(false);
                 }
@@ -301,10 +289,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                 if (c2.isChecked()&& c2.isEnabled()) {
 
                     if(!pateComp.contains(pateSelComp.get(2))) {
-                        Log.e("ERROR3.2", String.valueOf(pateSelComp.get(2)));
                         pateComp.add(pateSelComp.get(2));
-                        Log.e("SEMANA A COMPRAR!", String.valueOf(Arrays.asList(pateComp)));
-                        Log.e("BOX MARTES", "ENTRE");
                     }
 
                     montoacomp = (pateComp.size()* VarGlobales.precioticket);
@@ -318,7 +303,6 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                             }
                         }
                     }
-                    Log.e("ERROR3.2", String.valueOf(pateComp));
                     montoacomp = (pateComp.size()* VarGlobales.precioticket);
                     c6.setChecked(false);
                 }
@@ -331,10 +315,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                 if (c3.isChecked()&& c3.isEnabled()) {
 
                     if(!pateComp.contains(pateSelComp.get(3))) {
-                        Log.e("ERROR3.2", String.valueOf(pateSelComp.get(3)));
                         pateComp.add(pateSelComp.get(3));
-                        Log.e("SEMANA A COMPRAR!", String.valueOf(Arrays.asList(pateComp)));
-                        Log.e("BOX MARTES", "ENTRE");
                     }
 
                     montoacomp = (pateComp.size()* VarGlobales.precioticket);
@@ -349,7 +330,6 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                         }
                     }
 
-                    Log.e("ERROR3.2", String.valueOf(pateComp));
                     montoacomp = (pateComp.size()* VarGlobales.precioticket);
                     c6.setChecked(false);
 
@@ -363,10 +343,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                 if (c4.isChecked()&& c4.isEnabled()) {
 
                     if(!pateComp.contains(pateSelComp.get(4))) {
-                        Log.e("ERROR3.2", String.valueOf(pateSelComp.get(4)));
                         pateComp.add(pateSelComp.get(4));
-                        Log.e("SEMANA A COMPRAR!", String.valueOf(Arrays.asList(pateComp)));
-                        Log.e("BOX MARTES", "ENTRE");
                     }
 
                     montoacomp = (pateComp.size()* VarGlobales.precioticket);
@@ -380,7 +357,6 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                             }
                         }
                     }
-                    Log.e("ERROR3.2", String.valueOf(pateComp));
                     montoacomp = (pateComp.size()* VarGlobales.precioticket);
                     c6.setChecked(false);
                 }
@@ -393,10 +369,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                 if (c5.isChecked()&& c5.isEnabled()) {
 
                     if(!pateComp.contains(pateSelComp.get(5))) {
-                        Log.e("ERROR3.2", String.valueOf(pateSelComp.get(5)));
                         pateComp.add(pateSelComp.get(5));
-                        Log.e("SEMANA A COMPRAR!", String.valueOf(Arrays.asList(pateComp)));
-                        Log.e("BOX MARTES", "ENTRE");
                     }
 
                     montoacomp = (pateComp.size()* VarGlobales.precioticket);
@@ -411,14 +384,13 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                             }
                         }
                     }
-                    Log.e("ERROR3.2", String.valueOf(pateComp));
                     montoacomp = (pateComp.size()* VarGlobales.precioticket);
                     c6.setChecked(false);
 
                 }
             }
         });
-
+        /* Checkbox que checkea todos los hábiles a la vez. */
         c6.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -426,48 +398,36 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
 
                     if (!c0.isChecked()&& c0.isEnabled()){
                         if(!pateComp.contains(pateSelComp.get(0))) {
-                            Log.e("BOX 6", String.valueOf(Arrays.asList(pateComp)));
-                            Log.e("BOX 6", "ENTRE AL 6");
                             pateComp.add(pateSelComp.get(0));
                             c0.setChecked(true);
                         }
                     }
                     if (!c1.isChecked()&& c1.isEnabled()){
                         if(!pateComp.contains(pateSelComp.get(1))) {
-                            Log.e("BOX 6", String.valueOf(Arrays.asList(pateComp)));
-                            Log.e("BOX 6", "ENTRE AL 6");
                             pateComp.add(pateSelComp.get(1));
                             c1.setChecked(true);
                         }
                     }
                     if (!c2.isChecked()&& c2.isEnabled()){
                         if(!pateComp.contains(pateSelComp.get(2))) {
-                            Log.e("BOX 6", String.valueOf(Arrays.asList(pateComp)));
-                            Log.e("BOX 6", "ENTRE AL 6");
                             pateComp.add(pateSelComp.get(2));
                             c2.setChecked(true);
                         }
                     }
                     if (!c3.isChecked()&& c3.isEnabled()){
                         if(!pateComp.contains(pateSelComp.get(3))) {
-                            Log.e("BOX 6", String.valueOf(Arrays.asList(pateComp)));
-                            Log.e("BOX 6", "ENTRE AL 6");
                             pateComp.add(pateSelComp.get(3));
                             c3.setChecked(true);
                         }
                     }
                     if (!c4.isChecked()&& c4.isEnabled()){
                         if(!pateComp.contains(pateSelComp.get(4))) {
-                            Log.e("BOX 6", String.valueOf(Arrays.asList(pateComp)));
-                            Log.e("BOX 6", "ENTRE AL 6");
                             pateComp.add(pateSelComp.get(4));
                             c4.setChecked(true);
                         }
                     }
                     if (!c5.isChecked()&& c5.isEnabled()){
                         if(!pateComp.contains(pateSelComp.get(5))) {
-                            Log.e("BOX 6", String.valueOf(Arrays.asList(pateComp)));
-                            Log.e("BOX 6", "ENTRE AL 6");
                             pateComp.add(pateSelComp.get(5));
                             c5.setChecked(true);
                         }
@@ -477,28 +437,24 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
-        // Lookup the swipe container view
+        /* El SwipeRefresh permite hacer slide para recargar los datos.*/
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
-        // Setup refresh listener which triggers new data loading
+        // El Refresh listener actua un disparador cuando se realiza la acción. */
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                // once the network request has completed successfully.
-                Log.e("SwipeRefresh", "Entra bien");
-
+                /* Se llama a la acción refresh saldo. */
                 refreshsaldo(VarGlobales.cUid);
-
-                //Acá va el Json
+                /* Cuando termina, se setea en falso para que corte. */
                 swipeContainer.setRefreshing(false);
             }
         });
-        // Configure the refreshing colors
+        /* Se setea el color del ícono que gira. */
         swipeContainer.setColorSchemeResources(R.color.OliveDrab);
 
     }
 
+    /* Función que infla los checkboxs. */
     public void infloCB (String data){
 
         final JSONArray jArrData;
@@ -512,14 +468,14 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                 JSONObject dia = jArrData.getJSONObject(i);
                 String nmdia = dia.getString("cale_dia");
                 String fechadia = dia.getString("cale_fecha");
-                pateSelComp.add(fechadia);  // Guardo las fechas de los checkbox dentro de un array (pateSelComp).
-
+                                /* Guardo las fechas de los checkboxs dentro de un array. */
+                pateSelComp.add(fechadia);
                 int habil = dia.getInt("cale_dia_habil");
                 int descomp = dia.getInt("deshabilitable");
                 int psblcomp = dia.getInt("comprable");
                 int comp = dia.getInt("comprado");
                 int comprador = dia.getInt("comprador");
-
+                /* Lógica de habilitación y deshabilitación de los checkboxs. */
                 if (nmdia != null) {
 
                     switch (i) {
@@ -727,8 +683,6 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                                     }
                             }
                             break;
-
-                        default: Log.e("ERROR","ESTOY EN EL DEFAUUULT");
                     }
                 }
             }
@@ -738,13 +692,10 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
+    /* Función que envía las compras a deshacer al Backend. */
     private void enviarDeshacer(final String pate, final String uid, final ArrayList fechas ){
 
-        Log.e("ERROR", pate);
-        Log.e("ERROR", uid);
-        Log.e("ERROR", String.valueOf(fechas));
-
-        String tag_string_req = "req_login";
+        String tag_string_req = "req_deshacer";
 
         pDialog.setMessage("Deshaciendo compras ...");
         showDialog();
@@ -755,15 +706,13 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
 
             @Override
             public void onResponse(String response) {
+                Log.e("ERROR deshacer", response);
                 hideDialog();
 
                 try {
                     JSONObject jObj = new JSONObject(response);
-                    Log.e("ERROR1", String.valueOf(response));
                     boolean error = jObj.getBoolean("error");
-                    Log.e("ERROR2", String.valueOf(error));
                     String uSaldo = jObj.getString("saldo");
-                    Log.e("ERROR3", uSaldo);
                     if (!error) {
                         Intent intent = new Intent(DeshacerActivity.this,
                                 GetCompras.class);
@@ -773,9 +722,10 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                         startActivity(intent);
                         finish();
                     } else if (error){
-                        Log.e("ERROR","Su compra no fue realizada");
+                        String errorMsg = jObj.getString("error_msg");
+                        Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_LONG).show();
                     }
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -787,6 +737,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                /* Si ocurre un error, me encuentro en esta situación. */
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_LONG).show();
             }
@@ -794,30 +745,26 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
 
             @Override
             protected Map<String, String> getParams() {
-                // Post params to login url
+                /* Mapeo los datos que voy a enviar en el request. */
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("tag", "deshacer");
                 params.put("pers_id", uid);
                 params.put("pers_pate", pate);
                 JSONArray jsonArray = new JSONArray(fechas);
                 params.put("cod_fecha", jsonArray.toString());
-
-                Log.e("ERROR123", String.valueOf(params));
-
                 return params;
             }
 
         };
-
+        /* Agrego la request a la cola de requests. */
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
 
     }
 
+    /* Función que actualiza DeshacerCompras a pedido del usuario. */
     private void refreshsaldo(final String uid){
 
-        Log.e("ERROR", uid);
-
-        String tag_string_req = "req_login";
+        String tag_string_req = "req_refresh_deshacer";
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 AppURLs.URL, new Response.Listener<String>() {
@@ -825,18 +772,17 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
 
             @Override
             public void onResponse(String response) {
+                Log.e("ERROR refreshDeshacer", response);
+                hideDialog();
 
                 try {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
                     if (!error) {
                         String saldoact = jObj.getString("saldo");
-                        Log.e("SALDO ACTUALIZADO", saldoact);
                         VarGlobales.cSaldo = saldoact;
-                        Log.e("SALDO ACTUALIZADO", VarGlobales.cSaldo);
-
+                        /* Setéo la actividad a cargar 2 = DeshacerActivity. */
                         VarGlobales.actacargar = 2;
-
                         Intent intent = new Intent(DeshacerActivity.this,
                                 GetCompras.class);
                         intent.putExtra("saldo", VarGlobales.cSaldo);
@@ -845,7 +791,9 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                         finish();
 
                     } else if (error){
-                        Log.e("ERROR","Su compra no fue realizada");
+                        String errorMsg = jObj.getString("error_msg");
+                        Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_LONG).show();
                     }
 
 
@@ -859,6 +807,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                /* Si ocurre un error, me encuentro en esta situación. */
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_LONG).show();
             }
@@ -866,7 +815,7 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
 
             @Override
             protected Map<String, String> getParams() {
-                // Post params to login url
+                /* Mapeo los datos que voy a enviar en el request. */
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("tag", "refreshsaldo");
                 params.put("pers_id", uid);
@@ -874,12 +823,12 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
             }
 
         };
-
+        /* Agrego la request a la cola de requests. */
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
 
     }
 
-
+    /* Función que infla el navigation menú de la izquierda. */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -965,7 +914,6 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
         if (!pDialog.isShowing())
             pDialog.show();
     }
-
 
     private void logoutUser() {
         session.setLogin(false);

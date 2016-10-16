@@ -19,31 +19,10 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".RegistrationActivity"
-            android:theme="@style/AppTheme"></activity>
-
-        <activity
-            android:name=".AddSaldoActivity"
-            android:theme="@style/AppTheme"></activity>
-
-
-        <activity
-            android:name=".AddPateActivity"
-            android:theme="@style/AppTheme"></activity>
-
-        <activity
-            android:name=".DeshacerActivity"
-            android:label="Deshacer compras"
-            android:theme="@style/AppTheme"></activity>
+        <!-- Actividades del Usuario -->
 
         <activity
             android:name=".GetCompras"
-            android:theme="@style/AppTheme"></activity>
-
-
-        <activity
-            android:name=".MainActivity"
             android:theme="@style/AppTheme"></activity>
 
         <activity
@@ -52,8 +31,53 @@
             android:theme="@style/AppTheme"></activity>
 
         <activity
+            android:name=".DeshacerActivity"
+            android:label="Deshacer compras"
+            android:theme="@style/AppTheme"></activity>
+
+        <activity
             android:name=".HistorialesActivity"
             android:label="Historiales"
+            android:theme="@style/AppTheme"></activity>
+
+        <!-- Actividades del Encargado -->
+
+        <activity
+            android:name=".AddSaldoActivity"
+            android:label="Añadir saldos"
+            android:theme="@style/AppTheme"></activity>
+
+        <activity
+            android:name=".RegistrationActivity"
+            android:label="Registrar usuarios"
+            android:theme="@style/AppTheme"></activity>
+
+
+        <activity
+            android:name=".AddPateActivity"
+            android:theme="@style/AppTheme"></activity>
+
+        <activity
+            android:name=".GestPatesActivity"
+            android:label="Gestionar patentes"
+            android:theme="@style/AppTheme"></activity>
+
+        <activity
+            android:name=".RegenContraseniaActivity"
+            android:label="Regenerar Contraseña"
+            android:theme="@style/AppTheme"></activity>
+
+        <!-- Actividades del Guardia -->
+
+        <activity
+            android:name=".VerComprasActivity"
+            android:label="Ver compras"
+            android:theme="@style/AppTheme"></activity>
+
+        <!-- Actividades compartidas -->
+
+        <activity
+            android:name=".MainActivity"
             android:theme="@style/AppTheme"></activity>
 
         <activity
@@ -65,22 +89,6 @@
             android:name=".GestEmailActivity"
             android:label="Cambiar email"
             android:theme="@style/AppTheme"></activity>
-
-        <activity
-            android:name=".GestPatesActivity"
-            android:label="Gestionar patentes"
-            android:theme="@style/AppTheme"></activity>
-
-        <activity
-            android:name=".VerComprasActivity"
-            android:label="Ver compras"
-            android:theme="@style/AppTheme"></activity>
-
-        <activity
-            android:name=".RegenContraseniaActivity"
-            android:label="Regenerar Contraseña"
-            android:theme="@style/AppTheme"></activity>
-
 
     </application>
 

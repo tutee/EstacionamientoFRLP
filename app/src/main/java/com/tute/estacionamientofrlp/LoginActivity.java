@@ -23,13 +23,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Tute on 1/9/2016.
+ * Actividad para loguear users a la app.
  */
 public class LoginActivity extends AppCompatActivity {
 
     private Button loginButton;
     private EditText email, password;
-
     private ProgressDialog progressDialog;
     private Session session;
 
@@ -42,63 +41,42 @@ public class LoginActivity extends AppCompatActivity {
         session = new Session(LoginActivity.this);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
-        //registrationButton = (Button) findViewById(R.id.registration_button);
         loginButton = (Button) findViewById(R.id.signin_button);
         email = (EditText) findViewById(R.id.email_to_login);
         password = (EditText) findViewById(R.id.password_to_login);
-
-
-        /**
-         * utilizado para el boton register
-         *
-        registrationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),
-                        RegistrationActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-        */
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String correo = email.getText().toString();
                 String pass = password.getText().toString();
-
+                /* Checkeo si los campos no son vacios. */
                 if (correo.trim().length() > 0 && pass.trim().length() > 0) {
                     checkLogin(correo, pass);
                 } else {
-                    Snackbar.make(v, "Falta DNI o Contraseña", Snackbar.LENGTH_LONG)
+                    Snackbar.make(v, "Completar todos los campos", Snackbar.LENGTH_LONG)
                             .show();
                 }
             }
         });
     }
 
+    /* Checkea los datos del login y los envia a la base. Tráe todos los datos del usuario. */
     private void checkLogin(final String correo, final String password) {
         String tag_string_req = "req_login";
-
-        progressDialog.setMessage("Iniciando sesión");
+        progressDialog.setMessage("Iniciando sesión ...");
         showDialog();
-
-
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 AppURLs.URL, new Response.Listener<String>() {
-
-
+            /* El response retorna los datos que envio desde el Backend en el Json. */
             @Override
             public void onResponse(String response) {
                 hideDialog();
-
+                Log.e("ERROR Login", response);
                 try {
 
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
-                    Log.e("ERROR", String.valueOf(error));
-
                     if (!error){
                     String userEmail = jObj.getString("email");
                     JSONObject jObjU = jObj.getJSONObject("user");
@@ -109,15 +87,11 @@ public class LoginActivity extends AppCompatActivity {
                     VarGlobales.apellido = jObjU.getString("apellido");
                     VarGlobales.nombre = jObjU.getString("nombre");
                     VarGlobales.email = userEmail;
-                    Log.e("ERROR", userRole);
-                    Log.e("ERROR", VarGlobales.cUid);
-                    Log.e("ERROR", userSaldo);
 
                         if (userEmail != null) {
                             session.setLogin(true);
-                            Log.e("ERROR", "2");
-                            //Dependiendo del rol de usuario loggeado, obtenemos un distinto activity
-
+                            /*  Dependiendo del rol de usuario loggeado,
+                                obtenemos un distinto activity. */
                             switch (userRole) {
                                 case "Usuario":
                                     VarGlobales.actacargar = 1;
@@ -130,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                                     break;
                                 case "Encargado":
                                     intent = new Intent(LoginActivity.this,
-                                            RegistrationActivity.class);
+                                            AddSaldoActivity.class);
                                     startActivity(intent);
                                     finish();
                                     break;
@@ -142,7 +116,6 @@ public class LoginActivity extends AppCompatActivity {
                                     break;
                             }
                         }
-
                     } else {
                         String errorMsg = jObj.getString("error_msg");
                         Toast.makeText(getApplicationContext(),
@@ -157,26 +130,25 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                /* Si ocurre un error, me encuentro en esta situación. */
                 Toast.makeText(getApplicationContext(),
-                        "Error de conexion", Toast.LENGTH_LONG).show();
+                        "Error de conexión", Toast.LENGTH_LONG).show();
                 hideDialog();
             }
         }) {
-
+            /* Mapeo los datos que voy a enviar en el request. */
             @Override
             protected Map<String, String> getParams() {
-                // Post params to login url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("tag", "login");
                 params.put("pers_email", correo);
                 params.put("pers_password", password);
-
                 return params;
             }
 
         };
 
-        // Adding request to  queue
+        /* Agrego la request a la cola de requests. */
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 

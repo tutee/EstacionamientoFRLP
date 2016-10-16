@@ -19,7 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Tute on 19/9/2016.
+ * Esta actividad se encarga de consultar la base de datos para retornar
+ * un Json con los datos requeridos tanto por CompraActivity como por DeshacerActivity.
  */
 public class GetCompras extends Activity {
 
@@ -36,12 +37,10 @@ public class GetCompras extends Activity {
         checkFecha(uid,saldo);
     }
 
+    /* Función que trae todos los datos del usuario de la base de datos. */
     public void checkFecha(final String uid, final String saldo){
 
-        Log.e("ERROR", "2");
-
-
-        String tag_string_req = "req_login";
+        String tag_string_req = "req_compras";
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 AppURLs.URL, new Response.Listener<String>() {
@@ -49,15 +48,14 @@ public class GetCompras extends Activity {
 
             @Override
             public void onResponse(String response) {
-
+                Log.e("ERROR Compras", response);
                 ArrayList pate = new ArrayList<String>();
 
                 try {
 
-                    Log.e("ERROR", "1");
                     JSONObject obj = new JSONObject(response);
                     JSONArray arrayP = obj.getJSONArray("patente");
-
+                    /* Por cada patente del usuario tengo un array de compras y días asociados */
                     for (int h = 0; h < arrayP.length(); h++ ){
 
                         JSONObject jObjP = arrayP.getJSONObject(h);
@@ -66,10 +64,10 @@ public class GetCompras extends Activity {
                             Log.e("IF", jObjP.getString("codigo"));
                         }
                         else {
+                            /* Si el código no es NULL lo agrego al ArrayList*/
                             pate.add(jObjP.getString("codigo"));
-                            Log.e("ELSE", jObjP.getString("codigo"));
                         }
-
+                        /* Tomo del Json los días de la semana */
                         if (h == 0) {
                             JSONArray arrayS = jObjP.getJSONArray("semana");
                             for (int k = 0; k < arrayS.length(); k++ ){
@@ -83,18 +81,12 @@ public class GetCompras extends Activity {
 
                         }
                     }
-
+                    /* Armo un string con la semana vigente, tomando el primer día y el último día. */
                     VarGlobales.pridiasem = Character.toString(VarGlobales.sem1.charAt(8))+Character.toString(VarGlobales.sem1.charAt(9))+"/"+Character.toString(VarGlobales.sem1.charAt(5))+Character.toString(VarGlobales.sem1.charAt(6));
                     VarGlobales.ultdiasem = Character.toString(VarGlobales.sem2.charAt(8))+Character.toString(VarGlobales.sem2.charAt(9))+"/"+Character.toString(VarGlobales.sem2.charAt(5))+Character.toString(VarGlobales.sem2.charAt(6));
                     VarGlobales.semana = VarGlobales.pridiasem +" - "+ VarGlobales.ultdiasem;
 
-                    Log.e("PRIMER DIA", String.valueOf(VarGlobales.pridiasem));
-                    Log.e("ULTI DIA", String.valueOf(VarGlobales.ultdiasem));
-                    Log.e("ULTI DIA", String.valueOf(VarGlobales.semana));
-                    Log.e("ERROR", String.valueOf(pate));
-                    Log.e("ERROR", String.valueOf(arrayP));
-                    Log.e("OBJETOcheck", String.valueOf(pate));
-
+                    /* Decido si tengo que ir a CompraActivity o DeshacerActivity. */
                     switch (VarGlobales.actacargar){
                         case 1: Intent intent = new Intent(GetCompras.this,
                                 CompraActivity.class);
@@ -145,10 +137,11 @@ public class GetCompras extends Activity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                /* Si ocurre un error, me encuentro en esta situación. */
                 //Toast.makeText(getApplicationContext(),error.getMessage(), Toast.LENGTH_LONG).show();
             }
         }) {
-
+            /* Mapeo los datos que voy a enviar en el request. */
             @Override
             protected Map<String, String> getParams() {
                 // Post params to login url
@@ -160,7 +153,7 @@ public class GetCompras extends Activity {
             }
 
         };
-
+        /* Agrego la request a la cola de requests. */
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
 
     }

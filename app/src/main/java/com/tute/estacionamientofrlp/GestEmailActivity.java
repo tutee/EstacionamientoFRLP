@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Tute on 26/9/2016.
+ * Actividad para modificar el email del usuario.
  */
 
 public class GestEmailActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {

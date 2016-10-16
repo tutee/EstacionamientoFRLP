@@ -8,6 +8,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * Actividad que mantiene la sesión iniciada
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     private Button btnLogout;
