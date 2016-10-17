@@ -206,19 +206,21 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
                                       if (pateComp != null) {
                                           if (!pateComp.isEmpty()) {
                                               Collections.sort(pateComp);
-                                              /* Multipico la cantidad de compras por la constante de saldo por compra. */
+                                              VarGlobales.actacargar = 2;
+                                              enviarDeshacer(pateSelect, VarGlobales.cUid, pateComp);
+                                              /* Multipico la cantidad de compras por la constante de saldo por compra.
                                               String costoCompra = String.valueOf(pateComp.size() * VarGlobales.precioticket);
                                               double cc = Double.parseDouble(costoCompra);
                                               double s = Double.parseDouble(VarGlobales.cSaldo);
-                                              /* Esta linea podría generar errores. */
-                                              if (cc <= s) {
-                                                  /* La actividad a cargar es 2 = DeshacerActivity luego del intent.*/
+                                              /* Esta linea podría generar errores.
+                                              if (cc >= s) {
+                                                  /* La actividad a cargar es 2 = DeshacerActivity luego del intent.
                                                   VarGlobales.actacargar = 2;
                                                   enviarDeshacer(pateSelect, VarGlobales.cUid, pateComp);
                                               } else {
                                                   Snackbar.make(v, "Su saldo actual es insuficiente", Snackbar.LENGTH_LONG)
                                                           .show();
-                                              }
+                                              }*/
                                           } else if (pateComp.isEmpty()) {
                                               Snackbar.make(v, "No selecciono ningún día", Snackbar.LENGTH_LONG)
                                                       .show();
