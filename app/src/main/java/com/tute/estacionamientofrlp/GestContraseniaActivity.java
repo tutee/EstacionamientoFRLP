@@ -90,14 +90,10 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
                 String contra2 = pn2.getText().toString();
                 /* Checkea que los campos no son vacíos. */
                 if (contra0.trim().length() > 0 && contra1.trim().length() > 0 && contra2.trim().length() > 0) {
-                    /*  Pisa el resultado de VarGlobales.cerror.
-                        Si la password ingresada machea con la de la base de datos, continua. */
-                    checkearPass(contra0);
-                    if (VarGlobales.cerror) {
                         /* Checkea que ninguna de las passwords nuevas coincida con la anterior. */
                         if (contra0.equals(contra1) || contra0.equals(contra2)) {
-                            Toast.makeText(getApplicationContext(),
-                                    "La contraseña nueva debe ser distinta", Toast.LENGTH_LONG).show();
+                            Snackbar.make(v, "La contraseña nueva debe ser distinta", Snackbar.LENGTH_LONG)
+                                    .show();
                         } else {
                             /* Si es correcto, actúa la función enviarPass. */
                             if (contra1.equals(contra2)) {
@@ -107,70 +103,12 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
                                         .show();
                             }
                         }
-                    }
                 } else {
                     Snackbar.make(v, "Complete todos los campos", Snackbar.LENGTH_LONG)
                             .show();
                 }
             }
         });
-    }
-
-    /* Función que comprueba que la contraseña anterior coincida con la contraseña válida del usuario. */
-    private void checkearPass(final String pv){
-
-        String tag_string_req = "chk_pass";
-
-        pDialog.setMessage("Comprobando datos...");
-        showDialog();
-
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                AppURLs.URL, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                Log.e("ERROR Check_Pass", response);
-                hideDialog();
-
-                try {
-                    JSONObject jObj = new JSONObject(response);
-                    boolean error = jObj.getBoolean("error");
-                    if (!error) {
-                        VarGlobales.cerror = true;
-                    } else if (error){
-                        VarGlobales.cerror = false;
-                        Toast.makeText(getApplicationContext(),
-                                "Contraseña actual erronea", Toast.LENGTH_LONG).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                /* Si ocurre un error, me encuentro en esta situación. */
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
-                hideDialog();
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                /* Mapeo los datos que voy a enviar en el request. */
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("tag", "checkpass");
-                params.put("pers_id", VarGlobales.cUid);
-                params.put("pers_email", VarGlobales.email);
-                params.put("pass_vieja", pv);
-                return params;
-            }
-
-        };
-        /* Agrego la request a la cola de requests. */
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
     private void enviarPass(final String pv, final String pn1){
@@ -200,8 +138,9 @@ public class GestContraseniaActivity extends AppCompatActivity implements Naviga
                         startActivity(intent);
                         finish();
                     } else if (error){
+                        String errorMsg = jObj.getString("error_msg");
                         Toast.makeText(getApplicationContext(),
-                                "No se pudo modificar la contraseña", Toast.LENGTH_LONG).show();
+                                errorMsg, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
