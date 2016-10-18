@@ -102,6 +102,11 @@ public class DeshacerActivity extends AppCompatActivity implements NavigationVie
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav);
         navigationView.setNavigationItemSelectedListener(this);
+        View hView =  navigationView.getHeaderView(0);
+        TextView nav_user_email = (TextView)hView.findViewById(R.id.email);
+        nav_user_email.setText("Email: "+VarGlobales.email);
+        TextView nav_user_nombre = (TextView)hView.findViewById(R.id.nom);
+        nav_user_nombre.setText("Nombre: "+VarGlobales.apellido+" "+VarGlobales.nombre);
 
         tv1.setText("Semana: "+ VarGlobales.semana);
         tv2.setText("Saldo: $ "+ String.format("%.2f",Double.parseDouble(VarGlobales.cSaldo)));

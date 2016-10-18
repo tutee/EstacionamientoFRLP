@@ -56,9 +56,9 @@
     </string-array>
 
     <string-array name="tipo">
-        <item>Historial de compras</item>
-        <item>Historial de cargas</item>
-        <item>Historial de transacciones</item>
+        <item>Mis compras</item>
+        <item>Mis cargas</item>
+        <item>Mis transacciones</item>
     </string-array>
 
 </resources>

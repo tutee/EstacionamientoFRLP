@@ -206,6 +206,7 @@
             app:menu="@menu/menu_nav_usu"
             app:itemBackground="@drawable/nav_pressed"
             android:layout_gravity="start"
+            app:headerLayout="@layout/nav_header"
             android:id="@+id/nav">
         </android.support.design.widget.NavigationView>
 

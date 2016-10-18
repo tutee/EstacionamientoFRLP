@@ -82,6 +82,11 @@ import java.util.Map;
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav);
         navigationView.setNavigationItemSelectedListener(this);
+        View hView =  navigationView.getHeaderView(0);
+        TextView nav_user_email = (TextView)hView.findViewById(R.id.email);
+        nav_user_email.setText("Email: "+VarGlobales.email);
+        TextView nav_user_nombre = (TextView)hView.findViewById(R.id.nom);
+        nav_user_nombre.setText("Nombre: "+VarGlobales.apellido+" "+VarGlobales.nombre);
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -114,6 +119,7 @@ import java.util.Map;
 
         tv1.setText("Semana: "+ VarGlobales.semana);
         tv2.setText("Saldo: $ "+ String.format("%.2f",Double.parseDouble(saldo)));
+
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ite);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
