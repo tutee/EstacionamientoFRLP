@@ -112,6 +112,11 @@ public class HistorialesActivity extends AppCompatActivity implements Navigation
 
         showDialog(); // CAMBIAR
 
+        comppatecod = new ArrayList<String>();
+        compfechas = new ArrayList<String>();
+        costocomp = new ArrayList<String>();
+        diadecompra = new ArrayList<String>();
+
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 AppURLs.URL, new Response.Listener<String>() {
 
@@ -181,6 +186,9 @@ public class HistorialesActivity extends AppCompatActivity implements Navigation
         String tag_string_req = "req_cargarlista";
 
         showDialog(); // CAMBIAR
+
+        costocomp = new ArrayList<String>();
+        diadecompra = new ArrayList<String>();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 AppURLs.URL, new Response.Listener<String>() {
