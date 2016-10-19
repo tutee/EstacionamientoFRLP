@@ -53,6 +53,10 @@ public class HistorialesActivity extends AppCompatActivity implements Navigation
     List<String> compfechas = new ArrayList<String>();
     List<String> diadecompra = new ArrayList<String>();
     List<String> costocomp = new ArrayList<String>();
+    List<String> tipocomp = new ArrayList<String>();
+    List<String> apeadm = new ArrayList<String>();
+    List<String> nombreadm = new ArrayList<String>();
+
     private ProgressDialog Dialog;
 
 
@@ -96,6 +100,9 @@ public class HistorialesActivity extends AppCompatActivity implements Navigation
                 else if (String.valueOf(spi.getItemAtPosition(position)).equals("Mis cargas")){
                     cargarlistasaldo(VarGlobales.cUid);
                 }
+                else if (String.valueOf(spi.getItemAtPosition(position)).equals("Mis transacciones")){
+                    cargarlistatransac(VarGlobales.cUid);
+                }
 
             }
 
@@ -104,6 +111,108 @@ public class HistorialesActivity extends AppCompatActivity implements Navigation
 
             }
         });
+    }
+
+    private void cargarlistatransac (final String uId) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_cargarlista_cargas";
+
+        showDialog(); // CAMBIAR
+
+        comppatecod = new ArrayList<String>();
+        compfechas = new ArrayList<String>();
+        costocomp = new ArrayList<String>();
+        diadecompra = new ArrayList<String>();
+        tipocomp = new ArrayList<String>();
+         apeadm = new ArrayList<String>();
+        nombreadm = new ArrayList<String>();
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                AppURLs.URL, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.e("ERROR Saldo", response);
+                Log.e("id", uId);
+
+
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+
+                    if (!error) {
+
+                        JSONArray arrayC = jObj.getJSONArray("movimientos");
+                        for (int h = 0; h < arrayC.length(); h++ ){
+
+
+                            JSONObject jObjP = arrayC.getJSONObject(h);
+                            compras.add(jObjP);
+                            if (jObjP.getString("hist_tipot").equals("Carga de saldo")){
+                                tipocomp.add(jObjP.getString("hist_tipot"));
+                                costocomp.add(jObjP.getString("carg_monto"));
+                                diadecompra.add(jObjP.getString("hist_fc"));
+                                apeadm.add(jObjP.getString("pers_apellido"));
+                                nombreadm.add(jObjP.getString("pers_nombre"));
+                                comppatecod.add("");
+                                compfechas.add("");
+
+                            } else {
+                                tipocomp.add(jObjP.getString("hist_tipot"));
+                                costocomp.add(jObjP.getString("comp_monto"));
+                                diadecompra.add(jObjP.getString("hist_fc"));
+                                comppatecod.add(jObjP.getString("comp_pate_cod"));
+                                compfechas.add(jObjP.getString("comp_fecha"));
+                                apeadm.add("");
+                                nombreadm.add("");
+
+                            }
+                        }
+
+                        Log.e("ERROR Saldo", String.valueOf(tipocomp));
+                        Log.e("ERROR Saldo", String.valueOf(costocomp));
+                        Log.e("ERROR Saldo", String.valueOf(diadecompra));
+                        Log.e("ERROR Saldo", String.valueOf(apeadm));
+                        Log.e("ERROR Saldo", String.valueOf(nombreadm));
+                        Log.e("ERROR Saldo", String.valueOf(comppatecod));
+                        Log.e("ERROR Saldo", String.valueOf(compfechas));
+
+                        ListAdapterTransac adapterlisttransac= new ListAdapterTransac(HistorialesActivity.this,compfechas,comppatecod,costocomp,diadecompra,tipocomp,apeadm,nombreadm);
+                        li.setAdapter(adapterlisttransac);
+                        hideDialog();
+
+                    } else {
+
+                        String errorMsg = jObj.getString("error_msg");
+                        Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("tag", "movimientosusu");
+                params.put("pers_id", uId);
+
+                return params;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
     private void cargarlistasaldo (final String uId) {
@@ -258,6 +367,104 @@ public class HistorialesActivity extends AppCompatActivity implements Navigation
         };
 
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
+    class ListAdapterTransac extends BaseAdapter {
+
+        Context context;
+        List<String> dia = compfechas;
+        List<String> patente = comppatecod;
+        List<String> costo = costocomp;
+        List<String> cuando = diadecompra;
+        List<String> tipo = tipocomp;
+        List<String> apellidoadmin = apeadm;
+        List<String> nombreadmin = nombreadm;
+
+        LayoutInflater inflater;
+
+        public ListAdapterTransac(Context context, List<String> dia, List<String> patente, List<String> costo, List<String> cuando, List<String> tipo, List<String> apellidoadmin, List<String> nombreadmin){
+            this.context = context;
+            this.dia = dia;
+            this.patente = patente;
+            this.costo = costo;
+            this.cuando = cuando;
+            this.tipo = tipo;
+            this.apellidoadmin = apellidoadmin;
+            this.nombreadmin = nombreadmin;
+
+        }
+
+        @Override
+        public int getCount() {
+            return costo.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            View itemView = convertView;
+
+            if (tipo.get(position).equals("Carga de saldo")){
+
+                itemView = null;
+
+                if(itemView==null){
+                    inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    itemView = inflater.inflate(R.layout.single_row_transacvar,parent,false);
+                }
+
+                TextView tip = (TextView) itemView.findViewById(R.id.pate);
+                tip.setText("Tipo: " + tipo.get(position));
+
+                TextView diacarg = (TextView) itemView.findViewById(R.id.dia);
+                diacarg.setText("Monto: $" + costo.get(position));
+
+                TextView ape = (TextView) itemView.findViewById(R.id.costo);
+                ape.setText("Administrador: " + apellidoadmin.get(position) + ", " + nombreadmin.get(position));
+
+                TextView cuand = (TextView) itemView.findViewById(R.id.cuando);
+                cuand.setText("Realizada el: " + cuando.get(position));
+
+                return itemView;
+
+            } else {
+
+                itemView = null;
+
+                if(itemView==null){
+                    inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    itemView = inflater.inflate(R.layout.single_row_transac,parent,false);
+                }
+
+                TextView tip = (TextView) itemView.findViewById(R.id.pate);
+                tip.setText("Tipo: " + tipo.get(position));
+
+                TextView diacarg = (TextView) itemView.findViewById(R.id.dia);
+                diacarg.setText("Dia: " + dia.get(position));
+
+                TextView pat = (TextView) itemView.findViewById(R.id.costo);
+                pat.setText("Patente: " + patente.get(position));
+
+                TextView nom = (TextView) itemView.findViewById(R.id.fc);
+                nom.setText("Costo: $" + costo.get(position));
+
+                TextView cuand = (TextView) itemView.findViewById(R.id.cuando);
+                cuand.setText("Realizada el: " + cuando.get(position));
+
+                return itemView;
+
+            }
+        }
     }
 
     class ListAdapterCarg extends BaseAdapter {
