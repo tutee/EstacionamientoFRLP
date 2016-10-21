@@ -360,7 +360,7 @@ public class VerComprasActivity extends AppCompatActivity implements NavigationV
         switch (item.getItemId()) {
             case R.id.menu_navg_1:
                 Intent intent = new Intent(VerComprasActivity.this,
-                        GestContraseniaActivity.class);
+                        VerComprasActivity.class);
                 startActivity(intent);
                 finish();
                 break;
