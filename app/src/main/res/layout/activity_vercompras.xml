@@ -26,8 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
-            android:id="@+id/list"
-            >
+            android:id="@+id/list">
 
         </ListView>
 
@@ -37,7 +36,7 @@
     <android.support.design.widget.NavigationView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:menu="@menu/menu_nav_usu"
+        app:menu="@menu/menu_nav_gua"
         app:itemBackground="@drawable/nav_pressed"
         android:layout_gravity="start"
         android:id="@+id/nav">

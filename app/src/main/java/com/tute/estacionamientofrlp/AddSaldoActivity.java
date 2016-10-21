@@ -3,22 +3,18 @@ package com.tute.estacionamientofrlp;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -33,39 +29,45 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Tute on 1/9/2016.
+ * Created by Tute on 8/10/2016.
  */
-public class RegistrationActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+public class AddSaldoActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     ActionBarDrawerToggle toggle;
-    private EditText email, apellido, nombre, dni, password, rol;
-    private Button registerButton;
     private Session session;
+    EditText e1,e2;
+    Button b1;
     private ProgressDialog pDialog;
-    private Spinner spi;
-    private TextView tv1;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration);
+        setContentView(R.layout.activity_addsaldo);
+        e1 = (EditText) findViewById(R.id.mailacargaredit);
+        e2 = (EditText) findViewById(R.id.saldoacargaredit);
+        b1 = (Button) findViewById(R.id.agregarsaldo_button);
 
-
-        tv1 = (TextView) findViewById(R.id.tv1);
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
-        session = new Session(RegistrationActivity.this);
+
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = e1.getText().toString();
+                String saldo = e2.getText().toString();
+                Log.e("ERROR", email);
+                Log.e("ERROR", saldo);
+                Log.e("ERROR", VarGlobales.cUid);
+                cargarsaldo(email, saldo);
+            }
+        });
+
+        session = new Session(AddSaldoActivity.this);
 
         if (!session.getLoggedIn()) {
             logoutUser();
         }
-
-        registerButton = (Button) findViewById(R.id.register_button);
-        email = (EditText) findViewById(R.id.email_register);
-        dni = (EditText) findViewById(R.id.dni_register);
-        apellido = (EditText) findViewById(R.id.apellido_register);
-        nombre = (EditText) findViewById(R.id.nombre_register);
-        spi = (Spinner) findViewById(R.id.spinner);
 
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
@@ -77,83 +79,46 @@ public class RegistrationActivity extends AppCompatActivity implements Navigatio
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav);
         navigationView.setNavigationItemSelectedListener(this);
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String mail = email.getText().toString();
-                String ape = apellido.getText().toString();
-                String nom = nombre.getText().toString();
-                String doc = dni.getText().toString();
-                String role = spi.getSelectedItem().toString();
-                Log.e("ERROR",role);
 
-                if (!mail.isEmpty() && !ape.isEmpty() && !nom.isEmpty() && !doc.isEmpty() && !role.isEmpty()) {
-                    registerUser(mail, ape, nom, doc, role);
-                    Log.e("ERROR","ERROR0");
-                } else {
-                    Snackbar.make(v, "Complete todos los campos", Snackbar.LENGTH_LONG)
-                            .show();
-                }
-            }
-        });
-
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.roles, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spi.setAdapter(adapter);
     }
 
 
-
-    private void registerUser(final String email, final String apellido,
-                              final String nombre, final String documento, final String rol) {
+    private void cargarsaldo (final String email, final String saldo) {
         // Tag used to cancel the request
-        String tag_string_req = "req_register";
+        String tag_string_req = "req_carga_saldo";
 
-        Log.e("ERROR","ERROR1");
-        pDialog.setMessage("Registrando cuenta ...");
+        pDialog.setMessage("Cargando saldo ...");
         showDialog();
-        Log.e("ERROR","ERROR6");
+
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 AppURLs.URL, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
+                Log.e("ERROR Saldo", response);
                 hideDialog();
-                Log.e("ERROR",response);
+
                 try {
-                    Log.e("ERROR","ERROR2");
                     JSONObject jObj = new JSONObject(response);
-                    Log.e("ERROR","ERROR2.1");
                     boolean error = jObj.getBoolean("error");
-                    Log.e("ERROR","ERROR2.2");
+
                     if (!error) {
-                        Log.e("ERROR","ERROR11");
-                        JSONObject jObjU = jObj.getJSONObject("user");
-                        String pass = jObjU.getString("pass");
                         Toast.makeText(getApplicationContext(),
-                                "Cuenta registrada con exito", Toast.LENGTH_LONG).show();
-                        tv1.setText(pass);
-                        /*Intent intent = new Intent(
-                                RegistrationActivity.this,
-                                RegistrationActivity.class);
+                                "Saldo cargado con exito", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(AddSaldoActivity.this,
+                                AddSaldoActivity.class);
                         startActivity(intent);
-                        finish();*/
-                        Log.e("ERROR","ERROR3");
+                        finish();
+
                     } else {
-                        Log.e("ERROR","ERROR10");
+
                         String errorMsg = jObj.getString("error_msg");
-                        /*Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();*/
                         Toast.makeText(getApplicationContext(),
                                 errorMsg, Toast.LENGTH_LONG).show();
-                        Log.e("ERROR","ERROR8");
                     }
                 } catch (JSONException e) {
-                    Log.e("ERROR","ERROR11");
                     e.printStackTrace();
                 }
-                Log.e("ERROR","ERROR9");
             }
         }, new Response.ErrorListener() {
 
@@ -162,7 +127,6 @@ public class RegistrationActivity extends AppCompatActivity implements Navigatio
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_LONG).show();
                 hideDialog();
-                Log.e("ERROR","ERROR4");
             }
         }) {
 
@@ -170,13 +134,10 @@ public class RegistrationActivity extends AppCompatActivity implements Navigatio
             protected Map<String, String> getParams() {
                 // Posting params to register url
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("tag", "register");
+                params.put("tag", "cargarsaldo");
+                params.put("pers_id", VarGlobales.cUid);
                 params.put("pers_email", email);
-                params.put("pers_apellido", apellido);
-                params.put("pers_nombre", nombre);
-                params.put("pers_doc", documento);
-                params.put("pers_rol", rol);
-                Log.e("ERROR","ERROR5");
+                params.put("pers_monto", saldo);
                 return params;
             }
 
@@ -184,6 +145,7 @@ public class RegistrationActivity extends AppCompatActivity implements Navigatio
 
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
+
 
     private void showDialog() {
         if (!pDialog.isShowing())
@@ -200,51 +162,53 @@ public class RegistrationActivity extends AppCompatActivity implements Navigatio
         switch (item.getItemId()) {
 
             case R.id.menu_nave_1:
-                Intent intent = new Intent(RegistrationActivity.this,
+                Intent intent = new Intent(AddSaldoActivity.this,
                         AddSaldoActivity.class);
                 startActivity(intent);
                 finish();
                 break;
             case R.id.menu_nave_2:
-                intent = new Intent(RegistrationActivity.this,
+                intent = new Intent(AddSaldoActivity.this,
                         RegistrationActivity.class);
                 startActivity(intent);
                 finish();
                 break;
             case R.id.menu_nave_3:
-                intent = new Intent(RegistrationActivity.this,
+                intent = new Intent(AddSaldoActivity.this,
                         AddPateActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
             case R.id.menu_nave_4:
-                intent = new Intent(RegistrationActivity.this,
+                intent = new Intent(AddSaldoActivity.this,
                         GestPatesActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
             case R.id.menu_nave_5:
-                intent = new Intent(RegistrationActivity.this,
+                intent = new Intent(AddSaldoActivity.this,
                         RegenContraseniaActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
             case R.id.menu_nave_7:
-                intent = new Intent(RegistrationActivity.this,
+                intent = new Intent(AddSaldoActivity.this,
                         GestContraseniaActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
             case R.id.menu_nave_8:
-                intent = new Intent(RegistrationActivity.this,
+                intent = new Intent(AddSaldoActivity.this,
                         GestEmailActivity.class);
                 startActivity(intent);
                 finish();
                 break;
+
+
 
         }
 
@@ -282,9 +246,8 @@ public class RegistrationActivity extends AppCompatActivity implements Navigatio
 
     private void logoutUser() {
         session.setLogin(false);
-        Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+        Intent intent = new Intent(AddSaldoActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
-
 }

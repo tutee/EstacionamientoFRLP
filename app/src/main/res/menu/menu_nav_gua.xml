@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/menu_navg_1"
+        android:title="Ver compras"
+        android:icon="@drawable/addsaldo"/>
+
+    <item android:id="@+id/menu_navg_2"
+        android:title="Opciones:">
+
+        <menu>
+
+            <item android:id="@+id/menu_navg_3"
+                android:title="Cambiar contraseña"
+                android:icon="@drawable/gestionarcuenta"/>
+            <item android:id="@+id/menu_navg_4"
+                android:title="Cambiar email"
+                android:icon="@drawable/gestionarcuenta"/>
+        </menu>
+    </item>
+
+</menu>

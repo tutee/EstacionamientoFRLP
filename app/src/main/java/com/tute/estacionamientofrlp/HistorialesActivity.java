@@ -1,5 +1,7 @@
 package com.tute.estacionamientofrlp;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,10 +10,33 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Tute on 26/9/2016.
@@ -20,15 +45,31 @@ import java.util.ArrayList;
 public class HistorialesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     ActionBarDrawerToggle toggle;
-    private ArrayList<String> ite;
     private Session session;
+    private Spinner spi;
+    private ListView li;
+    ArrayList compras = new ArrayList<String>();
+    List<String> comppatecod = new ArrayList<String>();
+    List<String> compfechas = new ArrayList<String>();
+    List<String> diadecompra = new ArrayList<String>();
+    List<String> costocomp = new ArrayList<String>();
+    List<String> tipocomp = new ArrayList<String>();
+    List<String> apeadm = new ArrayList<String>();
+    List<String> nombreadm = new ArrayList<String>();
+
+    private ProgressDialog Dialog;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_historiales);
-
-        ite = new ArrayList<String>();
+        spi = (Spinner)findViewById(R.id.spinner);
+        li = (ListView) findViewById(R.id.list);
+        Dialog = new ProgressDialog(this);
+        Dialog.setCancelable(false);
+        Dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 
         session = new Session(HistorialesActivity.this);
 
@@ -46,52 +87,531 @@ public class HistorialesActivity extends AppCompatActivity implements Navigation
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav);
         navigationView.setNavigationItemSelectedListener(this);
 
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.tipo, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spi.setAdapter(adapter);
+
+        spi.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (String.valueOf(spi.getItemAtPosition(position)).equals("Mis compras")){
+                    cargarlista(VarGlobales.cUid);
+                }
+                else if (String.valueOf(spi.getItemAtPosition(position)).equals("Mis cargas")){
+                    cargarlistasaldo(VarGlobales.cUid);
+                }
+                else if (String.valueOf(spi.getItemAtPosition(position)).equals("Mis transacciones")){
+                    cargarlistatransac(VarGlobales.cUid);
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void cargarlistatransac (final String uId) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_cargarlista_cargas";
+
+        showDialog(); // CAMBIAR
+
+        comppatecod = new ArrayList<String>();
+        compfechas = new ArrayList<String>();
+        costocomp = new ArrayList<String>();
+        diadecompra = new ArrayList<String>();
+        tipocomp = new ArrayList<String>();
+         apeadm = new ArrayList<String>();
+        nombreadm = new ArrayList<String>();
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                AppURLs.URL, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.e("ERROR Saldo", response);
+                Log.e("id", uId);
+
+
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+
+                    if (!error) {
+
+                        JSONArray arrayC = jObj.getJSONArray("movimientos");
+                        for (int h = 0; h < arrayC.length(); h++ ){
+
+
+                            JSONObject jObjP = arrayC.getJSONObject(h);
+                            compras.add(jObjP);
+                            if (jObjP.getString("hist_tipot").equals("Carga de saldo")){
+                                tipocomp.add(jObjP.getString("hist_tipot"));
+                                costocomp.add(jObjP.getString("carg_monto"));
+                                diadecompra.add(jObjP.getString("hist_fc"));
+                                apeadm.add(jObjP.getString("pers_apellido"));
+                                nombreadm.add(jObjP.getString("pers_nombre"));
+                                comppatecod.add("");
+                                compfechas.add("");
+
+                            } else {
+                                tipocomp.add(jObjP.getString("hist_tipot"));
+                                costocomp.add(jObjP.getString("comp_monto"));
+                                diadecompra.add(jObjP.getString("hist_fc"));
+                                comppatecod.add(jObjP.getString("comp_pate_cod"));
+                                compfechas.add(jObjP.getString("comp_fecha"));
+                                apeadm.add("");
+                                nombreadm.add("");
+
+                            }
+                        }
+
+                        Log.e("ERROR Saldo", String.valueOf(tipocomp));
+                        Log.e("ERROR Saldo", String.valueOf(costocomp));
+                        Log.e("ERROR Saldo", String.valueOf(diadecompra));
+                        Log.e("ERROR Saldo", String.valueOf(apeadm));
+                        Log.e("ERROR Saldo", String.valueOf(nombreadm));
+                        Log.e("ERROR Saldo", String.valueOf(comppatecod));
+                        Log.e("ERROR Saldo", String.valueOf(compfechas));
+
+                        ListAdapterTransac adapterlisttransac= new ListAdapterTransac(HistorialesActivity.this,compfechas,comppatecod,costocomp,diadecompra,tipocomp,apeadm,nombreadm);
+                        li.setAdapter(adapterlisttransac);
+                        hideDialog();
+
+                    } else {
+
+                        String errorMsg = jObj.getString("error_msg");
+                        Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("tag", "movimientosusu");
+                params.put("pers_id", uId);
+
+                return params;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
+    private void cargarlistasaldo (final String uId) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_cargarlista_cargas";
+
+        showDialog(); // CAMBIAR
+
+        comppatecod = new ArrayList<String>();
+        compfechas = new ArrayList<String>();
+        costocomp = new ArrayList<String>();
+        diadecompra = new ArrayList<String>();
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                AppURLs.URL, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.e("ERROR Saldo", response);
+                Log.e("id", uId);
+
+
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+
+                    if (!error) {
+
+                        JSONArray arrayC = jObj.getJSONArray("compras");
+                        for (int h = 0; h < arrayC.length(); h++ ){
+
+
+                            JSONObject jObjP = arrayC.getJSONObject(h);
+                            compras.add(jObjP);
+                            costocomp.add(jObjP.getString("carg_monto"));
+                            diadecompra.add(jObjP.getString("carg_fc"));
+
+                        }
+
+                        ListAdapterCarg adapterlistcargas = new ListAdapterCarg(HistorialesActivity.this,diadecompra,costocomp);
+                        li.setAdapter(adapterlistcargas);
+                        hideDialog();
+
+                    } else {
+
+                        String errorMsg = jObj.getString("error_msg");
+                        Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("tag", "listcargasusu");
+                params.put("pers_id", uId);
+
+                return params;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
+    private void cargarlista (final String uId) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_cargarlista";
+
+        showDialog(); // CAMBIAR
+
+        costocomp = new ArrayList<String>();
+        diadecompra = new ArrayList<String>();
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                AppURLs.URL, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.e("ERROR Saldo", response);
+                Log.e("id", uId);
+
+
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+
+                    if (!error) {
+
+                        JSONArray arrayC = jObj.getJSONArray("compras");
+                        for (int h = 0; h < arrayC.length(); h++ ){
+
+
+                            JSONObject jObjP = arrayC.getJSONObject(h);
+                            compras.add(jObjP);
+                            comppatecod.add(jObjP.getString("comp_pate_cod"));
+                            compfechas.add(jObjP.getString("comp_fecha"));
+                            diadecompra.add(jObjP.getString("comp_fc"));
+                            costocomp.add(jObjP.getString("comp_monto"));
+
+                        }
+
+                        Log.e("COMPRAS", String.valueOf(compras));
+                        Log.e("PATES", String.valueOf(comppatecod));
+                        Log.e("FECHAS", String.valueOf(compfechas));
+
+                        ListAdapter adapterlist = new ListAdapter(HistorialesActivity.this, comppatecod, compfechas,diadecompra,costocomp);
+                        li.setAdapter(adapterlist);
+                        hideDialog();
+
+                    } else {
+
+                        String errorMsg = jObj.getString("error_msg");
+                        Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("tag", "listcomprasusu");
+                params.put("pers_id", uId);
+
+                return params;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
+    class ListAdapterTransac extends BaseAdapter {
+
+        Context context;
+        List<String> dia = compfechas;
+        List<String> patente = comppatecod;
+        List<String> costo = costocomp;
+        List<String> cuando = diadecompra;
+        List<String> tipo = tipocomp;
+        List<String> apellidoadmin = apeadm;
+        List<String> nombreadmin = nombreadm;
+
+        LayoutInflater inflater;
+
+        public ListAdapterTransac(Context context, List<String> dia, List<String> patente, List<String> costo, List<String> cuando, List<String> tipo, List<String> apellidoadmin, List<String> nombreadmin){
+            this.context = context;
+            this.dia = dia;
+            this.patente = patente;
+            this.costo = costo;
+            this.cuando = cuando;
+            this.tipo = tipo;
+            this.apellidoadmin = apellidoadmin;
+            this.nombreadmin = nombreadmin;
+
+        }
+
+        @Override
+        public int getCount() {
+            return costo.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            View itemView = convertView;
+
+            if (tipo.get(position).equals("Carga de saldo")){
+
+                itemView = null;
+
+                if(itemView==null){
+                    inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    itemView = inflater.inflate(R.layout.single_row_transacvar,parent,false);
+                }
+
+                TextView tip = (TextView) itemView.findViewById(R.id.pate);
+                tip.setText("Tipo: " + tipo.get(position));
+
+                TextView diacarg = (TextView) itemView.findViewById(R.id.dia);
+                diacarg.setText("Monto: $" + costo.get(position));
+
+                TextView ape = (TextView) itemView.findViewById(R.id.costo);
+                ape.setText("Administrador: " + apellidoadmin.get(position) + ", " + nombreadmin.get(position));
+
+                TextView cuand = (TextView) itemView.findViewById(R.id.cuando);
+                cuand.setText("Realizada el: " + cuando.get(position));
+
+                return itemView;
+
+            } else {
+
+                itemView = null;
+
+                if(itemView==null){
+                    inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    itemView = inflater.inflate(R.layout.single_row_transac,parent,false);
+                }
+
+                TextView tip = (TextView) itemView.findViewById(R.id.pate);
+                tip.setText("Tipo: " + tipo.get(position));
+
+                TextView diacarg = (TextView) itemView.findViewById(R.id.dia);
+                diacarg.setText("Dia: " + dia.get(position));
+
+                TextView pat = (TextView) itemView.findViewById(R.id.costo);
+                pat.setText("Patente: " + patente.get(position));
+
+                TextView nom = (TextView) itemView.findViewById(R.id.fc);
+                nom.setText("Costo: $" + costo.get(position));
+
+                TextView cuand = (TextView) itemView.findViewById(R.id.cuando);
+                cuand.setText("Realizada el: " + cuando.get(position));
+
+                return itemView;
+
+            }
+        }
+    }
+
+    class ListAdapterCarg extends BaseAdapter {
+
+        Context context;
+        List<String> cuando = diadecompra;
+        List<String> costo = costocomp;
+        LayoutInflater inflater;
+
+        public ListAdapterCarg(Context context, List<String> cuando, List<String> costo){
+            this.context = context;
+            this.cuando = cuando;
+            this.costo = costo;
+        }
+
+
+        @Override
+        public int getCount() {
+            return costo.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            View itemView = convertView;
+            if(itemView==null){
+                inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                itemView = inflater.inflate(R.layout.single_row_cargas,parent,false);
+            }
+
+            TextView fc = (TextView) itemView.findViewById(R.id.fc);
+            fc.setText("Fecha de carga: " + cuando.get(position));
+            TextView cost = (TextView) itemView.findViewById(R.id.monto);
+            cost.setText("Carga: $" + costo.get(position));
+
+            return itemView;
+        }
+    }
+
+    class ListAdapter extends BaseAdapter {
+
+        Context context;
+        List<String> pates = comppatecod;
+        List<String> cf = compfechas;
+        List<String> cuando = diadecompra;
+        List<String> costo = costocomp;
+        LayoutInflater inflater;
+
+        public ListAdapter(Context context, List<String> pates, List<String> cf, List<String> cuando, List<String> costo){
+            this.context = context;
+            this.pates = pates;
+            this.cf = cf;
+            this.cuando = cuando;
+            this.costo = costo;
+        }
+
+
+        @Override
+        public int getCount() {
+            return pates.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            View itemView = convertView;
+            if(itemView==null){
+                inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                itemView = inflater.inflate(R.layout.single_row_miscomp,parent,false);
+            }
+
+            TextView pate = (TextView) itemView.findViewById(R.id.pate);
+            pate.setText("Patente: " + pates.get(position));
+            TextView dia = (TextView) itemView.findViewById(R.id.dia);
+            dia.setText("Dia comprado: "+cf.get(position));
+            TextView fc = (TextView) itemView.findViewById(R.id.fc);
+            fc.setText("Fecha de compra: " + cuando.get(position));
+            TextView cost = (TextView) itemView.findViewById(R.id.costo);
+            cost.setText("Costo: " + costo.get(position));
+
+            return itemView;
+        }
     }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
-            case R.id.menu_nav_1:
+            case R.id.menu_navu_1:
                 Intent intent = new Intent(HistorialesActivity.this,
                         CompraActivity.class);
-                intent.putExtra("saldo", Constantes.cSaldo);
-                intent.putExtra("uid", Constantes.cUid);
-                intent.putExtra("selectSpi", Constantes.cPosSpi);
-                intent.putExtra("semcomp", Constantes.cCompSem);
-                intent.putExtra("codigo", Constantes.cCod);
+                intent.putExtra("saldo", VarGlobales.cSaldo);
+                intent.putExtra("uid", VarGlobales.cUid);
+                intent.putExtra("selectSpi", VarGlobales.cPosSpi);
+                intent.putExtra("semcomp", VarGlobales.cCompSem);
+                intent.putExtra("codigo", VarGlobales.cCod);
                 startActivity(intent);
                 finish();
                 break;
 
-            case R.id.menu_nav_2:
+            case R.id.menu_navu_2:
                 intent = new Intent(HistorialesActivity.this,
                         DeshacerActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
-            case R.id.menu_nav_3:
+            case R.id.menu_navu_3:
                 intent = new Intent(HistorialesActivity.this,
                         HistorialesActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
-            case R.id.menu_nav_5:
+            case R.id.menu_navu_5:
                 intent = new Intent(HistorialesActivity.this,
-                        GestCuentaActivity.class);
+                        GestContraseniaActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
-            case R.id.menu_nav_6:
+            case R.id.menu_navu_6:
                 intent = new Intent(HistorialesActivity.this,
-                        GestPatesActivity.class);
+                        GestEmailActivity.class);
                 startActivity(intent);
                 finish();
                 break;
-
         }
 
         DrawerLayout dl = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -131,4 +651,15 @@ public class HistorialesActivity extends AppCompatActivity implements Navigation
         startActivity(intent);
         finish();
     }
+
+    private void hideDialog() {
+        if (Dialog.isShowing())
+            Dialog.dismiss();
+    }
+
+    private void showDialog() {
+        if (!Dialog.isShowing())
+            Dialog.show();
+    }
+
 }

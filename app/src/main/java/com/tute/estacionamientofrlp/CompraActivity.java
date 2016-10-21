@@ -1,19 +1,17 @@
 package com.tute.estacionamientofrlp;
 
-import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -41,23 +39,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Tute on 5/9/2016.
+ * Actividad para inflar las compras del usuario por patente para una misma semana.
  */
-public class CompraActivity extends AppCompatActivity implements Serializable, SimpleDialog.OnSimpleDialogListener, NavigationView.OnNavigationItemSelectedListener {
-
+    public class CompraActivity extends AppCompatActivity implements Serializable, NavigationView.OnNavigationItemSelectedListener {
     private TextView tv1,tv2,tv3;
     private Session session;
     private CheckBox c0,c1,c2,c3,c4,c5,c6;
     private Button  b0;
     private Spinner spi;
     private ArrayList<String> ite, pateSelComp, pateComp;
-    String pateSelect, nuevapate, uidg, saldog;
+    String pateSelect, uidg, saldog;
     private ProgressDialog pDialog;
     ActionBarDrawerToggle toggle;
-    int montoacomp;
-
-
-
+    double montoacomp;
+    private SwipeRefreshLayout swipeContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +71,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
         b0 = (Button)findViewById(R.id.comprardia_button);
         spi = (Spinner)findViewById(R.id.spinner);
         montoacomp=0;
+        tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
 
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
@@ -86,12 +82,14 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav);
         navigationView.setNavigationItemSelectedListener(this);
-
-
+        View hView =  navigationView.getHeaderView(0);
+        TextView nav_user_email = (TextView)hView.findViewById(R.id.email);
+        nav_user_email.setText("Email: "+VarGlobales.email);
+        TextView nav_user_nombre = (TextView)hView.findViewById(R.id.nom);
+        nav_user_nombre.setText("Nombre: "+VarGlobales.apellido+" "+VarGlobales.nombre);
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
-
 
         ite = new ArrayList<String>();
 
@@ -109,25 +107,19 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
 
         saldog = saldo;
         uidg = uid;
-
+        /* Inflo el spinner con las patentes del usuario. */
         for (int h = 0; h < cod.size(); h++ ) {
             String pateCodigo = cod.get(h).toString();
             ite.add(pateCodigo);
         }
-
+        /* Si el usuario no posee ninguna patente, el spinner muestra que no posee patentes.*/
         if (ite.size() == 0) {
             ite.add(getResources().getString(R.string.noPat));
         }
 
-        if (ite.size() < 3) {
-            ite.add(getResources().getString(R.string.agPat));
-        }
+        tv1.setText("Semana: "+ VarGlobales.semana);
+        tv2.setText("Saldo: $ "+ String.format("%.2f",Double.parseDouble(saldo)));
 
-
-
-        tv2.setText("Saldo: $"+ saldo);
-
-        //Log.e("ULT POS SPI", posSpi);
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ite);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -138,7 +130,6 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
             int spinnerPosition = patesadapter.getPosition(posSpi);
             spi.setSelection(spinnerPosition);
         }
-
         spi.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -182,45 +173,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                                 String AR = codi.getString("semana");
                                 infloCB(AR);
 
-                            } else if  (String.valueOf(spi.getItemAtPosition(position)).equals(getResources().getString(R.string.agPat))){
-
-                                    Log.e("IF SPI", "estoy en el else del if ");
-
-                                    c0.setChecked(false);
-                                    c0.setEnabled(false);
-                                    c0.setTextColor(getResources().getColor(R.color.Gray));
-                                    c1.setChecked(false);
-                                    c1.setEnabled(false);
-                                    c1.setTextColor(getResources().getColor(R.color.Gray));
-                                    c2.setChecked(false);
-                                    c2.setEnabled(false);
-                                    c2.setTextColor(getResources().getColor(R.color.Gray));
-                                    c3.setChecked(false);
-                                    c3.setEnabled(false);
-                                    c3.setTextColor(getResources().getColor(R.color.Gray));
-                                    c4.setChecked(false);
-                                    c4.setEnabled(false);
-                                    c4.setTextColor(getResources().getColor(R.color.Gray));
-                                    c5.setChecked(false);
-                                    c5.setEnabled(false);
-                                    c5.setTextColor(getResources().getColor(R.color.Gray));
-                                    c6.setChecked(false);
-                                    c6.setEnabled(false);
-                                    c6.setTextColor(getResources().getColor(R.color.Gray));
-
-
-                                    //Llamo al dialog fragment.
-
-                                    SimpleDialog dialogFragment = new SimpleDialog();
-                                    dialogFragment.show(getSupportFragmentManager(), "SimpleDialog");
-                                    dialogFragment.setCancelable(false);
-                                    break; // Sale del for
-
-                                    /*
-                                    DialogFragment newFragment = DialogNP.newInstance();
-                                    newFragment.show(getFragmentManager(), "dialog");
-                                       */
-                            }  else if  (String.valueOf(spi.getItemAtPosition(position)).equals(getResources().getString(R.string.noPat))) {
+                            }  else if (String.valueOf(spi.getItemAtPosition(position)).equals(getResources().getString(R.string.noPat))) {
 
                                 Log.e("IF SPI", "estoy en el else del if ");
 
@@ -245,6 +198,8 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                                 c6.setChecked(false);
                                 c6.setEnabled(false);
                                 c6.setTextColor(getResources().getColor(R.color.Gray));
+                                tv1.setText("Semana: "+ VarGlobales.semana);
+                                tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
 
                             }
 
@@ -259,49 +214,49 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                 return;
             }
         });
-
         b0.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Log.e("BOTON", String.valueOf(pateComp));
-                if(!pateComp.isEmpty()) {
-                    Collections.sort(pateComp);
-                    Log.e("ORDENADO", String.valueOf(pateComp));
-                    String costoCompra = String.valueOf(pateComp.size() * Constantes.precioticket); //Multipico por 3 debido a que es el costo de un ticket del estacionamiento
-                    Log.e("ORDENADO", costoCompra);
-                    int cc = Integer.parseInt(costoCompra);
-                    int s = Integer.parseInt(saldo);
-                    if (cc <= s) {
-                        Log.e("enviarCompra", pateSelect);
-                        Log.e("enviarCompra", uid);
-                        Log.e("enviarCompra", String.valueOf(pateComp));
-                        enviarCompra(pateSelect, uid, pateComp) ;
-                    } else {
-                        Snackbar.make(v, "Su saldo actual es insuficiente", Snackbar.LENGTH_LONG)
-                                .show();
-                    }
-                } else Snackbar.make(v, "No selecciono ningún día", Snackbar.LENGTH_LONG)
-                        .show();
-            }
-        });
-
+                                  @Override
+                                  public void onClick(View v) {
+        /* Tomo compras realizadas por el usuario y las ordeno. */
+                                      if (pateComp != null) {
+                                          if (!pateComp.isEmpty()) {
+                                              Collections.sort(pateComp);
+                                              /* Multipico la cantidad de compras por la constante de saldo por compra. */
+                                              String costoCompra = String.valueOf(pateComp.size() * VarGlobales.precioticket);
+                                              double cc = Double.parseDouble(costoCompra);
+                                              double s = Double.parseDouble(saldo);
+                                              /* Si el monto de las compras es menor al saldo del usuario, realiza la compra. */
+                                              if (cc <= s) {
+                                                  /* La actividad a cargar es 1 = CompraActivity luego del intent.*/
+                                                  VarGlobales.actacargar = 1;
+                                                  enviarCompra(pateSelect, uid, pateComp);
+                                              } else {
+                                                  Snackbar.make(v, "Su saldo actual es insuficiente", Snackbar.LENGTH_LONG)
+                                                          .show();
+                                              }
+                                          } else if (pateComp.isEmpty()) {
+                                              Snackbar.make(v, "No selecciono ningún día", Snackbar.LENGTH_LONG)
+                                                      .show();
+                                          }
+                                      } else {
+                                              Snackbar.make(v, "No posee patentes", Snackbar.LENGTH_LONG).show();
+                                      }
+                                  }
+                              }
+        );
+        /* Lógica de los checkboxs para generar los datos a enviar. */
         c0.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (c0.isChecked()&& c0.isEnabled()) {
-
                     if(!pateComp.contains(pateSelComp.get(0))) {
-                        Log.e("ERROR3.2", String.valueOf(pateSelComp.get(0)));
                         pateComp.add(pateSelComp.get(0));
-                        Log.e("SEMANA A COMPRAR!", String.valueOf(Arrays.asList(pateComp)));
-                        Log.e("BOX MARTES", "ENTRE");
                     }
-
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
-                    if (montoacomp > Integer.parseInt(saldog)) {
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
+                    if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
 
                 } else {
                     if (!pateSelComp.isEmpty()) {
@@ -312,12 +267,11 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                             }
                         }
                     }
-                    Log.e("ERROR3.2", String.valueOf(pateComp));
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
-                    if (montoacomp > Integer.parseInt(saldog)) {
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
+                    if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
                     c6.setChecked(false);
                 }
             }
@@ -329,17 +283,14 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                 if (c1.isChecked()&& c1.isEnabled()) {
 
                     if(!pateComp.contains(pateSelComp.get(1))) {
-                        Log.e("ERROR3.2", String.valueOf(pateSelComp.get(1)));
                         pateComp.add(pateSelComp.get(1));
-                        Log.e("SEMANA A COMPRAR!", String.valueOf(Arrays.asList(pateComp)));
-                        Log.e("BOX MARTES", "ENTRE");
                     }
 
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
-                    if (montoacomp > Integer.parseInt(saldog)) {
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
+                    if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
 
                 } else {
                     if (!pateSelComp.isEmpty()) {
@@ -351,13 +302,13 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                         }
                     }
 
-                    Log.e("ERROR3.2", String.valueOf(pateComp));
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
-                    if (montoacomp > Integer.parseInt(saldog)) {
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
+                    if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
                     c6.setChecked(false);
+
                 }
             }
         });
@@ -368,17 +319,14 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                 if (c2.isChecked()&& c2.isEnabled()) {
 
                     if(!pateComp.contains(pateSelComp.get(2))) {
-                        Log.e("ERROR3.2", String.valueOf(pateSelComp.get(2)));
                         pateComp.add(pateSelComp.get(2));
-                        Log.e("SEMANA A COMPRAR!", String.valueOf(Arrays.asList(pateComp)));
-                        Log.e("BOX MARTES", "ENTRE");
                     }
 
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
-                    if (montoacomp > Integer.parseInt(saldog)) {
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
+                    if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
 
                 } else {
                     if (!pateSelComp.isEmpty()) {
@@ -389,12 +337,11 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                             }
                         }
                     }
-                    Log.e("ERROR3.2", String.valueOf(pateComp));
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
-                    if (montoacomp > Integer.parseInt(saldog)) {
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
+                    if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
                     c6.setChecked(false);
                 }
             }
@@ -406,17 +353,14 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                 if (c3.isChecked()&& c3.isEnabled()) {
 
                     if(!pateComp.contains(pateSelComp.get(3))) {
-                        Log.e("ERROR3.2", String.valueOf(pateSelComp.get(3)));
                         pateComp.add(pateSelComp.get(3));
-                        Log.e("SEMANA A COMPRAR!", String.valueOf(Arrays.asList(pateComp)));
-                        Log.e("BOX MARTES", "ENTRE");
                     }
 
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
-                    if (montoacomp > Integer.parseInt(saldog)) {
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
+                    if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
 
                 } else {
                     if (!pateSelComp.isEmpty()) {
@@ -428,12 +372,11 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                         }
                     }
 
-                    Log.e("ERROR3.2", String.valueOf(pateComp));
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
-                    if (montoacomp > Integer.parseInt(saldog)) {
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
+                    if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
                     c6.setChecked(false);
 
                 }
@@ -446,17 +389,14 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                 if (c4.isChecked()&& c4.isEnabled()) {
 
                     if(!pateComp.contains(pateSelComp.get(4))) {
-                        Log.e("ERROR3.2", String.valueOf(pateSelComp.get(4)));
                         pateComp.add(pateSelComp.get(4));
-                        Log.e("SEMANA A COMPRAR!", String.valueOf(Arrays.asList(pateComp)));
-                        Log.e("BOX MARTES", "ENTRE");
                     }
 
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
-                    if (montoacomp > Integer.parseInt(saldog)) {
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
+                    if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
 
                 } else {
                     if (!pateSelComp.isEmpty()) {
@@ -467,12 +407,11 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                             }
                         }
                     }
-                    Log.e("ERROR3.2", String.valueOf(pateComp));
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
-                    if (montoacomp > Integer.parseInt(saldog)) {
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
+                    if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
                     c6.setChecked(false);
                 }
             }
@@ -484,17 +423,14 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                 if (c5.isChecked()&& c5.isEnabled()) {
 
                     if(!pateComp.contains(pateSelComp.get(5))) {
-                        Log.e("ERROR3.2", String.valueOf(pateSelComp.get(5)));
                         pateComp.add(pateSelComp.get(5));
-                        Log.e("SEMANA A COMPRAR!", String.valueOf(Arrays.asList(pateComp)));
-                        Log.e("BOX MARTES", "ENTRE");
                     }
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
 
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
-                    if (montoacomp > Integer.parseInt(saldog)) {
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
+                    if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
 
 
                 } else {
@@ -506,177 +442,101 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                             }
                         }
                     }
-                    Log.e("ERROR3.2", String.valueOf(pateComp));
-                    montoacomp = (pateComp.size()*Constantes.precioticket);
-                    tv3.setText("Costo: $"+ montoacomp);
-                    if (montoacomp > Integer.parseInt(saldog)) {
+                    montoacomp = (pateComp.size()* VarGlobales.precioticket);
+                    tv3.setText("Costo: $ "+ String.format("%.2f",montoacomp));
+                    if (montoacomp > Double.parseDouble(saldog)) {
                         tv3.setTextColor(getResources().getColor(R.color.Red));
-                    } else {tv3.setTextColor(getResources().getColor(R.color.Default));}
+                    } else {tv3.setTextColor(getResources().getColor(R.color.Black));}
                     c6.setChecked(false);
 
                 }
             }
         });
-
+        /* Checkbox que checkea todos los hábiles a la vez. */
         c6.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (c6.isChecked()&& c6.isEnabled()) {
-
-                    for (int i = 0; i < pateComp.size(); i++) {
-                        pateComp.remove(pateSelComp.get(i));
-                    }
-
+                    /* Checkea si el checkbox no está checkeado y está habilitado. */
                     if (!c0.isChecked()&& c0.isEnabled()){
+                        /* Si no está el día en la lista de compras, se agrega. */
                         if(!pateComp.contains(pateSelComp.get(0))) {
-                            Log.e("BOX 6", String.valueOf(Arrays.asList(pateComp)));
-                            Log.e("BOX 6", "ENTRE AL 6");
                             pateComp.add(pateSelComp.get(0));
+                            /* Se checkea el checkbox no checkeado. */
                             c0.setChecked(true);
                         }
                     }
                     if (!c1.isChecked()&& c1.isEnabled()){
                         if(!pateComp.contains(pateSelComp.get(1))) {
-                            Log.e("BOX 6", String.valueOf(Arrays.asList(pateComp)));
-                            Log.e("BOX 6", "ENTRE AL 6");
                             pateComp.add(pateSelComp.get(1));
                             c1.setChecked(true);
                         }
                     }
                     if (!c2.isChecked()&& c2.isEnabled()){
                         if(!pateComp.contains(pateSelComp.get(2))) {
-                            Log.e("BOX 6", String.valueOf(Arrays.asList(pateComp)));
-                            Log.e("BOX 6", "ENTRE AL 6");
                             pateComp.add(pateSelComp.get(2));
                             c2.setChecked(true);
                         }
                     }
                     if (!c3.isChecked()&& c3.isEnabled()){
                         if(!pateComp.contains(pateSelComp.get(3))) {
-                            Log.e("BOX 6", String.valueOf(Arrays.asList(pateComp)));
-                            Log.e("BOX 6", "ENTRE AL 6");
                             pateComp.add(pateSelComp.get(3));
                             c3.setChecked(true);
                         }
                     }
                     if (!c4.isChecked()&& c4.isEnabled()){
                         if(!pateComp.contains(pateSelComp.get(4))) {
-                            Log.e("BOX 6", String.valueOf(Arrays.asList(pateComp)));
-                            Log.e("BOX 6", "ENTRE AL 6");
                             pateComp.add(pateSelComp.get(4));
                             c4.setChecked(true);
                         }
                     }
                     if (!c5.isChecked()&& c5.isEnabled()){
                         if(!pateComp.contains(pateSelComp.get(5))) {
-                            Log.e("BOX 6", String.valueOf(Arrays.asList(pateComp)));
-                            Log.e("BOX 6", "ENTRE AL 6");
                             pateComp.add(pateSelComp.get(5));
                             c5.setChecked(true);
                         }
                     }
 
-                } else {
-                    /*
-                    for (int i = 0; i < pateComp.size(); i++) {
-                        pateComp.remove(pateSelComp.get(i));
-                        Log.e("SEMANA COMPRADA", String.valueOf(pateComp));
-                    }*/
-                    /*
-                    for (int i = 0; i < 6; i++ ) {
-                        switch (i){
-                            case 0:
-                                if(c0.isEnabled()){
-                                    if (c0.isChecked()) {
-                                        c0.setChecked(false);
-                                    } else {
-                                        if (c1.isEnabled()&& c1.isChecked()){c1.setChecked(true);}
-                                        if (c2.isEnabled()&& c2.isChecked()){c2.setChecked(true);}
-                                        if (c3.isEnabled()&& c3.isChecked()){c3.setChecked(true);}
-                                        if (c4.isEnabled()&& c4.isChecked()){c4.setChecked(true);}
-                                        if (c5.isEnabled()&& c5.isChecked()){c5.setChecked(true);}
-                                }
-                            }
-                            break;
-                            case 1:
-                                if(c1.isEnabled()){
-                                    if (c1.isChecked()) {
-                                        c1.setChecked(false);
-                                    } else {
-                                        if (c0.isEnabled()&& c0.isChecked()){c0.setChecked(true);}
-                                        if (c2.isEnabled()&& c2.isChecked()){c2.setChecked(true);}
-                                        if (c3.isEnabled()&& c3.isChecked()){c3.setChecked(true);}
-                                        if (c4.isEnabled()&& c4.isChecked()){c4.setChecked(true);}
-                                        if (c5.isEnabled()&& c5.isChecked()){c5.setChecked(true);}
-                                    }
-                                    break;
-                                }
-                                break;
-
-                        }
-                    } */
-                    /*
-                    if(c0.isChecked()&& c0.isEnabled()){
-                        c0.setChecked(false);
-                    }
-
-                    if(c1.isChecked()&& c1.isEnabled()){
-                        c1.setChecked(false);
-                    }
-
-                    if(c2.isChecked()&& c2.isEnabled()){
-                        c2.setChecked(false);
-                    }
-
-                    if(c3.isChecked()&& c3.isEnabled()){
-                        c3.setChecked(false);
-                    }
-                    if(c4.isChecked()&& c4.isEnabled()){
-                        c4.setChecked(false);
-                    }
-                    if(c5.isChecked()&& c5.isEnabled()){
-                        c5.setChecked(false);
-                    }*/
-
                 }
             }
         });
 
-
-
+        /* El SwipeRefresh permite hacer slide para recargar los datos.*/
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        // El Refresh listener actua un disparador cuando se realiza la acción. */
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                /* Se llama a la acción refresh saldo. */
+                refreshsaldo(VarGlobales.cUid);
+                /* Cuando termina, se setea en falso para que corte. */
+                swipeContainer.setRefreshing(false);
+            }
+        });
+        /* Se setea el color del ícono que gira. */
+        swipeContainer.setColorSchemeResources(R.color.OliveDrab);
     }
 
-
-
+    /* Función que infla los checkboxs. */
     public void infloCB (String data){
-
         final JSONArray jArrData;
-
         try {
-
             jArrData = new JSONArray(data);
-
             for (int i = 0; i < jArrData.length(); i++ ) {
 
                 JSONObject dia = jArrData.getJSONObject(i);
                 String nmdia = dia.getString("cale_dia");
                 String fechadia = dia.getString("cale_fecha");
-                pateSelComp.add(fechadia);  // Guardo las fechas de los checkbox dentro de un array (pateSelComp).
-                if (i == 0){
-                    Constantes.sem1 = fechadia;
-                } else if (i == 5) {
-                    Constantes.sem2 = fechadia;
-                }
+                /* Guardo las fechas de los checkboxs dentro de un array. */
+                pateSelComp.add(fechadia);
                 int habil = dia.getInt("cale_dia_habil");
                 int descomp = dia.getInt("deshabilitable");
                 int psblcomp = dia.getInt("comprable");
                 int comp = dia.getInt("comprado");
-
+                /* Lógica de habilitación y deshabilitación de los checkboxs. */
                 if (nmdia != null) {
-
                     switch (i) {
                         case 0:
-
                             c0.setText(nmdia);
                             switch (habil) {
                                 case 0:
@@ -858,29 +718,19 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                                     }
                             }
                             break;
-
-                        default: Log.e("ERROR","ESTOY EN EL DEFAUUULT");
                     }
                 }
             }
-
-            Constantes.pridiasem = Character.toString(Constantes.sem1.charAt(8))+Character.toString(Constantes.sem1.charAt(9))+"/"+Character.toString(Constantes.sem1.charAt(5))+Character.toString(Constantes.sem1.charAt(6));
-            Constantes.ultdiasem = Character.toString(Constantes.sem2.charAt(8))+Character.toString(Constantes.sem2.charAt(9))+"/"+Character.toString(Constantes.sem2.charAt(5))+Character.toString(Constantes.sem2.charAt(6));
-            Constantes.semana = Constantes.pridiasem +" - "+Constantes.ultdiasem;
-            tv1.setText("Semana: "+Constantes.semana);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
+    /* Función que envía las compras al Backend. */
     private void enviarCompra(final String pate, final String uid, final ArrayList fechas ){
 
-        Log.e("ERROR", pate);
-        Log.e("ERROR", uid);
-        Log.e("ERROR", String.valueOf(fechas));
-
-        String tag_string_req = "req_login";
+        String tag_string_req = "req_compras";
 
         pDialog.setMessage("Realizando compras ...");
         showDialog();
@@ -891,15 +741,13 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
 
             @Override
             public void onResponse(String response) {
+                Log.e("ERROR compras", response);
                 hideDialog();
 
                 try {
                     JSONObject jObj = new JSONObject(response);
-                    Log.e("ERROR", String.valueOf(response));
                     boolean error = jObj.getBoolean("error");
-                    Log.e("ERROR", String.valueOf(error));
                     String uSaldo = jObj.getString("saldo");
-                    Log.e("ERROR", uSaldo);
                     if (!error) {
                         Intent intent = new Intent(CompraActivity.this,
                                 GetCompras.class);
@@ -909,9 +757,10 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
                         startActivity(intent);
                         finish();
                     } else if (error){
-                        Log.e("ERROR","Su compra no fue realizada");
+                        String errorMsg = jObj.getString("error_msg");
+                        Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_LONG).show();
                     }
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -923,6 +772,7 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                /* Si ocurre un error, me encuentro en esta situación. */
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_LONG).show();
             }
@@ -930,82 +780,62 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
 
             @Override
             protected Map<String, String> getParams() {
-                // Post params to login url
+                /* Mapeo los datos que voy a enviar en el request. */
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("tag", "compra");
                 params.put("pers_id", uid);
                 params.put("pers_pate", pate);
                 JSONArray jsonArray = new JSONArray(fechas);
                 params.put("cod_fecha", jsonArray.toString());
-
-                Log.e("ERROR", String.valueOf(params));
-
                 return params;
             }
 
         };
-
+        /* Agrego la request a la cola de requests. */
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
 
     }
 
-    private void enviarNP(final String uid, final String pate, final String saldo ){
-
-        Log.e("ERROR", pate);
-        Log.e("ERROR", uid);
-
-        String tag_string_req = "req_login";
-
-        pDialog.setMessage("Cargando su nueva patente");
-        showDialog();
-
+    /* Función que actualiza CompraActivity a pedido del usuario. */
+    private void refreshsaldo(final String uid){
+        String tag_string_req = "req_refresh_compra";
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 AppURLs.URL, new Response.Listener<String>() {
 
-
             @Override
             public void onResponse(String response) {
+                Log.e("ERROR refreshCompras", response);
                 hideDialog();
 
-                ArrayList pate = new ArrayList<String>();;
-
                 try {
-                    Log.e("ERROR", "1");
-                    JSONObject obj = new JSONObject(response);
-                    JSONArray arrayP = obj.getJSONArray("patente");
-                    Log.e("ERROR", String.valueOf(arrayP));
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+                    if (!error) {
+                        String saldoact = jObj.getString("saldo");
+                        VarGlobales.cSaldo = saldoact;
+                        /* Setéo la actividad a cargar 1 = CompraActivity. */
+                        VarGlobales.actacargar = 1;
+                        Intent intent = new Intent(CompraActivity.this,
+                                GetCompras.class);
+                        intent.putExtra("saldo", VarGlobales.cSaldo);
+                        intent.putExtra("uid", VarGlobales.cUid);
+                        startActivity(intent);
+                        finish();
 
-                    for (int h = 0; h < arrayP.length(); h++ ){
-
-                        JSONObject jObjP = arrayP.getJSONObject(h);
-                        pate.add(jObjP.getString("codigo"));
-
+                    } else if (error){
+                        String errorMsg = jObj.getString("error_msg");
+                        Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_LONG).show();
                     }
-                    Log.e("ERROR", String.valueOf(pate));
-                    Log.e("ERROR", String.valueOf(arrayP));
-                    Log.e("OBJETOcheck", String.valueOf(pate));
-                    Intent intent = new Intent(CompraActivity.this,
-                            CompraActivity.class);
-
-                    intent.putExtra("saldo", saldo);
-                    intent.putExtra("uid", uid);
-                    intent.putExtra("selectSpi", pateSelect);
-                    intent.putExtra("semcomp", arrayP.toString());
-                    intent.putExtra("codigo", pate);
-                    startActivity(intent);
-                    finish();
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                /* Si ocurre un error, me encuentro en esta situación. */
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_LONG).show();
             }
@@ -1013,22 +843,18 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
 
             @Override
             protected Map<String, String> getParams() {
-                // Post params to login url
+                /* Mapeo los datos que voy a enviar en el request. */
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("tag", "nuevapate");
+                params.put("tag", "refreshsaldo");
                 params.put("pers_id", uid);
-                params.put("pate_codigo", pate);
-
                 return params;
             }
 
         };
-
+        /* Agrego la request a la cola de requests. */
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
 
     }
-
-
 
     private void hideDialog() {
         if (pDialog.isShowing())
@@ -1039,7 +865,6 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
         if (!pDialog.isShowing())
             pDialog.show();
     }
-
 
     private void logoutUser() {
         session.setLogin(false);
@@ -1071,79 +896,61 @@ public class CompraActivity extends AppCompatActivity implements Serializable, S
         }
     }
 
-
-    @Override
-    public void onPossitiveButtonClick(String np) {
-        nuevapate = np;
-        Log.e("ERROR", uidg);
-        Log.e("ERROR", nuevapate);
-        Log.e("ERROR", saldog);
-
-        //Llama a la funcion que agrega la nueva patente.
-        if(!nuevapate.equals("")) {
-            enviarNP(uidg, nuevapate, saldog);
-            hideDialog();
-        } else {Toast.makeText(getApplicationContext(),
-                "No se ingreso una patente", Toast.LENGTH_LONG).show();}
-
-        spi.setSelection(0); //independientemente de que agregue patente o no, retorna a la primer posicion del spinner
-
-    }
-
-    @Override
-    public void onNegativeButtonClick() {
-
-        spi.setSelection(0); //independientemente de que agregue patente o no, retorna a la primer posicion del spinner
-    }
-
+    /* Función que infla el navigation menú de la izquierda. */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
 
-            case R.id.menu_nav_1:
+            case R.id.menu_navu_1:
                 Intent intent = new Intent(CompraActivity.this,
                         CompraActivity.class);
 
-                intent.putExtra("saldo", Constantes.cSaldo);
-                intent.putExtra("uid", Constantes.cUid);
-                intent.putExtra("selectSpi", Constantes.cPosSpi);
-                intent.putExtra("semcomp", Constantes.cCompSem);
-                intent.putExtra("codigo", Constantes.cCod);
+                intent.putExtra("saldo", VarGlobales.cSaldo);
+                intent.putExtra("uid", VarGlobales.cUid);
+                intent.putExtra("selectSpi", VarGlobales.cPosSpi);
+                intent.putExtra("semcomp", VarGlobales.cCompSem);
+                intent.putExtra("codigo", VarGlobales.cCod);
                 startActivity(intent);
                 finish();
                 break;
 
-            case R.id.menu_nav_2:
+            case R.id.menu_navu_2:
                 intent = new Intent(CompraActivity.this,
                         DeshacerActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
-            case R.id.menu_nav_3:
+            case R.id.menu_navu_3:
                 intent = new Intent(CompraActivity.this,
                         HistorialesActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
-            case R.id.menu_nav_5:
+            case R.id.menu_navu_5:
                 intent = new Intent(CompraActivity.this,
-                        GestCuentaActivity.class);
+                        GestContraseniaActivity.class);
                 startActivity(intent);
                 finish();
                 break;
 
-            case R.id.menu_nav_6:
+            case R.id.menu_navu_6:
                 intent = new Intent(CompraActivity.this,
-                        GestPatesActivity.class);
+                        GestEmailActivity.class);
                 startActivity(intent);
                 finish();
                 break;
+
+
 
         }
 
         return false;
     }
+
+
+
+
 }
